@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "188109433130",
+    "project_id": "spearmint-17eb6",
+    "storage_bucket": "spearmint-17eb6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188109433130:android:396760647f69ba39e01653",
+        "android_client_info": {
+          "package_name": "com.example.spearmint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188109433130-d11969bpljv5taadmn9ueg230utkitg1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBifnmgK1W7M2iMAo6LyfS_UOVi5cC1_Ls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188109433130-d11969bpljv5taadmn9ueg230utkitg1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
