@@ -1,3 +1,3 @@
 # Spearmint
 
-Spread that asss in a circle
+Spreamint is an app
