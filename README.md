@@ -13,6 +13,12 @@ Spearmint is an interactive app for experimenters and owners to interrelate with
  Experimenters can ask questions about an experiment and owners can reply to those questions. Owners and experimenters can also view a map of the experiment if the experiment enabled geo-location. 
  Spearmint is developed on Android Studio and implements Firebase to store data from owners, experimenters, and experiments. Google Maps API is used to locate experiments that uses locations of experimenters. 
 
+</br>
+</br>
+</br>
+</br>
+
+## Spearmint Interface Mockups </br>
 
 <p float="left">
   <img src="https://user-images.githubusercontent.com/78892182/110072748-7f774f00-7d3b-11eb-8b0d-2a7299ba0cb6.png" width="200" />
