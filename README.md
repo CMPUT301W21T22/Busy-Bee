@@ -1,3 +1,3 @@
 # Spearmint
 
-Spreamint is an app
+Spearmint is an interactive app for experimenters, owners, and subscribers 
