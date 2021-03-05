@@ -1,3 +1,3 @@
-# spearmint
+# Spearmint
 
- is ap 
+Spread that asss in a circle
