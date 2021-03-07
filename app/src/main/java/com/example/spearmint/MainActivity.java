@@ -20,16 +20,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNav = findViewById(R.id.my_nav);
-
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.experimentFragment, R.id.searchFragment, R.id.notificationsFragment,
-                R.id.profileFragment)
-                .build();
-//
+        // Initialize Bottom Navigation View
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        // Initialize NavController
         NavController navController = Navigation.findNavController(this, R.id.navHostfragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(bottomNav, navController);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 
 }
