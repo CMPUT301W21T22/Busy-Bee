@@ -7,13 +7,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ExperimentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExperimentFragment extends Fragment {
+public class ExperimentFragment extends Fragment implements PublishExperimentFragment.OnFragmentInteractionListener{
+
+    Button addExperiment;
+    View v;
+    ArrayAdapter<Experiment> experimentAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,7 +58,15 @@ public class ExperimentFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+            }
+
+        final Button addExperimentButton = v.findViewById(R.id.add_experiment_button);
+        addExperimentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new PublishExperimentFragment();
+            }
+        });
     }
 
     @Override
@@ -60,5 +74,10 @@ public class ExperimentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_experiment, container, false);
+    }
+
+    @Override
+    public void onOkPressed(Experiment newExperiment) {
+        experimentAdapter.add(newExperiment);
     }
 }
