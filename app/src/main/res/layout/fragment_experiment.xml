@@ -8,10 +8,9 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/add_experiment_button"
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
         android:text="@string/add_experiment" />
 
     <ListView
