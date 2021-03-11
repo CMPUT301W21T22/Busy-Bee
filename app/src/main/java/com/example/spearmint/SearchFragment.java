@@ -2,11 +2,20 @@ package com.example.spearmint;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +23,10 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
+    //RecycleView(Added)
+    private RecyclerView aRecyclerView;
+    private RecycleAdapter aAdapter;
+    private RecyclerView.LayoutManager aLayoutManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,12 +66,52 @@ public class SearchFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+
+        //ArrayList(Added)
+        ArrayList<ExperimentItem> experimentArrayList = new ArrayList<>();
+        experimentArrayList.add(new ExperimentItem("Experiment D"));
+        experimentArrayList.add(new ExperimentItem("Experiment E"));
+        experimentArrayList.add(new ExperimentItem("Experiment F"));
+
+        aRecyclerView = rootView.findViewById(R.id.recycleView);
+        aLayoutManager = new LinearLayoutManager(getActivity());
+        aRecyclerView.setHasFixedSize(true);
+        aRecyclerView.setLayoutManager(aLayoutManager);
+        aAdapter = new RecycleAdapter(experimentArrayList);
+        aRecyclerView.setAdapter(aAdapter);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.list_menu,menu);
+        MenuItem searchItem = menu.findItem(R.id.search_action);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                aAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
     }
 }
