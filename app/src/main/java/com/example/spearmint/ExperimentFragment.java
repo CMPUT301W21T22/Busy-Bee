@@ -64,6 +64,7 @@ public class ExperimentFragment extends Fragment {
                              Bundle savedInstanceState) {
         /*
         https://www.youtube.com/channel/UCqU6yVdKgwGbfGX3un8WCWA/videos
+        https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view/8166802#8166802
          */
         View view = inflater.inflate(R.layout.fragment_experiment, container, false);
         ArrayList<Experiment> experimentList = new ArrayList<>();
@@ -73,7 +74,6 @@ public class ExperimentFragment extends Fragment {
         experimentList.add(new Experiment("Number of Trials", "Vancouver"));
 
         ListView listView = (ListView) view.findViewById(R.id.experiment_list);
-
 
         ExperimentAdapter customAdapter = new ExperimentAdapter(getActivity(), R.layout.content, experimentList);
 

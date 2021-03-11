@@ -16,6 +16,4 @@ public class Experiment {
     public String getExperimentRegion() {
         return this.experimentRegion;
     }
-    
-
 }
