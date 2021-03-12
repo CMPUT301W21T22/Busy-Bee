@@ -1,12 +1,38 @@
 package com.example.spearmint;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirestoreRegistrar;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +40,22 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+    private static final String TAG = "MainActivity";
+
+    private static final String KEY_USERNAME = "Username";
+    private static final String KEY_EMAIL = "Email";
+
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String TEXT = "text";
+    private final String SAMPLE = "Sample";
+
+    private EditText editTextUsername;
+    private EditText editTextEmail;
+    private Button saveProfileBtn;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    final CollectionReference collectionReference = db.collection("User");
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +101,92 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        editTextUsername = (EditText) view.findViewById(R.id.edit_text_username);
+        editTextEmail = (EditText) view.findViewById(R.id.edit_text_email);
+        saveProfileBtn = (Button) view.findViewById(R.id.button_save_profile);
+
+        editTextUsername.setHint("Username");
+        editTextEmail.setHint("Email");
+
+        return view;
     }
+
+        @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+
+//      Creates a unique ID
+    public String createUniqueID() {
+        String uniqueID = UUID.randomUUID().toString();
+        return uniqueID;
+    }
+
+    //  Checks if unique ID exists in SharedPreferences, if not create a unique ID
+    public void storeUniqueID(Context activity) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
+        // if unique ID already exists in sharedPreferences, print statement
+        if (uniqueID != null) {
+            System.out.println("unique ID exists");
+        // if unique ID does not exists in sharedPreferences, create one and store it in sharedPreferences
+        } else {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            String ID = createUniqueID();
+            editor.putString(TEXT, ID);
+            editor.apply();
+            System.out.println("unique ID created");
+            uniqueIDToFirebase(ID);
+        }
+    }
+
+    public void uniqueIDToFirebase(String uniqueID) {
+        Map<String, Object> user = new HashMap<>();
+        user.put(KEY_USERNAME, "");
+        user.put(KEY_EMAIL, "");
+
+        db.collection("User").document(uniqueID).set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Profile saved");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Error!");
+                    }
+                });
+    }
+
+    // TODO: search onClickListener in fragment and how to update Firebase data
+    // Update user information to Firebase
+//    public void userInfoToFirebase(String uniqueID) {
+//        Map<String, Object> user = new HashMap<>();
+//        user.put(KEY_USERNAME, "");
+//        user.put(KEY_EMAIL, "");
+//
+//        saveProfileBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final String username = editTextUsername.getText().toString();
+//                final String email = editTextEmail.getText().toString();
+//
+//                if (username.length() > 0 && email.length() > 0) {
+//                    user.put("username", username);
+//                    user.put("email", email);
+//                    collectionReference
+//                            .document(uniqueID)
+//                            .set(user)
+//                            .addOnSuccessListener(
+//                                    Log.d(SAMPLE, "Username and email has been added successfully");
+//                            ).addOn
+//                }
+//            }
+//        });
+//    }
+
 }

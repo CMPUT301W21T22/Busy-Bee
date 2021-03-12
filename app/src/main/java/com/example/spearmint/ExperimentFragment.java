@@ -9,8 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
 import android.widget.Button;
 import android.widget.ListView;
+
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,16 +69,25 @@ public class ExperimentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_experiment, container, false);
 
-        String[] experiments = {"Experiment A", "Experiment B", "Experiment C"};
-
         ListView listView = (ListView) view.findViewById(R.id.experiment_list);
 
-        ArrayAdapter<String> experimentAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, experiments);
+        /*
+        https://www.youtube.com/channel/UCqU6yVdKgwGbfGX3un8WCWA/videos
+        https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view/8166802#8166802
+         */
+        ArrayList<Experiment> experimentList = new ArrayList<>();
 
-        listView.setAdapter(experimentAdapter);
+        experimentList.add(new Experiment("Coin Flip", "Calgary"));
+        experimentList.add(new Experiment("Count number", "Edmonton"));
+        experimentList.add(new Experiment("Number of Trials", "Vancouver"));
+
+        ExperimentAdapter customAdapter = new ExperimentAdapter(getActivity(), R.layout.content, experimentList);
+
+        listView.setAdapter(customAdapter);
 
     addExperiment = view.findViewById(R.id.button);
     addExperiment.setOnClickListener(new View.OnClickListener() {
@@ -83,10 +97,10 @@ public class ExperimentFragment extends Fragment {
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
             transaction.replace(R.id.navHostfragment, publishFragment);
             transaction.commit();
-
-
         }
     });
     return view;
+
+
     }
 }

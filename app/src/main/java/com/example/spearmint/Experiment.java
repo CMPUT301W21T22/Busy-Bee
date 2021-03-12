@@ -2,40 +2,19 @@ package com.example.spearmint;
 
 public class Experiment {
 
-    private String title;
-    private String region;
-    private String description;
-    private int trials;
+    private String experimentDescription;
+    private String experimentRegion;
 
-    public String getTitle() {
-        return title;
+    Experiment(String experimentDescription, String experimentRegion) {
+        this.experimentDescription = experimentDescription;
+        this.experimentRegion = experimentRegion;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getExperimentDescription() {
+        return this.experimentDescription;
     }
 
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getTrials() {
-        return trials;
-    }
-
-    public void setTrials(int trials) {
-        this.trials = trials;
+    public String getExperimentRegion() {
+        return this.experimentRegion;
     }
 }
