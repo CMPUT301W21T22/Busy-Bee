@@ -63,15 +63,17 @@ public class ExperimentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /*
-        https://www.youtube.com/channel/UCqU6yVdKgwGbfGX3un8WCWA/videos
-        https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view/8166802#8166802
+        Samantha Squires. (2016, March 1). 1.5: Display a ListView in a Fragment [Video]. YouTube. https://www.youtube.com/watch?v=edZwD54xfbk
+        Abram Hindle, "Lab 3 instructions - CustomList", Public Domain, 2021-02-12, https://eclass.srv.ualberta.ca/pluginfile.php/6713985/mod_resource/content/1/Lab%203%20instructions%20-%20CustomList.pdf
+        https://stackoverflow.com/users/788677/rakhita. (2011, Nov 17). Custom Adapter for List View. https://stackoverflow.com/. https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view/8166802#8166802
          */
+
         View view = inflater.inflate(R.layout.fragment_experiment, container, false);
         ArrayList<Experiment> experimentList = new ArrayList<>();
 
-        experimentList.add(new Experiment("Coin Flip", "Calgary"));
-        experimentList.add(new Experiment("Count number", "Edmonton"));
-        experimentList.add(new Experiment("Number of Trials", "Vancouver"));
+        experimentList.add(new Experiment("Coin Flip", "Calgary", "9"));
+        experimentList.add(new Experiment("Count number", "Edmonton", "7"));
+        experimentList.add(new Experiment("Number of Trials", "Vancouver", "11"));
 
         ListView listView = (ListView) view.findViewById(R.id.experiment_list);
 
