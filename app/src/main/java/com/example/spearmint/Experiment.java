@@ -3,10 +3,12 @@ package com.example.spearmint;
 public class Experiment {
     private String experimentDescription;
     private String experimentRegion;
+    private String experimentCount;
 
-    Experiment(String experimentDescription, String experimentRegion) {
+    Experiment(String experimentDescription, String experimentRegion, String experimentCount) {
         this.experimentDescription = experimentDescription;
         this.experimentRegion = experimentRegion;
+        this.experimentCount = experimentCount;
     }
 
     public String getExperimentDescription() {
@@ -15,5 +17,9 @@ public class Experiment {
 
     public String getExperimentRegion() {
         return this.experimentRegion;
+    }
+
+    public String getExperimentCount() {
+        return "# of Trials: " + this.experimentCount;
     }
 }
