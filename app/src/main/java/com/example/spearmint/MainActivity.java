@@ -20,21 +20,22 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String TEXT = "text";
+//    public static final String SHARED_PREFS = "sharedPrefs";
+//    public static final String TEXT = "text";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        ProfileFragment userInfo = new ProfileFragment();
-//        userInfo.storeUniqueID();
         // Initialize Bottom Navigation View
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
         // Initialize NavController
         NavController navController = Navigation.findNavController(this, R.id.navHostfragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+
         ProfileFragment userInfo = new ProfileFragment();
         userInfo.storeUniqueID(this);
     }
