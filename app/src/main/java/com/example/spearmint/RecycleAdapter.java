@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +22,10 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView aTitle;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            aTitle = itemView.findViewById(R.id.textView);
+            aTitle = itemView.findViewById(R.id.experiment_title);
         }
     }
 

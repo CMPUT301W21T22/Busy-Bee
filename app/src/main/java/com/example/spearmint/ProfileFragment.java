@@ -1,6 +1,7 @@
 package com.example.spearmint;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -39,7 +40,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "MainActivity";
 
     private static final String KEY_USERNAME = "Username";
@@ -105,6 +106,7 @@ public class ProfileFragment extends Fragment {
         editTextUsername = (EditText) view.findViewById(R.id.edit_text_username);
         editTextEmail = (EditText) view.findViewById(R.id.edit_text_email);
         saveProfileBtn = (Button) view.findViewById(R.id.button_save_profile);
+        saveProfileBtn.setOnClickListener(this);
 
         editTextUsername.setHint("Username");
         editTextEmail.setHint("Email");
@@ -118,34 +120,34 @@ public class ProfileFragment extends Fragment {
     }
 
 
-//      Creates a unique ID
+    // Create unique ID
     public String createUniqueID() {
         String uniqueID = UUID.randomUUID().toString();
         return uniqueID;
     }
 
     //  Checks if unique ID exists in SharedPreferences, if not create a unique ID
-    public void storeUniqueID(Context activity) {
+    public String storeUniqueID(Context activity) {
         SharedPreferences sharedPreferences = activity.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
         // if unique ID already exists in sharedPreferences, print statement
         if (uniqueID != null) {
-            System.out.println("unique ID exists");
+            // do nothing
         // if unique ID does not exists in sharedPreferences, create one and store it in sharedPreferences
         } else {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             String ID = createUniqueID();
             editor.putString(TEXT, ID);
             editor.apply();
-            System.out.println("unique ID created");
             uniqueIDToFirebase(ID);
         }
+        return uniqueID;
     }
 
     public void uniqueIDToFirebase(String uniqueID) {
         Map<String, Object> user = new HashMap<>();
-        user.put(KEY_USERNAME, "");
-        user.put(KEY_EMAIL, "");
+        user.put(KEY_USERNAME, null);
+        user.put(KEY_EMAIL, null);
 
         db.collection("User").document(uniqueID).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -162,31 +164,31 @@ public class ProfileFragment extends Fragment {
                 });
     }
 
-    // TODO: search onClickListener in fragment and how to update Firebase data
-    // Update user information to Firebase
-//    public void userInfoToFirebase(String uniqueID) {
-//        Map<String, Object> user = new HashMap<>();
-//        user.put(KEY_USERNAME, "");
-//        user.put(KEY_EMAIL, "");
-//
-//        saveProfileBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final String username = editTextUsername.getText().toString();
-//                final String email = editTextEmail.getText().toString();
-//
-//                if (username.length() > 0 && email.length() > 0) {
-//                    user.put("username", username);
-//                    user.put("email", email);
-//                    collectionReference
-//                            .document(uniqueID)
-//                            .set(user)
-//                            .addOnSuccessListener(
-//                                    Log.d(SAMPLE, "Username and email has been added successfully");
-//                            ).addOn
-//                }
-//            }
-//        });
-//    }
+    // Saves user's username and email to Firebase
+    @Override
+    public void onClick(View v) {
+        Map<String, Object> user = new HashMap<>();
+        final String username = editTextUsername.getText().toString();
+        final String email = editTextEmail.getText().toString();
 
+        if (username.length() > 0 && email.length() > 0) {
+            user.put(KEY_USERNAME, username);
+            user.put(KEY_EMAIL, email);
+            collectionReference
+                    .document(storeUniqueID(getContext()))
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Username and email saved");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "Username and email not saved" + e.toString());
+                        }
+                    });
+        }
+    }
 }
