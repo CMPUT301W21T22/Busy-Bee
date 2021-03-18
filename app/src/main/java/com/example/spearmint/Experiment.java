@@ -1,6 +1,7 @@
 package com.example.spearmint;
 
-public class Experiment {
+public class Experiment extends Object {
+
     private String experimentDescription;
     private String experimentRegion;
     private String experimentCount;

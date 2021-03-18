@@ -3,6 +3,7 @@ package com.example.spearmint;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -35,8 +36,14 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.navHostfragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        ExperimentFragment experimentFragment = new ExperimentFragment();
+        FragmentManager fm = getSupportFragmentManager();
+
+        fm.beginTransaction().add(R.id.navHostfragment, experimentFragment).commit();
+
 
         ProfileFragment userInfo = new ProfileFragment();
         userInfo.storeUniqueID(this);
     }
+
 }
