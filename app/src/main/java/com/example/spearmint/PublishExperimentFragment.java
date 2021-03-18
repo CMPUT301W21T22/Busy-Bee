@@ -12,23 +12,29 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+
+import static android.content.ContentValues.TAG;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PublishExperimentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PublishExperimentFragment extends DialogFragment {
+public class PublishExperimentFragment extends Fragment {
 
-    Button publishExperiment;
-    private EditText experimentDescription;
-    private EditText experimentRegion;
-    private EditText experimentCount;
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
@@ -79,20 +85,59 @@ public class PublishExperimentFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Button publishExperiment;
+        final EditText experimentDescription;
+        final EditText experimentRegion;
+        final EditText experimentCount;
+        FirebaseFirestore db;
+
         View view = inflater.inflate(R.layout.fragment_publish, container, false);
+
+        publishExperiment = view.findViewById(R.id.publishButton);
         experimentDescription = view.findViewById(R.id.description);
         experimentRegion = view.findViewById(R.id.region);
         experimentCount = view.findViewById(R.id.count);
 
-        publishExperiment = view.findViewById(R.id.publishButton);
+        db = FirebaseFirestore.getInstance();
+
+        final CollectionReference collectionReference = db.collection("Experiments");
+
         publishExperiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String exDescription = experimentDescription.getText().toString();
-                String exRegion = experimentRegion.getText().toString();
-                String exCount = experimentCount.getText().toString();
-                new Experiment(exDescription, exRegion, exCount);
+                final String exDescription = experimentDescription.getText().toString();
+                final String exRegion = experimentRegion.getText().toString();
+                final String exCount = experimentCount.getText().toString();
+
+                Experiment uploadData = new Experiment(exDescription, exRegion, exCount);
+
+                HashMap<String, Experiment> data = new HashMap<>();
+
+                if (exDescription.length()>0 && exRegion.length()>0) {
+                    data.put("Experiment Info", uploadData);
+
+                    collectionReference
+                            .document(exDescription)
+                            .set(data)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                // These are a method which gets executed when the task is succeeded
+                                    Log.d(TAG, "Data has been added successfully!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                            // These are a method which gets executed if there’s any problem
+                                    Log.d(TAG, "Data could not be added!" + e.toString());
+                                }
+                            });
+                    experimentDescription.setText("");
+                    experimentRegion.setText("");
+                    experimentCount.setText("");
+                }
 
                 ExperimentFragment experimentFragment = new ExperimentFragment();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();

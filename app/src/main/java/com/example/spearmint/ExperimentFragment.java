@@ -70,6 +70,7 @@ public class ExperimentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_experiment, container, false);
 
@@ -90,6 +91,9 @@ public class ExperimentFragment extends Fragment {
         ExperimentAdapter customAdapter = new ExperimentAdapter(getActivity(), R.layout.content, experimentList);
 
         listView.setAdapter(customAdapter);
+
+
+
 
         addExperiment = view.findViewById(R.id.addButton);
         addExperiment.setOnClickListener(new View.OnClickListener() {
