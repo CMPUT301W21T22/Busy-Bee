@@ -129,7 +129,5 @@ public class ExperimentFragment extends Fragment {
             }
         });
         return view;
-
-
     }
 }
