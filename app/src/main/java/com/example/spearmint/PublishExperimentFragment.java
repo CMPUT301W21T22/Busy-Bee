@@ -114,7 +114,7 @@ public class PublishExperimentFragment extends Fragment {
 
                 Experiment uploadData = new Experiment(exDescription, exRegion, exCount);
 
-                if (exDescription.length()>0 && exRegion.length()>0) {
+                if (exDescription.length()>0 && exRegion.length()>0 && exCount.length()>0) {
 
                     collectionReference
                             .document(exDescription)
