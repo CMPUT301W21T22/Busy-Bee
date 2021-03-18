@@ -91,14 +91,16 @@ public class ExperimentFragment extends Fragment {
 
         listView.setAdapter(customAdapter);
 
-    addExperiment = view.findViewById(R.id.button);
-    addExperiment.setOnClickListener(new View.OnClickListener() {
+        addExperiment = view.findViewById(R.id.addButton);
+        addExperiment.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             PublishExperimentFragment publishFragment = new PublishExperimentFragment();
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
             transaction.replace(R.id.navHostfragment, publishFragment);
             transaction.commit();
+
         }
     });
     return view;
