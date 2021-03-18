@@ -30,8 +30,14 @@
 
     <Button
         android:id="@+id/publishButton"
-        android:layout_width="match_parent"
+        android:layout_width="187dp"
         android:layout_height="wrap_content"
-        android:text="Publish Experiment" />
+        android:text="Publish" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="201dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel" />
 
 </LinearLayout>

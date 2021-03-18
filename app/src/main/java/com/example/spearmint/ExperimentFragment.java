@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import android.widget.Button;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
 
@@ -108,13 +110,24 @@ public class ExperimentFragment extends Fragment {
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 experimentList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    Log.d(TAG, String.valueOf(doc.getData().get("Experiment Info")));
+                    //Log.d(TAG, String.valueOf(doc.getData().get("Experiment Info")));
+                    Experiment trial = (Experiment) doc.getData().get("Experiment Info");
                     String description = doc.getId();
-                    String region = (String) doc.getData().get("experimentRegion");
+
+                    String region = (String) doc.getData().get("Experiment Info");
                     String count = (String) doc.getData().get("experimentCount");
                     experimentList.add(new Experiment(description, region, count));
                 }
                 customAdapter.notifyDataSetChanged();
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String experimentID = experimentList.get(position).getExperimentDescription();
+                collectionReference.document(experimentID).delete();
+
             }
         });
 
