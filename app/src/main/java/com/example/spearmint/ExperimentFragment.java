@@ -2,9 +2,11 @@ package com.example.spearmint;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,16 @@ import android.widget.ListView;
 
 import android.widget.ListView;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +81,10 @@ public class ExperimentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+
+        final CollectionReference collectionReference = db.collection("Experiments");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_experiment, container, false);
@@ -84,30 +99,38 @@ public class ExperimentFragment extends Fragment {
 
         ArrayList<Experiment> experimentList = new ArrayList<>();
 
-        experimentList.add(new Experiment("Coin Flip", "Calgary", "9"));
-        experimentList.add(new Experiment("Count number", "Edmonton", "7"));
-        experimentList.add(new Experiment("Number of Trials", "Vancouver", "11"));
-
         ExperimentAdapter customAdapter = new ExperimentAdapter(getActivity(), R.layout.content, experimentList);
 
         listView.setAdapter(customAdapter);
 
-
-
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                experimentList.clear();
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                    Log.d(TAG, String.valueOf(doc.getData().get("Experiment Info")));
+                    String description = doc.getId();
+                    String region = (String) doc.getData().get("experimentRegion");
+                    String count = (String) doc.getData().get("experimentCount");
+                    experimentList.add(new Experiment(description, region, count));
+                }
+                customAdapter.notifyDataSetChanged();
+            }
+        });
 
         addExperiment = view.findViewById(R.id.addButton);
         addExperiment.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
 
-            PublishExperimentFragment publishFragment = new PublishExperimentFragment();
-            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(R.id.navHostfragment, publishFragment);
-            transaction.commit();
+                PublishExperimentFragment publishFragment = new PublishExperimentFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.navHostfragment, publishFragment);
+                transaction.commit();
 
-        }
-    });
-    return view;
+            }
+        });
+        return view;
 
 
     }
