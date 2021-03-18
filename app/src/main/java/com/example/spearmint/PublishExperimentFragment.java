@@ -86,6 +86,7 @@ public class PublishExperimentFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         Button publishExperiment;
+        Button cancelPublish;
         final EditText experimentDescription;
         final EditText experimentRegion;
         final EditText experimentCount;
@@ -94,6 +95,7 @@ public class PublishExperimentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_publish, container, false);
 
         publishExperiment = view.findViewById(R.id.publishButton);
+        cancelPublish = view.findViewById(R.id.cancel);
         experimentDescription = view.findViewById(R.id.description);
         experimentRegion = view.findViewById(R.id.region);
         experimentCount = view.findViewById(R.id.count);
@@ -112,14 +114,11 @@ public class PublishExperimentFragment extends Fragment {
 
                 Experiment uploadData = new Experiment(exDescription, exRegion, exCount);
 
-                HashMap<String, Experiment> data = new HashMap<>();
-
                 if (exDescription.length()>0 && exRegion.length()>0) {
-                    data.put("Experiment Info", uploadData);
 
                     collectionReference
                             .document(exDescription)
-                            .set(data)
+                            .set(uploadData)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -146,6 +145,16 @@ public class PublishExperimentFragment extends Fragment {
 
             }
         });
+
+        cancelPublish.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExperimentFragment experimentFragment = new ExperimentFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.navHostfragment, experimentFragment);
+                transaction.commit();
+            }
+        }));
 
         // Inflate the layout for this fragment
         return view;

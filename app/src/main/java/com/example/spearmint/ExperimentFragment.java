@@ -110,12 +110,11 @@ public class ExperimentFragment extends Fragment {
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 experimentList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    //Log.d(TAG, String.valueOf(doc.getData().get("Experiment Info")));
-                    Experiment trial = (Experiment) doc.getData().get("Experiment Info");
-                    String description = doc.getId();
 
-                    String region = (String) doc.getData().get("Experiment Info");
-                    String count = (String) doc.getData().get("experimentCount");
+                    String description = doc.getId();
+                    String region = (String) doc.get("experimentRegion");
+                    String count = (String) doc.get("experimentCount");
+
                     experimentList.add(new Experiment(description, region, count));
                 }
                 customAdapter.notifyDataSetChanged();
