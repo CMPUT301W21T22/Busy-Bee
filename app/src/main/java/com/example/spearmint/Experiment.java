@@ -21,6 +21,6 @@ public class Experiment extends Object {
     }
 
     public String getExperimentCount() {
-        return "# of Trials: " + this.experimentCount;
+        return this.experimentCount;
     }
 }
