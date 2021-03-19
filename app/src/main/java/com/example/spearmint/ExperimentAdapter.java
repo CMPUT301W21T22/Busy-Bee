@@ -23,6 +23,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
         this.trials = trials;
         this.context = context;
     }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup

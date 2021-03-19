@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,13 +44,13 @@ public class ExperimentDetails extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Questions");
+        final CollectionReference collectionReference = db.collection("Posts");
 
         View view = inflater.inflate(R.layout.experiment_details, container, false);
 
         String experimentData = getArguments().getString("dataKey");
 
-        // Setting the TextView to the experiment title from ExperimentFragment.java
+        // Setting the EditText to the experiment title from ExperimentFragment.java
         displayData = view.findViewById(R.id.experiment_title);
         displayData.setText(experimentData);
 
@@ -76,6 +77,24 @@ public class ExperimentDetails extends Fragment {
                     postList.add(new Post(questionText, title));
                 }
                 customAdapter.notifyDataSetChanged();
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle questionInfo = new Bundle();
+                ResponseFragment responseFragment = new ResponseFragment();
+                String questionExperiment = experimentData;
+
+                questionInfo.putString("dataKey", questionExperiment);
+                responseFragment.setArguments(questionInfo);
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.navHostfragment, responseFragment);
+                transaction.commit();
+
             }
         });
 

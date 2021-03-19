@@ -92,12 +92,12 @@ public class ExperimentFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Bundle data = new Bundle();
+                Bundle experimentInfo = new Bundle();
                 ExperimentDetails detailsFragment = new ExperimentDetails();
                 String experimentTitle = experimentList.get(position).getExperimentDescription();
 
-                data.putString("dataKey", experimentTitle);
-                detailsFragment.setArguments(data);
+                experimentInfo.putString("dataKey", experimentTitle);
+                detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.navHostfragment, detailsFragment);
