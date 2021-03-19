@@ -76,11 +76,32 @@ public class ExperimentFragment extends Fragment {
             }
         });
 
+        // Deleting an experiment from Firebase
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String experimentID = experimentList.get(position).getExperimentDescription();
+                collectionReference.document(experimentID).delete();
+
+                return false;
+            }
+        });
+
+        // Opening a new activity/fragment to comment/post questions
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String experimentID = experimentList.get(position).getExperimentDescription();
-                collectionReference.document(experimentID).delete();
+
+                Bundle data = new Bundle();
+                ExperimentDetails detailsFragment = new ExperimentDetails();
+                String experimentTitle = experimentList.get(position).getExperimentDescription();
+
+                data.putString("dataKey", experimentTitle);
+                detailsFragment.setArguments(data);
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.navHostfragment, detailsFragment);
+                transaction.commit();
 
             }
         });
