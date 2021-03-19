@@ -99,8 +99,6 @@ public class QuestionsAnswers extends Fragment {
             }
         });
 
-
-
         // Go back to the experiment fragment
         goBack = view.findViewById(R.id.back_button);
         goBack.setOnClickListener(new View.OnClickListener() {

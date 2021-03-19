@@ -79,9 +79,6 @@ public class SearchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setHasOptionsMenu(true);
-
-
-
     }
 
     @Override
@@ -120,6 +117,10 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        /** https://stackoverflow.com/users/1703376/marurban, "RecyclerView onClick", 2015-07-28, Creative Commons Attribution-ShareAlike, https://stackoverflow.com/questions/24471109/recyclerview-onclick
+         * 3.0license (CC BY-SA 3.0)
+         */
+
         // https://stackoverflow.com/questions/24471109/recyclerview-onclick
 
         aAdapter = new RecycleAdapter(experimentArrayList);
@@ -128,14 +129,14 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(int position, View v) {
                 Bundle experimentInfo = new Bundle();
-                QuestionsAnswers questionsAnswers = new QuestionsAnswers();
+                ExperimentDetails detailsFragment = new ExperimentDetails();
                 String experimentName = experimentArrayList.get(position).getaTitle();
 
                 experimentInfo.putString("dataKey", experimentName);
-                questionsAnswers.setArguments(experimentInfo);
+                detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, questionsAnswers);
+                transaction.replace(R.id.navHostfragment, detailsFragment);
                 transaction.commit();
             }
 
