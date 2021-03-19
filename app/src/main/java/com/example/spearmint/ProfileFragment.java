@@ -31,9 +31,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirestoreRegistrar;
 import com.example.spearmint.User;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,8 +69,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private User currentUser = new User();
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference collectionReference = db.collection("User");
-//    private DocumentReference userReference = db.document(currentUser.getUUID());
+    private CollectionReference collectionReference = db.collection("User");
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -117,6 +121,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         editTextNumber = (EditText) view.findViewById(R.id.edit_text_phone);
         saveProfileBtn = (Button) view.findViewById(R.id.button_save_profile);
         saveProfileBtn.setOnClickListener(this);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
+        DocumentReference documentReference = collectionReference.document(uniqueID);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                editTextUsername.setText(doc.getString("Username"));
+                editTextEmail.setText(doc.getString("Email"));
+                editTextNumber.setText(doc.getString("PhoneNum"));
+            }
+        });
+
 
         editTextUsername.setText(currentUser.getUsername());
         editTextEmail.setText(currentUser.getEmail());
@@ -212,9 +228,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     // Not completed yet, does not display user's input after edit (error)
     // Displays user's username, email, and phone number onto the text box after editing,
     // by retrieving data from Firebase that the user has saved to Firebase
-    public void setTextFromFirebase() {
-
-    }
+//    collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//        @Override
+//        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+//            experimentList.clear();
+//            for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+//
+//                String description = doc.getId();
+//                String region = (String) doc.get("experimentRegion");
+//                String count = (String) doc.get("experimentCount");
+//
+//                experimentList.add(new Experiment(description, region, count));
+//            }
+//            customAdapter.notifyDataSetChanged();
+//        }
+//    });
 
     @Override
     public void onClick(View v) {
