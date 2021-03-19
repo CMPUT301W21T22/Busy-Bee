@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.SearchView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -118,12 +120,23 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        // https://stackoverflow.com/questions/24471109/recyclerview-onclick
+
         aAdapter = new RecycleAdapter(experimentArrayList);
 
         aAdapter.setOnItemClickListener(new RecycleAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Log.d(TAG, "onItemClick position: " + position);
+                Bundle experimentInfo = new Bundle();
+                QuestionsAnswers questionsAnswers = new QuestionsAnswers();
+                String experimentName = experimentArrayList.get(position).getaTitle();
+
+                experimentInfo.putString("dataKey", experimentName);
+                questionsAnswers.setArguments(experimentInfo);
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.navHostfragment, questionsAnswers);
+                transaction.commit();
             }
 
             @Override

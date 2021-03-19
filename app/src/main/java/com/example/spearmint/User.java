@@ -1,9 +1,7 @@
 package com.example.spearmint;
-import com.example.spearmint.Experiment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class models a user with their own attributes.
