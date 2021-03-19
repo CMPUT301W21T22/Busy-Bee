@@ -104,12 +104,12 @@ public class SearchFragment extends Fragment {
                     experimentArrayList.add(new ExperimentItem(description));
                 };
 
-        aRecyclerView = rootView.findViewById(R.id.recycleView);
-        aLayoutManager = new LinearLayoutManager(getActivity());
-        aRecyclerView.setHasFixedSize(true);
-        aRecyclerView.setLayoutManager(aLayoutManager);
-        aAdapter = new RecycleAdapter(experimentArrayList);
-        aRecyclerView.setAdapter(aAdapter);
+                aRecyclerView = rootView.findViewById(R.id.recycleView);
+                aLayoutManager = new LinearLayoutManager(getActivity());
+                aRecyclerView.setHasFixedSize(true);
+                aRecyclerView.setLayoutManager(aLayoutManager);
+                aAdapter = new RecycleAdapter(experimentArrayList);
+                aRecyclerView.setAdapter(aAdapter);
 
 
             }

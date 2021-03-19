@@ -1,10 +1,32 @@
 package com.example.spearmint;
 
+<<<<<<< HEAD
 /**
  * Custom adapter that processes and stores Experiment objects in a list
  * connects to content.xml file for the visual formatting of objects stored in the adapter
  * @author Daniel and Andrew
  */
+=======
+import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import android.widget.Button;
+import android.widget.ListView;
+
+import android.widget.ListView;
+
+import com.google.firebase.firestore.CollectionReference;
+>>>>>>> b0f7d8e (Updated Code)
 
 import android.content.Context;
 import android.view.LayoutInflater;
