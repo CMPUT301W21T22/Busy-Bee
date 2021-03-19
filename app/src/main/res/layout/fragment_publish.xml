@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
+    <Button
+        android:id="@+id/publishButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Publish" />
+
     <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
@@ -27,12 +33,6 @@
         android:ems="10"
         android:hint="Number of Trials"
         android:inputType="textPersonName" />
-
-    <Button
-        android:id="@+id/publishButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Publish" />
 
     <Button
         android:id="@+id/cancel"
