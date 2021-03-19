@@ -22,11 +22,12 @@ Spearmint is an interactive app for experimenters and owners to interrelate with
 
 <p float="left">
   <img src="https://user-images.githubusercontent.com/78892182/110072748-7f774f00-7d3b-11eb-8b0d-2a7299ba0cb6.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/110072762-856d3000-7d3b-11eb-92c4-10fbe61c92e4.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/111769687-1e896400-886f-11eb-978f-b9a4f62c45c2.png" width="200" />
   <img src="https://user-images.githubusercontent.com/78892182/110072767-8736f380-7d3b-11eb-8bc7-37e4bd3a5c86.png" width="200" />
   <img src="https://user-images.githubusercontent.com/78892182/110072768-88682080-7d3b-11eb-9935-4840b148fa65.png" width="200" />
+ 
+ </p>
 
-</p>
 
 <p float="left">
   <img src="https://user-images.githubusercontent.com/78892182/110071839-01ff0f00-7d3a-11eb-9db6-e48c4fd86e96.png" width="200" />
