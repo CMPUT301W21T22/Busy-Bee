@@ -27,7 +27,7 @@ public class SearchFragmentTest {
     @Test
     public void checkSearchFragment(){
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.searchFragment));
+        solo.clickOnView(solo.getView(R.id.search_fragment));
 
         solo.clickOnView(solo.getView(R.id.search_action));
         solo.clickOnView(solo.getView(R.id.search_action));
