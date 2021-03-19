@@ -25,6 +25,8 @@ References: https://github.com/CMPUT301W21T22/Spearmint/wiki/References
 <p float="left">
   <img src="https://user-images.githubusercontent.com/78892182/110072748-7f774f00-7d3b-11eb-8b0d-2a7299ba0cb6.png" width="200" />
   <img src="https://user-images.githubusercontent.com/78892182/111769687-1e896400-886f-11eb-978f-b9a4f62c45c2.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/111845917-66d66f80-88cb-11eb-924d-577122234514.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/111845991-94231d80-88cb-11eb-9911-87edf43f2815.png" width="200" />
  
  </p>
 
@@ -51,16 +53,6 @@ References: https://github.com/CMPUT301W21T22/Spearmint/wiki/References
   <img src="https://user-images.githubusercontent.com/78892182/111845499-96d14300-88ca-11eb-8511-fdf63bfd0d2a.png" width="200" />
   <img src="https://user-images.githubusercontent.com/78892182/111845598-cbdd9580-88ca-11eb-97ee-d6b0c0e4ca43.png" width="200" />
   <img src="https://user-images.githubusercontent.com/78892182/111845656-eadc2780-88ca-11eb-84ee-1e102990f7a0.png" width="200" />
-
-</p>
-
-<p float="left">
-  <img src="https://user-images.githubusercontent.com/78892182/111845917-66d66f80-88cb-11eb-924d-577122234514.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/111845991-94231d80-88cb-11eb-9911-87edf43f2815.png" width="200" />
- 
-
-
-
 
 </p>
 
