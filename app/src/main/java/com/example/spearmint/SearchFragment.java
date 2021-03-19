@@ -106,8 +106,9 @@ public class SearchFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Experiments");
+
         /**
-         * Updates the list stored locally in the app with Firebase data
+         * Updates the list stored locally in the app with Firebase data to display the data
          */
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -146,7 +147,7 @@ public class SearchFragment extends Fragment {
                 detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, detailsFragment);
                 transaction.commit();
             }
             // Will implement at a later date

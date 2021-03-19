@@ -53,6 +53,10 @@ public class ResponseFragment extends Fragment {
         cancelResponse = view.findViewById(R.id.cancel_response);
         responseText = view.findViewById(R.id.response_text);
 
+        /**
+         * Redirects the user to experiment details fragment "ExperimentDetails.java" through "cancel" button
+         * sends the title of the question to track what the response is linked to
+         */
         cancelResponse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,11 +69,17 @@ public class ResponseFragment extends Fragment {
                 detailsFragment.setArguments(questionInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, detailsFragment);
                 transaction.commit();
             }
         });
 
+        /**
+         * Takes the data entered by a user and makes it into a "Post" object
+         * the post object is uploaded to firebase and displays post details to users
+         * directs user back to the experiment details fragment "ExperimentDetails.java"
+         * does not upload data if any of the edit text fields are empty
+         */
         confirmResponse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,14 +117,10 @@ public class ResponseFragment extends Fragment {
                 detailsFragment.setArguments(questionInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, detailsFragment);
                 transaction.commit();
             }
         });
-
-
-
-
 
         return view;
     };
