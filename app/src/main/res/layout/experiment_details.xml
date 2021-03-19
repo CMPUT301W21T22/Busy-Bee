@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff">
 
@@ -10,10 +11,11 @@
         android:layout_height="wrap_content"
         android:text="Back" />
 
-    <EditText
+    <TextView
         android:id="@+id/experiment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="30dp"
         android:textAlignment="center"/>
 
     <LinearLayout
@@ -40,7 +42,7 @@
     <ListView
         android:id="@+id/post_list"
         android:layout_width="match_parent"
-        android:layout_height="573dp" />
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

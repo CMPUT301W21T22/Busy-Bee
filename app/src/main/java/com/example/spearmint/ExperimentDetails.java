@@ -48,7 +48,7 @@ public class ExperimentDetails extends Fragment {
 
         Button goBack;
         Button post;
-        EditText displayData;
+        TextView displayData;
         EditText question;
         FirebaseFirestore db;
 
