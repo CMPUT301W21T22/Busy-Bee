@@ -119,32 +119,4 @@ public class PublishExperimentFragment extends Fragment {
         return view;
     }
 
-<<<<<<< HEAD
-=======
-    /*
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_publish, null);
-        experimentDescription = view.findViewById(R.id.description);
-        experimentRegion = view.findViewById(R.id.region);
-        experimentCount = view.findViewById(R.id.count);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        return builder
-                .setView(view)
-                .setTitle("Publish Experiment")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String exDescription = experimentDescription.getText().toString();
-                        String exRegion = experimentRegion.getText().toString();
-                        String exCount = experimentCount.getText().toString();
-                        listener.onOkPressed(new Experiment(exDescription, exRegion, exCount));
-                    }}).create();
-    }
-     */
-
-
->>>>>>> b0f7d8e (Updated Code)
 }

@@ -22,19 +22,44 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     private ArrayList<ExperimentItem> aArrayList;
     private ArrayList<ExperimentItem> copyArrayList;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    private static ClickListener clickListener;
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        TextView name;
         public TextView aTitle;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+            name = (TextView) itemView.findViewById(R.id.recycleView);
             aTitle = itemView.findViewById(R.id.experiment_title);
         }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(getAdapterPosition(), v);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            clickListener.onItemLongClick(getAdapterPosition(), v);
+            return false;
+        }
+    }
+
+    public void setOnItemClickListener(ClickListener clickListener) {
+        RecycleAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+        void onItemLongClick(int position, View v);
     }
 
     public RecycleAdapter(ArrayList<ExperimentItem> arrayList){
         aArrayList = arrayList;
         copyArrayList = new ArrayList<>(arrayList);
-
     }
 
 

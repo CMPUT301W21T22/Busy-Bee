@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,6 +118,19 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        aAdapter = new RecycleAdapter(experimentArrayList);
+
+        aAdapter.setOnItemClickListener(new RecycleAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Log.d(TAG, "onItemClick position: " + position);
+            }
+
+            @Override
+            public void onItemLongClick(int position, View v) {
+                Log.d(TAG, "onItemLongClick pos = " + position);
+            }
+        });
 
         // Inflate the layout for this fragment
         return rootView;

@@ -1,12 +1,11 @@
 package com.example.spearmint;
 
-<<<<<<< HEAD
 /**
  * Custom adapter that processes and stores Experiment objects in a list
  * connects to content.xml file for the visual formatting of objects stored in the adapter
  * @author Daniel and Andrew
  */
-=======
+
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -26,7 +25,6 @@ import android.widget.ListView;
 import android.widget.ListView;
 
 import com.google.firebase.firestore.CollectionReference;
->>>>>>> b0f7d8e (Updated Code)
 
 import android.content.Context;
 import android.view.LayoutInflater;
