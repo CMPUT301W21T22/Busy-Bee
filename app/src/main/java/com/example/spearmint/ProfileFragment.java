@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     final CollectionReference collectionReference = db.collection("User");
-    private DatabaseReference databaseReference;
+//    private DocumentReference userReference = db.document(currentUser.getUUID());
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -212,26 +212,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     // Not completed yet, does not display user's input after edit (error)
     // Displays user's username, email, and phone number onto the text box after editing,
     // by retrieving data from Firebase that the user has saved to Firebase
-//    public void setTexFromFirebase() {
-//        databaseReference = FirebaseDatabase.getInstance().getReference().child(currentUser.getUUID());
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                currentUser.setUsername(snapshot.child(KEY_USERNAME).getValue().toString());
-//                currentUser.setEmail(snapshot.child(KEY_EMAIL).getValue().toString());
-//                currentUser.setNumber(snapshot.child(KEY_PHONE_NUM).getValue().toString());
-//
-//                editTextUsername.setText(currentUser.getUsername());
-//                editTextEmail.setText(currentUser.getEmail());
-//                editTextNumber.setText(currentUser.getNumber());
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                //
-//            }
-//        });
-//    }
+    public void setTextFromFirebase() {
+
+    }
 
     @Override
     public void onClick(View v) {

@@ -33,14 +33,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.navHostfragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        ExperimentFragment experimentFragment = new ExperimentFragment();
-        FragmentManager fm = getSupportFragmentManager();
-
-        fm.beginTransaction().add(R.id.navHostfragment, experimentFragment).commit();
 
         ProfileFragment userInfo = new ProfileFragment();
         userInfo.storeUniqueID(this);
-//        userInfo.setTexFromFirebase();
+//        userInfo.setTextFromFirebase();
     }
 
 }

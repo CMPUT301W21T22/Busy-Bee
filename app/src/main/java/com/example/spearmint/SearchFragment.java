@@ -134,7 +134,9 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                aAdapter.getFilter().filter(newText);
+                if (aAdapter != null) {
+                    aAdapter.getFilter().filter(newText);
+                }
                 return false;
             }
         });
