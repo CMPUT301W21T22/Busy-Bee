@@ -24,7 +24,6 @@ References: https://github.com/CMPUT301W21T22/Spearmint/wiki/References
 
 <p float="left">
   <img src="https://user-images.githubusercontent.com/78892182/110072748-7f774f00-7d3b-11eb-8b0d-2a7299ba0cb6.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/111769687-1e896400-886f-11eb-978f-b9a4f62c45c2.png" width="200" />
   <img src="https://user-images.githubusercontent.com/78892182/111845917-66d66f80-88cb-11eb-924d-577122234514.png" width="200" />
   <img src="https://user-images.githubusercontent.com/78892182/111845991-94231d80-88cb-11eb-9911-87edf43f2815.png" width="200" />
  
