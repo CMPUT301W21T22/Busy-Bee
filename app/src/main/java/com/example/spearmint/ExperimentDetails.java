@@ -85,11 +85,18 @@ public class ExperimentDetails extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Bundle questionInfo = new Bundle();
+                Bundle parentQuestion = new Bundle();
                 ResponseFragment responseFragment = new ResponseFragment();
                 String questionExperiment = experimentData;
+                String questionTitle = postList.get(position).getExperimentTitle();
 
                 questionInfo.putString("dataKey", questionExperiment);
+                parentQuestion.putString("questionKey", questionTitle);
+
+                Log.d(TAG, questionTitle);
+
                 responseFragment.setArguments(questionInfo);
+                responseFragment.setArguments(parentQuestion);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.navHostfragment, responseFragment);

@@ -37,6 +37,7 @@ public class ResponseFragment extends Fragment {
         View view = inflater.inflate(R.layout.responses, container, false);
 
         String questionData = getArguments().getString("dataKey");
+        String questionTitle = getArguments().getString("questionKey");
 
         confirmResponse = view.findViewById(R.id.confirm_response);
         cancelResponse = view.findViewById(R.id.cancel_response);
@@ -64,7 +65,7 @@ public class ResponseFragment extends Fragment {
             public void onClick(View v) {
 
                 final String responseContent = responseText.getText().toString();
-                final String responseQuestion = questionData;
+                final String responseQuestion = questionTitle;
 
                 Post content = new Post(responseQuestion, responseContent);
 
