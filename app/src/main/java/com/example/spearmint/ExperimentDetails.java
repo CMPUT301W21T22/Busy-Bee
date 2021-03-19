@@ -1,5 +1,15 @@
 package com.example.spearmint;
 
+/**
+ * Fragment with clickable elements that displays the experiment title and allows users to view posts, make a post, and respond to posts
+ * Currently has a small bug where the experiment title disappears after responding to a post or after "cancelling" a post
+ * Connects to firebase and sends information about posts to ResponseFragment.java
+ * @author Daniel
+ *
+ * firebase implementation is from ...
+ * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
+ */
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

@@ -1,5 +1,15 @@
 package com.example.spearmint;
 
+/**
+ * Fragment that allows a user to publish an experiment with a title, region, and number of trials
+ * fragment uploads user entered information to firebase when "publish" is pressed
+ * has two clickable buttons called "publish" or "cancel", once either is pressed, the user is redirected to ExperimentFragment.java
+ * @author Daniel
+ *
+ * firebase implementation is from ...
+ * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
+ */
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;

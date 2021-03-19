@@ -1,5 +1,11 @@
 package com.example.spearmint;
 
+/**
+ * Base class defining the Experiment object with fields of type String
+ * Has getter methods so other classes can retrieve the information of an experiment
+ * Has fields "description", "region", "count"
+ * @author Daniel and Andrew
+ */
 public class Experiment {
 
     private String experimentDescription;
