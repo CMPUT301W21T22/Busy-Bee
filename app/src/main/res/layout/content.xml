@@ -8,7 +8,7 @@
     android:background="#fff">
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/experiment_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
@@ -16,7 +16,7 @@
         android:textSize="30dp" />
 
     <TextView
-        android:id="@+id/region"
+        android:id="@+id/experiment_region"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Region"
@@ -24,7 +24,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/count"
+        android:id="@+id/experiment_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="# of Trials"
