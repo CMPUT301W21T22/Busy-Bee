@@ -3,6 +3,7 @@ package com.example.spearmint;
 /**
  * Custom adapter that processes and stores Experiment objects in a list
  * connects to content.xml file for the visual formatting of objects stored in the adapter
+ * Abram Hindle, "Lab 3 instructions - CustomList", Public Domain, https://eclass.srv.ualberta.ca/pluginfile.php/6713985/mod_resource/content/1/Lab%203%20instructions%20-%20CustomList.pdf
  * @author Daniel and Andrew
  */
 
