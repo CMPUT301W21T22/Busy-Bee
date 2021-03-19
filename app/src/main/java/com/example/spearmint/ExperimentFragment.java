@@ -4,6 +4,9 @@ package com.example.spearmint;
  * Host fragment with clickable elements for fragments dealing with experiments
  * displays all experiments stored in the firebase database
  * displays the experiment title, region, and number of trials
+ * Samantha Squires. (2016, March 1). 1.5: Display a ListView in a Fragment [Video]. YouTube. https://www.youtube.com/watch?v=edZwD54xfbk
+ * Abram Hindle, "ListyCity - Instructions-converted-converted", Public Domain, https://eclass.srv.ualberta.ca/pluginfile.php/6713940/mod_resource/content/1/ListyCity%20-%20Instructions-converted-converted%20%282%29.pdf
+ * https://stackoverflow.com/users/788677/rakhita. (2011, Nov 17). Custom Adapter for List View. https://stackoverflow.com/. https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view/8166802#8166802
  * @author Daniel and Andrew
  *
  * firebase implementation is from ...
@@ -58,10 +61,10 @@ public class ExperimentFragment extends Fragment {
 
         ListView listView = (ListView) view.findViewById(R.id.experiment_list);
 
-        /*
-        Samantha Squires. (2016, March 1). 1.5: Display a ListView in a Fragment [Video]. YouTube. https://www.youtube.com/watch?v=edZwD54xfbk
-        Abram Hindle, "Lab 3 instructions - CustomList", Public Domain, 2021-02-12, https://eclass.srv.ualberta.ca/pluginfile.php/6713985/mod_resource/content/1/Lab%203%20instructions%20-%20CustomList.pdf
-        https://stackoverflow.com/users/788677/rakhita. (2011, Nov 17). Custom Adapter for List View. https://stackoverflow.com/. https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view/8166802#8166802
+        /**
+         * Samantha Squires. (2016, March 1). 1.5: Display a ListView in a Fragment [Video]. YouTube. https://www.youtube.com/watch?v=edZwD54xfbk
+         * Abram Hindle, "Lab 3 instructions - CustomList", Public Domain, 2021-02-12, https://eclass.srv.ualberta.ca/pluginfile.php/6713985/mod_resource/content/1/Lab%203%20instructions%20-%20CustomList.pdf
+         *  https://stackoverflow.com/users/788677/rakhita. (2011, Nov 17). Custom Adapter for List View. https://stackoverflow.com/. https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view/8166802#8166802
          */
 
         ArrayList<Experiment> experimentList = new ArrayList<>();
@@ -129,7 +132,5 @@ public class ExperimentFragment extends Fragment {
             }
         });
         return view;
-
-
     }
 }

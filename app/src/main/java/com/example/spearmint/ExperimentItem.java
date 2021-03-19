@@ -9,6 +9,4 @@ public class ExperimentItem {
     public String getaTitle(){
         return aTitle;
     }
-
-
 }

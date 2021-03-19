@@ -149,7 +149,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-        @Override
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
@@ -192,6 +192,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         String uniqueID = sharedPreferences.getString(TEXT, null);
         if (uniqueID != null) {
             //
+
+
+            // If unique ID does not exist in sharedPreferences, create one, store it in sharedPreferences,
+            // and attach the ID to currentUser
         } else {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             String ID = createUniqueID();
