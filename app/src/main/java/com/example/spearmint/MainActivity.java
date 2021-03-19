@@ -21,9 +21,6 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-//    public static final String SHARED_PREFS = "sharedPrefs";
-//    public static final String TEXT = "text";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         fm.beginTransaction().add(R.id.navHostfragment, experimentFragment).commit();
 
-
         ProfileFragment userInfo = new ProfileFragment();
         userInfo.storeUniqueID(this);
+//        userInfo.setTexFromFirebase();
     }
 
 }
