@@ -21,9 +21,6 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-//    public static final String SHARED_PREFS = "sharedPrefs";
-//    public static final String TEXT = "text";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,14 +33,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.navHostfragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        ExperimentFragment experimentFragment = new ExperimentFragment();
-        FragmentManager fm = getSupportFragmentManager();
-
-        fm.beginTransaction().add(R.id.navHostfragment, experimentFragment).commit();
-
 
         ProfileFragment userInfo = new ProfileFragment();
         userInfo.storeUniqueID(this);
+//        userInfo.setTextFromFirebase();
     }
 
 }

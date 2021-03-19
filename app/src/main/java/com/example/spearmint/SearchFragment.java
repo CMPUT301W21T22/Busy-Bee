@@ -3,6 +3,7 @@ package com.example.spearmint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -80,8 +87,22 @@ public class SearchFragment extends Fragment {
         //ArrayList(Added)
         ArrayList<ExperimentItem> experimentArrayList = new ArrayList<>();
         experimentArrayList.add(new ExperimentItem("Experiment D"));
-        experimentArrayList.add(new ExperimentItem("Experiment E"));
-        experimentArrayList.add(new ExperimentItem("Experiment F"));
+
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+
+        final CollectionReference collectionReference = db.collection("Experiments");
+
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                experimentArrayList.clear();
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+
+                    String description = doc.getId();
+
+                    experimentArrayList.add(new ExperimentItem(description));
+                };
 
         aRecyclerView = rootView.findViewById(R.id.recycleView);
         aLayoutManager = new LinearLayoutManager(getActivity());
@@ -89,6 +110,11 @@ public class SearchFragment extends Fragment {
         aRecyclerView.setLayoutManager(aLayoutManager);
         aAdapter = new RecycleAdapter(experimentArrayList);
         aRecyclerView.setAdapter(aAdapter);
+
+
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return rootView;
@@ -108,7 +134,9 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                aAdapter.getFilter().filter(newText);
+                if (aAdapter != null) {
+                    aAdapter.getFilter().filter(newText);
+                }
                 return false;
             }
         });

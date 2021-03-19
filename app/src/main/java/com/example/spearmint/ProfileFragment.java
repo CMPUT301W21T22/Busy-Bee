@@ -23,11 +23,22 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirestoreRegistrar;
+import com.example.spearmint.User;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +47,8 @@ import java.util.UUID;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
+ * ProfileFragment handles user's activities such as editing username, email, and phone number.
+ *
  * A simple {@link Fragment} subclass.
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -45,18 +58,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private static final String KEY_USERNAME = "Username";
     private static final String KEY_EMAIL = "Email";
+    private static final String KEY_PHONE_NUM = "PhoneNum";
 
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String TEXT = "text";
-    private final String SAMPLE = "Sample";
-
+    public static final String SHARED_PREFS = "SharedPrefs";
+    public static final String TEXT = "Text";
     private EditText editTextUsername;
     private EditText editTextEmail;
+    private EditText editTextNumber;
     private Button saveProfileBtn;
+    private User currentUser = new User();
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference collectionReference = db.collection("User");
-
+    private CollectionReference collectionReference = db.collection("User");
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -105,11 +118,26 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         editTextUsername = (EditText) view.findViewById(R.id.edit_text_username);
         editTextEmail = (EditText) view.findViewById(R.id.edit_text_email);
+        editTextNumber = (EditText) view.findViewById(R.id.edit_text_phone);
         saveProfileBtn = (Button) view.findViewById(R.id.button_save_profile);
         saveProfileBtn.setOnClickListener(this);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
+        DocumentReference documentReference = collectionReference.document(uniqueID);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                editTextUsername.setText(doc.getString("Username"));
+                editTextEmail.setText(doc.getString("Email"));
+                editTextNumber.setText(doc.getString("PhoneNum"));
+            }
+        });
 
-        editTextUsername.setHint("Username");
-        editTextEmail.setHint("Email");
+
+        editTextUsername.setText(currentUser.getUsername());
+        editTextEmail.setText(currentUser.getEmail());
+        editTextNumber.setText(currentUser.getNumber());
+//        setTexFromFirebase();
 
         return view;
     }
@@ -120,7 +148,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    // Create unique ID
+    // Creates unique ID
     public String createUniqueID() {
         String uniqueID = UUID.randomUUID().toString();
         return uniqueID;
@@ -130,24 +158,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public String storeUniqueID(Context activity) {
         SharedPreferences sharedPreferences = activity.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
-        // if unique ID already exists in sharedPreferences, print statement
-        if (uniqueID != null) {
-            // do nothing
-        // if unique ID does not exists in sharedPreferences, create one and store it in sharedPreferences
+        // If unique ID exists and if there is no UUID to a user, do nothing
+        if (uniqueID != null && currentUser.getUUID() == null) {
+            //
+        // If unique ID does not exist in sharedPreferences, create one, store it in sharedPreferences,
+        // and attach the ID to currentUser
         } else {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             String ID = createUniqueID();
             editor.putString(TEXT, ID);
             editor.apply();
             uniqueIDToFirebase(ID);
+            currentUser.setUUID(ID);
         }
         return uniqueID;
     }
 
+    // Store currentUser's UUID to Firebase as a document
     public void uniqueIDToFirebase(String uniqueID) {
         Map<String, Object> user = new HashMap<>();
         user.put(KEY_USERNAME, null);
         user.put(KEY_EMAIL, null);
+        user.put(KEY_PHONE_NUM, null);
 
         db.collection("User").document(uniqueID).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -163,32 +195,61 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     }
                 });
     }
-
-    // Saves user's username and email to Firebase
-    @Override
-    public void onClick(View v) {
+    // Stores user's username, email, and phone number onto Firebase
+    public void storeProfileToFirebase() {
         Map<String, Object> user = new HashMap<>();
-        final String username = editTextUsername.getText().toString();
-        final String email = editTextEmail.getText().toString();
 
-        if (username.length() > 0 && email.length() > 0) {
-            user.put(KEY_USERNAME, username);
-            user.put(KEY_EMAIL, email);
+        currentUser.setUsername(editTextUsername.getText().toString());
+        currentUser.setEmail(editTextEmail.getText().toString());
+        currentUser.setNumber(editTextNumber.getText().toString());
+
+        if (currentUser.getUsername().length() > 0 && currentUser.getEmail().length() > 0 && currentUser.getNumber().length() > 0) {
+            user.put(KEY_USERNAME, currentUser.getUsername());
+            user.put(KEY_EMAIL, currentUser.getEmail());
+            user.put(KEY_PHONE_NUM, currentUser.getNumber());
             collectionReference
                     .document(storeUniqueID(getContext()))
                     .set(user)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "Username and email saved");
+                            Log.d(TAG, "Username, email, and phone number saved");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "Username and email not saved" + e.toString());
+                            Log.d(TAG, "Username, email, and phone number not saved" + e.toString());
                         }
                     });
+        }
+    }
+
+    // Not completed yet, does not display user's input after edit (error)
+    // Displays user's username, email, and phone number onto the text box after editing,
+    // by retrieving data from Firebase that the user has saved to Firebase
+//    collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//        @Override
+//        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+//            experimentList.clear();
+//            for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+//
+//                String description = doc.getId();
+//                String region = (String) doc.get("experimentRegion");
+//                String count = (String) doc.get("experimentCount");
+//
+//                experimentList.add(new Experiment(description, region, count));
+//            }
+//            customAdapter.notifyDataSetChanged();
+//        }
+//    });
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_save_profile:
+                storeProfileToFirebase();
+                break;
         }
     }
 }
