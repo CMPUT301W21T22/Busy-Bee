@@ -1,19 +1,31 @@
 package com.example.spearmint;
 
+/**
+ * Displays each experiment in a particular format to display the experiment owner, experiment title and experiment status.
+ * A keyword search function is implemented.
+ * Allows owner to browse questions and replies about an experiment when clicked.
+ * https://stackoverflow.com/users/1703376/marurban, "RecyclerView onClick", 2015-07-28, Creative Commons Attribution-ShareAlike, https://stackoverflow.com/questions/24471109/recyclerview-onclick
+ * 3.0license (CC BY-SA 3.0)
+ * @author Daniel, Sandy, JiHo, Andrew
+ */
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.SearchView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -23,6 +35,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,7 +61,6 @@ public class SearchFragment extends Fragment {
     public SearchFragment() {
         // Required empty public constructor
     }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -74,9 +87,6 @@ public class SearchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setHasOptionsMenu(true);
-
-
-
     }
 
     @Override
@@ -92,7 +102,9 @@ public class SearchFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Experiments");
-
+        /**
+         * Updates the list stored locally in the app with Firebase data
+         */
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -104,22 +116,51 @@ public class SearchFragment extends Fragment {
                     experimentArrayList.add(new ExperimentItem(description));
                 };
 
-        aRecyclerView = rootView.findViewById(R.id.recycleView);
-        aLayoutManager = new LinearLayoutManager(getActivity());
-        aRecyclerView.setHasFixedSize(true);
-        aRecyclerView.setLayoutManager(aLayoutManager);
-        aAdapter = new RecycleAdapter(experimentArrayList);
-        aRecyclerView.setAdapter(aAdapter);
+                aRecyclerView = rootView.findViewById(R.id.recycleView);
+                aLayoutManager = new LinearLayoutManager(getActivity());
+                aRecyclerView.setHasFixedSize(true);
+                aRecyclerView.setLayoutManager(aLayoutManager);
+                aAdapter = new RecycleAdapter(experimentArrayList);
+                aRecyclerView.setAdapter(aAdapter);
 
 
             }
         });
+        /** https://stackoverflow.com/users/1703376/marurban, "RecyclerView onClick", 2015-07-28, Creative Commons Attribution-ShareAlike, https://stackoverflow.com/questions/24471109/recyclerview-onclick
+         * 3.0license (CC BY-SA 3.0)
+         * When clicked, redirects user to "ExperimentDetails.java"
+         * To browse questions and replies
+         */
+        aAdapter = new RecycleAdapter(experimentArrayList);
+        aAdapter.setOnItemClickListener(new RecycleAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Bundle experimentInfo = new Bundle();
+                ExperimentDetails detailsFragment = new ExperimentDetails();
+                String experimentName = experimentArrayList.get(position).getaTitle();
 
+                experimentInfo.putString("dataKey", experimentName);
+                detailsFragment.setArguments(experimentInfo);
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.navHostfragment, detailsFragment);
+                transaction.commit();
+            }
+            // Will implement at a later date
+            @Override
+            public void onItemLongClick(int position, View v) {
+                Log.d(TAG, "onItemLongClick pos = " + position);
+            }
+        });
 
         // Inflate the layout for this fragment
         return rootView;
     }
-
+    /**
+     * Allows user to use search bar to find experiments based on keywords
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
