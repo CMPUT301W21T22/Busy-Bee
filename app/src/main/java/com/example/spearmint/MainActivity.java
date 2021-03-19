@@ -19,6 +19,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.UUID;
 
+/**
+ * MainActivity initializes a bottom navigation bar to navigate between different fragments of the
+ * app. It contains an experiment fragment, search fragment, notifications fragment, and profile
+ * fragment.
+ * @author Gavriel
+ * @see ProfileFragment
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -26,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /**
+         * Briana Nzivu, "Bottom Navigation Bar in Android Applications", October 28, 2020, Creative Commons CC ,
+         * https://www.section.io/engineering-education/bottom-navigation-bar-in-android/
+         *
+         * Stevdza-San, "BottomNavigationView with Navigation Component - Android Studio Tutorial",
+         * 2020-4-17, Creative Commons CC, https://www.youtube.com/watch?v=Chso6xrJ6aU
+         */
         // Initialize Bottom Navigation View
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -33,10 +48,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.navHostfragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-
+        // New profile that will be stored onto Firebase
         ProfileFragment userInfo = new ProfileFragment();
         userInfo.storeUniqueID(this);
-//        userInfo.setTextFromFirebase();
     }
 
 }

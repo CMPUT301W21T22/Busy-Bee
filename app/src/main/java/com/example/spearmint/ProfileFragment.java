@@ -48,10 +48,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 /**
  * ProfileFragment handles user's activities such as editing username, email, and phone number.
- *
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * ProFileFragment also generates a unique ID for the user.
+ * @author Gavriel and Michael
+ * @see User
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -60,8 +59,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final String KEY_EMAIL = "Email";
     private static final String KEY_PHONE_NUM = "PhoneNum";
 
-    public static final String SHARED_PREFS = "SharedPrefs";
-    public static final String TEXT = "Text";
+    private static final String SHARED_PREFS = "SharedPrefs";
+    private static final String TEXT = "Text";
     private EditText editTextUsername;
     private EditText editTextEmail;
     private EditText editTextNumber;
@@ -71,12 +70,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("User");
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // The fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -85,9 +82,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
+     * Expected behavior: ProfileFragment creates the profile "page" for the user
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment ProfileFragment.
@@ -110,7 +105,26 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    /**
+     * Expected behavior: onCreateView sets the text of the user's input onto their profile to view
+     * their profile. This method will store a unique ID into sharedPreferences and the user is able
+     * to set their username, email, and phone number on their profile which will eventually be saved
+     * onto Firebase.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view of this fragment
+     *
+     * advantej, "findViewById in Fragment", 2011-06-27, Creative Commons Attribution-ShareAlike
+     * 3.0license (CC BY-SA 3.0), https://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
+     *
+     * Oum Saokosal, "How to Use findViewById in Fragment in Android - Navigation Drawer",
+     * 2017-3-29, Creative Commons CC, https://www.youtube.com/watch?v=fF8f3BDDudo
+     *
+     * Jignesh mayani, "How to use documentReference in fragment on android studio", 2020-02-24,
+     * Creative Common Attribution-ShareAlike 3.0license (CC BY-SA 3.0),
+     * https://stackoverflow.com/questions/60372975/how-to-use-documentreference-in-fragment-on-android-studio
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -132,13 +146,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 editTextNumber.setText(doc.getString("PhoneNum"));
             }
         });
-
-
-        editTextUsername.setText(currentUser.getUsername());
-        editTextEmail.setText(currentUser.getEmail());
-        editTextNumber.setText(currentUser.getNumber());
-//        setTexFromFirebase();
-
         return view;
     }
 
@@ -148,21 +155,43 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    // Creates unique ID
+    /**
+     * Expected behavior: createUniqueID creates a random unique ID that will be later assigned to
+     * the user
+     * This method does not take any arguments.
+     * @return uniqueID
+     *
+     * Fahim, "how to create random UUID in Android when button click event happens?", 2015-02-27,
+     * Creative Common Attribution-ShareAlike 3.0license (CC BY-SA 3.0),
+     * https://stackoverflow.com/questions/28770408/how-to-create-random-uuid-in-android-when-button-click-event-happens
+     */
     public String createUniqueID() {
         String uniqueID = UUID.randomUUID().toString();
         return uniqueID;
     }
 
-    //  Checks if unique ID exists in SharedPreferences, if not create a unique ID
+    /**
+     * Expected behavior: storeUniqueID checks whether a uniqueID exists in sharedPreferences or not.
+     * SharedPreferences will store the string uniqueID. If a uniqueID exists in sharedPreferences,
+     * then continue. If a uniqueID does not exist in sharedPreferences, then create a uniqueID for
+     * the user and store that ID onto Firebase as a document and set the currentUser's UUID to that
+     * ID.
+     * This method takes a Context as an argument, it cannot take null as an argument.
+     * @param activity
+     * @return uniqueID
+     *
+     * Coding in Flow, "How to Save Variables in SharedPreferences - Android Studio Tutorial",
+     * 2017-10-7, Creative Commons CC, https://www.youtube.com/watch?v=fJEFZ6EOM9o
+     *
+     * Jug6ernaut, "Android SharedPreferences in Fragment", 2012-07-31, Creative Commons
+     * Attribution-ShareAlike 3.0license (CC BY-SA 3.0),
+     * https://stackoverflow.com/questions/11741270/android-sharedpreferences-in-fragment
+     */
     public String storeUniqueID(Context activity) {
         SharedPreferences sharedPreferences = activity.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
-        // If unique ID exists and if there is no UUID to a user, do nothing
-        if (uniqueID != null && currentUser.getUUID() == null) {
+        if (uniqueID != null) {
             //
-        // If unique ID does not exist in sharedPreferences, create one, store it in sharedPreferences,
-        // and attach the ID to currentUser
         } else {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             String ID = createUniqueID();
@@ -174,7 +203,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         return uniqueID;
     }
 
-    // Store currentUser's UUID to Firebase as a document
+    /**
+     * Expected behavior: uniqueIDToFirebase takes in a string that will be stored as a document in
+     * the collection of "User" onto Firebase.
+     * This method only takes in a string as a valid argument and nothing else.
+     * @param uniqueID
+     * @return void
+     *
+     * Aaron Liu, "Lab 5", 2021-02-24, Public Domain,
+     * https://drive.google.com/file/d/1e8W1sG8RCOcEOsV01nFJp3vaMqxQf7og/view?usp=sharing
+     */
     public void uniqueIDToFirebase(String uniqueID) {
         Map<String, Object> user = new HashMap<>();
         user.put(KEY_USERNAME, null);
@@ -195,7 +233,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     }
                 });
     }
-    // Stores user's username, email, and phone number onto Firebase
+
+    /**
+     * Expected behavior: this method stores the user's username, email, and phone number onto
+     * Firebase. Users can only save their information onto Firebase once they have their username,
+     * email, and phone number filled into the textboxes.
+     * This method takes no arguments.
+     * @return void
+     *
+     * Aaron Liu, "Lab 5", 2021-02-24, Public Domain,
+     * https://drive.google.com/file/d/1e8W1sG8RCOcEOsV01nFJp3vaMqxQf7og/view?usp=sharing
+     */
     public void storeProfileToFirebase() {
         Map<String, Object> user = new HashMap<>();
 
@@ -225,25 +273,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // Not completed yet, does not display user's input after edit (error)
-    // Displays user's username, email, and phone number onto the text box after editing,
-    // by retrieving data from Firebase that the user has saved to Firebase
-//    collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//        @Override
-//        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-//            experimentList.clear();
-//            for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-//
-//                String description = doc.getId();
-//                String region = (String) doc.get("experimentRegion");
-//                String count = (String) doc.get("experimentCount");
-//
-//                experimentList.add(new Experiment(description, region, count));
-//            }
-//            customAdapter.notifyDataSetChanged();
-//        }
-//    });
-
+    /**
+     * Expected behavior: this method keeps track of what a button's ID will behave when selected.
+     * @param v
+     * @return void
+     *
+     * Francesc, "multiple buttons in fragment, how to redirect to a different layout", 2016-03-04,
+     * Creative Common Attribution-ShareAlike 3.0license (CC BY-SA 3.0),
+     * https://stackoverflow.com/questions/35788127/multiple-buttons-in-fragment-how-to-redirect-to-a-different-layout
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -6,8 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class creates a unique user with their own attributes
+ * This class models a user with their own attributes.
+ * A user has a unique ID, username, email, phone number, their own experiments and
+ * their subscribed experiments
+ * @author Gavriel and Michael
  *
+ * Ruiqin Pi, "Lab 3", 2021-02-03, Public Domain,
+ * https://drive.google.com/file/d/1ePP0TvI6-ZWnq6rBCvGgaRn6UPNI-KgS/view?usp=sharing
  * */
 
 public class User implements Serializable {
