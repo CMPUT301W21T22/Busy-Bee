@@ -1,8 +1,5 @@
 package com.example.spearmint;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
 /**
  * This class models a user with their own attributes.
  * A user has a unique ID, username, email, phone number, their own experiments and
@@ -12,6 +9,9 @@ import java.util.ArrayList;
  * Ruiqin Pi, "Lab 3", 2021-02-03, Public Domain,
  * https://drive.google.com/file/d/1ePP0TvI6-ZWnq6rBCvGgaRn6UPNI-KgS/view?usp=sharing
  * */
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
     private String UUID;

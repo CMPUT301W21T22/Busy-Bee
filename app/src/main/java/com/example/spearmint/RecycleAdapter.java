@@ -1,5 +1,9 @@
 package com.example.spearmint;
 
+/**
+ * Custom adapter that processes and stores ExperimentItem objects in a custom list
+ * @author Andrew, Jiho, Daniel
+ */
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +36,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-            name = (TextView) itemView.findViewById(R.id.recycleView);
+            name = (TextView) itemView.findViewById(R.id.recycle_view);
             aTitle = itemView.findViewById(R.id.experiment_title);
         }
 

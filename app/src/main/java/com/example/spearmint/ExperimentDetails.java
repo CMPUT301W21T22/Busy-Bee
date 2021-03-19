@@ -75,6 +75,9 @@ public class ExperimentDetails extends Fragment {
 
         listView.setAdapter(customAdapter);
 
+        /**
+         * Updates the list stored locally in the app with Firebase data to display the data
+         */
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -90,6 +93,10 @@ public class ExperimentDetails extends Fragment {
             }
         });
 
+        /**
+         * Directs the user to "ResponseFragment.java" to enter a response to a post/question
+         * Sends the appropriate data to the response fragment to track what a user is responding to
+         */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,12 +116,16 @@ public class ExperimentDetails extends Fragment {
                 responseFragment.setArguments(parentQuestion);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, responseFragment);
+                transaction.replace(R.id.nav_host_fragment, responseFragment);
                 transaction.commit();
 
             }
         });
 
+        /**
+         * Takes the data entered by a user and makes it into a "Post" object
+         * the post object is uploaded to firebase and displays post details to users
+         */
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,10 +157,9 @@ public class ExperimentDetails extends Fragment {
             }
         });
 
-
-
-
-        // Go back to the experiment fragment
+        /**
+         * Redirects user to the experiment fragment "ExperimentFragment.java"
+         */
         goBack = view.findViewById(R.id.go_back);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +167,7 @@ public class ExperimentDetails extends Fragment {
 
                 ExperimentFragment experimentFragment = new ExperimentFragment();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, experimentFragment);
+                transaction.replace(R.id.nav_host_fragment, experimentFragment);
                 transaction.commit();
             }
         });

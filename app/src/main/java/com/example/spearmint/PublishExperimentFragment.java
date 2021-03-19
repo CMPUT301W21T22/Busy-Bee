@@ -53,7 +53,7 @@ public class PublishExperimentFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_publish, container, false);
 
-        publishExperiment = view.findViewById(R.id.publishButton);
+        publishExperiment = view.findViewById(R.id.publish_button);
         cancelPublish = view.findViewById(R.id.cancel);
         experimentDescription = view.findViewById(R.id.description);
         experimentRegion = view.findViewById(R.id.region);
@@ -63,6 +63,12 @@ public class PublishExperimentFragment extends Fragment {
 
         final CollectionReference collectionReference = db.collection("Experiments");
 
+        /**
+         * Takes the data entered by a user and makes it into a "Experiment" object
+         * the experiment object is uploaded to firebase and displays experiment details to users
+         * directs user back to the experiment fragment "ExperimentFragment.java"
+         * does not upload data if any of the edit text fields are empty
+         */
         publishExperiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,18 +105,21 @@ public class PublishExperimentFragment extends Fragment {
 
                 ExperimentFragment experimentFragment = new ExperimentFragment();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, experimentFragment);
+                transaction.replace(R.id.nav_host_fragment, experimentFragment);
                 transaction.commit();
 
             }
         });
 
+        /**
+         * Redirects the user back to experiment fragment "ExperimentFragment"
+         */
         cancelPublish.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ExperimentFragment experimentFragment = new ExperimentFragment();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, experimentFragment);
+                transaction.replace(R.id.nav_host_fragment, experimentFragment);
                 transaction.commit();
             }
         }));

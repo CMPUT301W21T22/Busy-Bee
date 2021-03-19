@@ -11,7 +11,6 @@ package com.example.spearmint;
  * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
  */
 
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,6 +70,9 @@ public class QuestionsAnswers extends Fragment {
 
         listView.setAdapter(customAdapter);
 
+        /**
+         * Updates the list stored locally in the app with Firebase data to display the data
+         */
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -86,6 +88,10 @@ public class QuestionsAnswers extends Fragment {
             }
         });
 
+        /**
+         * Directs user to the questions/replies/posts fragment "ExperimentDetails.java"
+         * Sends appropriate data to the fragment to display needed details
+         */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -99,19 +105,21 @@ public class QuestionsAnswers extends Fragment {
                 questionInfo.putString("dataKey", questionExperiment);
                 parentQuestion.putString("questionKey", questionTitle);
 
-                Log.d(TAG, questionTitle);
+                // Log.d(TAG, questionTitle);
 
                 responseFragment.setArguments(questionInfo);
                 responseFragment.setArguments(parentQuestion);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, responseFragment);
+                transaction.replace(R.id.nav_host_fragment, responseFragment);
                 transaction.commit();
 
             }
         });
 
-        // Go back to the experiment fragment
+        /**
+         * Redirects user to the search fragment "SearchFragment" through "back" button
+         */
         goBack = view.findViewById(R.id.back_button);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +127,7 @@ public class QuestionsAnswers extends Fragment {
                 SearchFragment searchFragment = new SearchFragment();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
 
-                transaction.replace(R.id.navHostfragment, searchFragment);
+                transaction.replace(R.id.nav_host_fragment, searchFragment);
                 transaction.commit();
             }
         });
