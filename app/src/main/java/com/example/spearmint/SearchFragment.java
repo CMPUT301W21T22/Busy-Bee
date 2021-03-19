@@ -3,7 +3,8 @@ package com.example.spearmint;
 /**
  * Displays each experiment in a particular format to display the experiment owner, experiment title and experiment status.
  * A keyword search function is implemented.
- * Allows owner to browse questions and replies about an experiment when clicked.
+ * Allows owner to browse questions/replies about an experiment when clicked.
+ * Magnifying glass button must be pressed twice to enter search text.
  * https://stackoverflow.com/users/1703376/marurban, "RecyclerView onClick", 2015-07-28, Creative Commons Attribution-ShareAlike, https://stackoverflow.com/questions/24471109/recyclerview-onclick
  * 3.0license (CC BY-SA 3.0)
  * @author Daniel, Sandy, JiHo, Andrew
