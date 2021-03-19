@@ -30,10 +30,11 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
-    //RecycleView(Added)
-    private RecyclerView aRecyclerView;
-    private RecycleAdapter aAdapter;
-    private RecyclerView.LayoutManager aLayoutManager;
+
+    // RecycleView(Added)
+    RecyclerView aRecyclerView;
+    RecycleAdapter aAdapter;
+    RecyclerView.LayoutManager aLayoutManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,11 +83,14 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         //ArrayList(Added)
         ArrayList<ExperimentItem> experimentArrayList = new ArrayList<>();
         experimentArrayList.add(new ExperimentItem("Experiment D"));
+
+
 
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
@@ -104,13 +108,15 @@ public class SearchFragment extends Fragment {
                     experimentArrayList.add(new ExperimentItem(description));
                 };
 
-        aRecyclerView = rootView.findViewById(R.id.recycleView);
+
+        aRecyclerView = rootView.findViewById(R.id.recycle_view);
         aLayoutManager = new LinearLayoutManager(getActivity());
         aRecyclerView.setHasFixedSize(true);
         aRecyclerView.setLayoutManager(aLayoutManager);
         aAdapter = new RecycleAdapter(experimentArrayList);
         aRecyclerView.setAdapter(aAdapter);
 
+//        aRecyclerView.
 
             }
         });
