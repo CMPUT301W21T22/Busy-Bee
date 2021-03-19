@@ -1,5 +1,11 @@
 package com.example.spearmint;
 
+/**
+ * Custom adapter that processes and stores Post objects in a list
+ * connects to post_content.xml file for the visual formatting of objects stored in the adapter
+ * @author Daniel
+ */
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

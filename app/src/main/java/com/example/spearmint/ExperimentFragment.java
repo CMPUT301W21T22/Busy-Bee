@@ -1,5 +1,15 @@
 package com.example.spearmint;
 
+/**
+ * Host fragment with clickable elements for fragments dealing with experiments
+ * displays all experiments stored in the firebase database
+ * displays the experiment title, region, and number of trials
+ * @author Daniel and Andrew
+ *
+ * firebase implementation is from ...
+ * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
+ */
+
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;

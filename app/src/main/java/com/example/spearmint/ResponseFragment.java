@@ -1,5 +1,15 @@
 package com.example.spearmint;
 
+/**
+ * Fragment opened after a post in "ExperimentDetails" is clicked that allows users to respond to a post
+ * Takes in user entered text and uploads to firebase after "post" is clicked
+ * Has two clickable buttons called "post" or "cancel", once either is pressed, the user is redirected to the "ExperimentDetails.java" fragment
+ * @author Daniel
+ *
+ * firebase implementation is from ...
+ * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
+ */
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +47,7 @@ public class ResponseFragment extends Fragment {
         View view = inflater.inflate(R.layout.responses, container, false);
 
         String questionData = getArguments().getString("dataKey");
+        String questionTitle = getArguments().getString("questionKey");
 
         confirmResponse = view.findViewById(R.id.confirm_response);
         cancelResponse = view.findViewById(R.id.cancel_response);
@@ -64,7 +75,7 @@ public class ResponseFragment extends Fragment {
             public void onClick(View v) {
 
                 final String responseContent = responseText.getText().toString();
-                final String responseQuestion = questionData;
+                final String responseQuestion = questionTitle;
 
                 Post content = new Post(responseQuestion, responseContent);
 
