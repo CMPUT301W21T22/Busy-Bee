@@ -3,4 +3,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_experiment">Add Experiment</string>
+
+    <string-array name="names">
+        <item> Yes   </item>
+        <item> No   </item>
+    </string-array>
+
 </resources>
