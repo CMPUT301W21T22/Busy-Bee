@@ -109,7 +109,7 @@ public class QuestionsAnswers extends Fragment {
         });
 
         /**
-         * https://www.youtube.com/watch?v=GmXH8wCPEnQ
+         * With Sam. (2019, Jun 21). Drop down menu / Spinner - Android Studio Latest Version [Video]. YouTube. https://www.youtube.com/watch?v=GmXH8wCPEnQ
          */
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

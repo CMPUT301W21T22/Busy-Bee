@@ -26,19 +26,15 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:ems="10"
             android:text="Select if Geo-location is required or not:" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="100dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/subscribe"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subscribe" />
+            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
 
