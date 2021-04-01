@@ -54,9 +54,6 @@ public class ExperimentDetails extends Fragment {
         EditText question;
         FirebaseFirestore db;
 
-        Spinner spinner;
-        ArrayAdapter<CharSequence> adapter;
-
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Posts");
@@ -79,11 +76,6 @@ public class ExperimentDetails extends Fragment {
         PostAdapter customAdapter = new PostAdapter(getActivity(), R.layout.content, postList);
 
         listView.setAdapter(customAdapter);
-
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.names, R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -168,23 +160,6 @@ public class ExperimentDetails extends Fragment {
                 transaction.commit();
             }
         });
-
-        /**
-         * https://www.youtube.com/watch?v=GmXH8wCPEnQ
-         */
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast.makeText(getActivity(), parent.getItemAtPosition(position) + " Selected", Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         return view;
     }
 
