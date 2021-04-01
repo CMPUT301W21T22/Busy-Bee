@@ -56,6 +56,9 @@ public class QuestionsAnswers extends Fragment {
         Spinner spinner;
         ArrayAdapter<CharSequence> adapter;
 
+        Spinner spinner2;
+        ArrayAdapter<CharSequence> adapter2;
+
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Questions and Answers");
@@ -78,6 +81,10 @@ public class QuestionsAnswers extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        spinner2 = (Spinner) view.findViewById(R.id.spinner2);
+        adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.names, R.layout.support_simple_spinner_dropdown_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(adapter2);
 
         /**
          * Updates the list stored locally in the app with Firebase data to display the data
@@ -147,6 +154,18 @@ public class QuestionsAnswers extends Fragment {
          */
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Toast.makeText(getActivity(), parent.getItemAtPosition(position) + " Selected", Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
