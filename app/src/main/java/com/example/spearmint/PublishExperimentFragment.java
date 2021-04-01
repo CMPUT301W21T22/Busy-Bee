@@ -106,7 +106,8 @@ public class PublishExperimentFragment extends Fragment {
 
                 Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo);
 
-                if (exDescription.length()>0 && exRegion.length()>0 && exCount.length()>0) {
+                // Only uploads the experiment if all fields are filled
+                if (exDescription.length()>0 && exRegion.length()>0 && exCount.length()>0 && !userInfo.isEmpty()) {
 
                     collectionReference
                             .document(exDescription)
