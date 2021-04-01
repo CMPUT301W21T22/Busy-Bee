@@ -78,6 +78,7 @@ public class PublishExperimentFragment extends Fragment {
         final CollectionReference collectionReferenceUser = db.collection("User");
 
         // Accesses the specific user document and gets the username saved to the unique ID
+        // TODO: FIX THIS SO IT IS NOT HARD CODED
         String userID = "afe50c98-3c68-40a4-95c9-b94b6d3b6a70"; //getArguments().getString("dataKey");
         userInfo.add(userID);
         DocumentReference user = collectionReferenceUser.document(userID);
