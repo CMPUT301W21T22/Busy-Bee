@@ -1,5 +1,7 @@
 package com.example.spearmint;
 
+import java.util.List;
+
 /**
  * Base class defining the Experiment object with fields of type String
  * Has getter methods so other classes can retrieve the information of an experiment
@@ -13,11 +15,13 @@ public class Experiment {
     private String experimentDescription;
     private String experimentRegion;
     private String experimentCount;
+    private List<String> experimentOwner;
 
-    Experiment(String experimentDescription, String experimentRegion, String experimentCount) {
+    Experiment(String experimentDescription, String experimentRegion, String experimentCount, List<String> experimentOwner) {
         this.experimentDescription = experimentDescription;
         this.experimentRegion = experimentRegion;
         this.experimentCount = experimentCount;
+        this.experimentOwner = experimentOwner;
     }
 
     public String getExperimentDescription() {
@@ -31,4 +35,6 @@ public class Experiment {
     public String getExperimentCount() {
         return this.experimentCount;
     }
+
+    public String getExperimentOwner() { return this.experimentOwner.get(1); }
 }
