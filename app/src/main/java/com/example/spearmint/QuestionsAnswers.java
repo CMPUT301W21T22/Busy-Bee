@@ -17,10 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +53,9 @@ public class QuestionsAnswers extends Fragment {
         TextView displayData;
         FirebaseFirestore db;
 
+        Spinner spinner;
+        ArrayAdapter<CharSequence> adapter;
+
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Questions and Answers");
@@ -62,13 +68,16 @@ public class QuestionsAnswers extends Fragment {
         displayData = view.findViewById(R.id.experiment_name);
         displayData.setText(experimentData);
 
-        ListView listView = (ListView) view.findViewById(R.id.questions_answers);
 
         ArrayList<Question> questionList = new ArrayList<>();
 
         QuestionAdapter customAdapter = new QuestionAdapter(getActivity(), R.layout.question_content, questionList);
 
-        listView.setAdapter(customAdapter);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.names, R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
 
         /**
          * Updates the list stored locally in the app with Firebase data to display the data
@@ -88,6 +97,7 @@ public class QuestionsAnswers extends Fragment {
             }
         });
 
+        // Go back to the experiment fragment
         /**
          * Directs user to the questions/replies/posts fragment "ExperimentDetails.java"
          * Sends appropriate data to the fragment to display needed details
@@ -129,6 +139,22 @@ public class QuestionsAnswers extends Fragment {
 
                 transaction.replace(R.id.nav_host_fragment, searchFragment);
                 transaction.commit();
+            }
+        });
+
+        /**
+         * With Sam. (2019, Jun 21). Drop down menu / Spinner - Android Studio Latest Version [Video]. YouTube. https://www.youtube.com/watch?v=GmXH8wCPEnQ
+         */
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Toast.makeText(getActivity(), parent.getItemAtPosition(position) + " Selected", Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 

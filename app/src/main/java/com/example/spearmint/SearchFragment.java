@@ -141,7 +141,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(int position, View v) {
                 Bundle experimentInfo = new Bundle();
-                ExperimentDetails detailsFragment = new ExperimentDetails();
+                QuestionsAnswers detailsFragment = new QuestionsAnswers();
                 String experimentName = experimentArrayList.get(position).getaTitle();
 
                 experimentInfo.putString("dataKey", experimentName);

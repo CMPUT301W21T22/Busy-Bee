@@ -20,7 +20,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -157,9 +159,6 @@ public class ExperimentDetails extends Fragment {
             }
         });
 
-        /**
-         * Redirects user to the experiment fragment "ExperimentFragment.java"
-         */
         goBack = view.findViewById(R.id.go_back);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +170,6 @@ public class ExperimentDetails extends Fragment {
                 transaction.commit();
             }
         });
-
         return view;
     }
 
