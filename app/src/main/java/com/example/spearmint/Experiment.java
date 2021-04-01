@@ -37,5 +37,6 @@ public class Experiment {
         return this.experimentCount;
     }
 
-    public String getExperimentOwner() { return this.experimentOwner.get(1); }
+    public ArrayList<String> getExperimentOwner() {
+        return this.experimentOwner; }
 }

@@ -78,7 +78,7 @@ public class PublishExperimentFragment extends Fragment {
         final CollectionReference collectionReferenceUser = db.collection("User");
 
         // Accesses the specific user document and gets the username saved to the unique ID
-        String userID = getArguments().getString("dataKey");
+        String userID = "afe50c98-3c68-40a4-95c9-b94b6d3b6a70"; //getArguments().getString("dataKey");
         userInfo.add(userID);
         DocumentReference user = collectionReferenceUser.document(userID);
         user.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -130,12 +130,13 @@ public class PublishExperimentFragment extends Fragment {
                     experimentRegion.setText("");
                     experimentCount.setText("");
                 }
-                Bundle info = new Bundle();
-                ExperimentFragment experimentFragment = new ExperimentFragment();
 
+                ExperimentFragment experimentFragment = new ExperimentFragment();
+                /*
+                Bundle info = new Bundle();
                 info.putStringArrayList("dataKey", userInfo);
                 experimentFragment.setArguments(info);
-
+                */
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, experimentFragment);
                 transaction.commit();

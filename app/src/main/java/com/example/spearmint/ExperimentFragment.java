@@ -33,6 +33,8 @@ import android.widget.ListView;
 import android.widget.ListView;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -86,9 +88,10 @@ public class ExperimentFragment extends Fragment {
                     String description = doc.getId();
                     String region = (String) doc.get("experimentRegion");
                     String count = (String) doc.get("experimentCount");
+                    ArrayList<String> experimentOwner = (ArrayList<String>) doc.get("experimentOwner");
 
                     // Change this code to accept the user id from fire base
-                    experimentList.add(new Experiment(description, region, count));
+                    experimentList.add(new Experiment(description, region, count, experimentOwner));
                 }
                 customAdapter.notifyDataSetChanged();
             }

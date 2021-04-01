@@ -203,12 +203,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             uniqueIDToFirebase(ID);
             currentUser.setUUID(ID);
         }
-        // Send the generated user id to PublishExperimentFragment
-        Bundle userID = new Bundle();
-        PublishExperimentFragment publishFragment = new PublishExperimentFragment();
-        userID.putString("dataKey", uniqueID);
-        publishFragment.setArguments(userID);
-
         return uniqueID;
     }
 
