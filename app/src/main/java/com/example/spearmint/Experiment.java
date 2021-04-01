@@ -1,5 +1,6 @@
 package com.example.spearmint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,9 +16,9 @@ public class Experiment {
     private String experimentDescription;
     private String experimentRegion;
     private String experimentCount;
-    private List<String> experimentOwner;
+    private ArrayList<String> experimentOwner;
 
-    Experiment(String experimentDescription, String experimentRegion, String experimentCount, List<String> experimentOwner) {
+    Experiment(String experimentDescription, String experimentRegion, String experimentCount, ArrayList<String> experimentOwner) {
         this.experimentDescription = experimentDescription;
         this.experimentRegion = experimentRegion;
         this.experimentCount = experimentCount;

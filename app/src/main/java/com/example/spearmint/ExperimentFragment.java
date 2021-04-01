@@ -87,6 +87,7 @@ public class ExperimentFragment extends Fragment {
                     String region = (String) doc.get("experimentRegion");
                     String count = (String) doc.get("experimentCount");
 
+                    // Change this code to accept the user id from fire base
                     experimentList.add(new Experiment(description, region, count));
                 }
                 customAdapter.notifyDataSetChanged();
