@@ -104,36 +104,6 @@ public class QuestionsAnswers extends Fragment {
             }
         });
 
-        // Go back to the experiment fragment
-        /**
-         * Directs user to the questions/replies/posts fragment "ExperimentDetails.java"
-         * Sends appropriate data to the fragment to display needed details
-         */
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Bundle questionInfo = new Bundle();
-                Bundle parentQuestion = new Bundle();
-                ResponseFragment responseFragment = new ResponseFragment();
-                String questionExperiment = experimentData;
-                String questionTitle = questionList.get(position).getQuestion();
-
-                questionInfo.putString("dataKey", questionExperiment);
-                parentQuestion.putString("questionKey", questionTitle);
-
-                // Log.d(TAG, questionTitle);
-
-                responseFragment.setArguments(questionInfo);
-                responseFragment.setArguments(parentQuestion);
-
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, responseFragment);
-                transaction.commit();
-
-            }
-        });
-
         /**
          * Redirects user to the search fragment "SearchFragment" through "back" button
          */
