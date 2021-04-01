@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
          * 2020-4-17, Creative Commons CC, https://www.youtube.com/watch?v=Chso6xrJ6aU
          */
         // Initialize Bottom Navigation View
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
         // Initialize NavController
-        NavController navController = Navigation.findNavController(this, R.id.navHostfragment);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         // New profile that will be stored onto Firebase

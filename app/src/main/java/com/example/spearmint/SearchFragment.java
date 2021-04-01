@@ -3,7 +3,8 @@ package com.example.spearmint;
 /**
  * Displays each experiment in a particular format to display the experiment owner, experiment title and experiment status.
  * A keyword search function is implemented.
- * Allows owner to browse questions and replies about an experiment when clicked.
+ * Allows owner to browse questions/replies about an experiment when clicked.
+ * Magnifying glass button must be pressed twice to enter search text.
  * https://stackoverflow.com/users/1703376/marurban, "RecyclerView onClick", 2015-07-28, Creative Commons Attribution-ShareAlike, https://stackoverflow.com/questions/24471109/recyclerview-onclick
  * 3.0license (CC BY-SA 3.0)
  * @author Daniel, Sandy, JiHo, Andrew
@@ -44,10 +45,11 @@ import static android.content.ContentValues.TAG;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
-    //RecycleView(Added)
-    private RecyclerView aRecyclerView;
-    private RecycleAdapter aAdapter;
-    private RecyclerView.LayoutManager aLayoutManager;
+
+    // RecycleView(Added)
+    RecyclerView aRecyclerView;
+    RecycleAdapter aAdapter;
+    RecyclerView.LayoutManager aLayoutManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,18 +94,22 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         //ArrayList(Added)
         ArrayList<ExperimentItem> experimentArrayList = new ArrayList<>();
         experimentArrayList.add(new ExperimentItem("Experiment D"));
 
+
+
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Experiments");
+
         /**
-         * Updates the list stored locally in the app with Firebase data
+         * Updates the list stored locally in the app with Firebase data to display the data
          */
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -116,13 +122,12 @@ public class SearchFragment extends Fragment {
                     experimentArrayList.add(new ExperimentItem(description));
                 };
 
-                aRecyclerView = rootView.findViewById(R.id.recycleView);
-                aLayoutManager = new LinearLayoutManager(getActivity());
-                aRecyclerView.setHasFixedSize(true);
-                aRecyclerView.setLayoutManager(aLayoutManager);
-                aAdapter = new RecycleAdapter(experimentArrayList);
-                aRecyclerView.setAdapter(aAdapter);
-
+        aRecyclerView = rootView.findViewById(R.id.recycle_view);
+        aLayoutManager = new LinearLayoutManager(getActivity());
+        aRecyclerView.setHasFixedSize(true);
+        aRecyclerView.setLayoutManager(aLayoutManager);
+        aAdapter = new RecycleAdapter(experimentArrayList);
+        aRecyclerView.setAdapter(aAdapter);
 
             }
         });
@@ -143,7 +148,7 @@ public class SearchFragment extends Fragment {
                 detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, detailsFragment);
                 transaction.commit();
             }
             // Will implement at a later date

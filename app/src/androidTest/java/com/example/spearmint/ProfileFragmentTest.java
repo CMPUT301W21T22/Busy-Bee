@@ -30,7 +30,7 @@ public class ProfileFragmentTest {
     @Test
     public void checkCreateProfile(){
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.profileFragment));
+        solo.clickOnView(solo.getView(R.id.profile_fragment));
 
         solo.enterText((EditText) solo.getView(R.id.edit_text_username), "gavriellowie");
         solo.enterText((EditText) solo.getView(R.id.edit_text_email), "gavriellowie@ualberta.ca");

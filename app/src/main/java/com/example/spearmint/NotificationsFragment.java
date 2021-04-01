@@ -1,5 +1,12 @@
 package com.example.spearmint;
 
+/**
+ * Host fragment for fragments dealing with notifications
+ * currently just a blank fragment with no data or interactions
+ * will be implemented at a later date
+ * @author Gavriel, Daniel
+ */
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;

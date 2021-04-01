@@ -4,10 +4,11 @@ package com.example.spearmint;
  * Host fragment with clickable elements for fragments dealing with experiments
  * displays all experiments stored in the firebase database
  * displays the experiment title, region, and number of trials
+ * @author Daniel and Andrew
+ *
  * Samantha Squires. (2016, March 1). 1.5: Display a ListView in a Fragment [Video]. YouTube. https://www.youtube.com/watch?v=edZwD54xfbk
  * Abram Hindle, "ListyCity - Instructions-converted-converted", Public Domain, https://eclass.srv.ualberta.ca/pluginfile.php/6713940/mod_resource/content/1/ListyCity%20-%20Instructions-converted-converted%20%282%29.pdf
  * https://stackoverflow.com/users/788677/rakhita. (2011, Nov 17). Custom Adapter for List View. https://stackoverflow.com/. https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view/8166802#8166802
- * @author Daniel and Andrew
  *
  * firebase implementation is from ...
  * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
@@ -73,6 +74,9 @@ public class ExperimentFragment extends Fragment {
 
         listView.setAdapter(customAdapter);
 
+        /**
+         * Updates the list stored locally in the app with Firebase data to display the data
+         */
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -89,7 +93,9 @@ public class ExperimentFragment extends Fragment {
             }
         });
 
-        // Deleting an experiment from Firebase
+        /**
+         * Deleting an Experiment object from firebase through a long click/press
+         */
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,7 +106,10 @@ public class ExperimentFragment extends Fragment {
             }
         });
 
-        // Opening a new activity/fragment to comment/post questions
+        /**
+         * Opening a new activity/fragment to comment/post questions if an experiment is clicked
+         * Sends the experiment title to "ExperimentDetails.java" to track what the post/question is referring to
+         */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -113,20 +122,23 @@ public class ExperimentFragment extends Fragment {
                 detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, detailsFragment);
                 transaction.commit();
 
             }
         });
 
-        addExperiment = view.findViewById(R.id.addButton);
+        /**
+         * Directs the user to a publish experiment fragment "PublishExperimentFragment" via a button
+         */
+        addExperiment = view.findViewById(R.id.add_button);
         addExperiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 PublishExperimentFragment publishFragment = new PublishExperimentFragment();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.navHostfragment, publishFragment);
+                transaction.replace(R.id.nav_host_fragment, publishFragment);
                 transaction.commit();
 
             }
