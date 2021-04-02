@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -60,6 +61,7 @@ public class PublishExperimentFragment extends Fragment {
         final EditText experimentRegion;
         final EditText experimentCount;
         final TextView experimentOwner;
+        final Spinner experimentLocation;
         ArrayList<String> userInfo = new ArrayList<>();
         FirebaseFirestore db;
 
@@ -71,6 +73,7 @@ public class PublishExperimentFragment extends Fragment {
         experimentRegion = view.findViewById(R.id.region);
         experimentCount = view.findViewById(R.id.count);
         experimentOwner = view.findViewById(R.id.username);
+        experimentLocation = view.findViewById(R.id.location);
 
         db = FirebaseFirestore.getInstance();
 
