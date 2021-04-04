@@ -1,34 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <TextView
+        android:text="Trials: count-based test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:text="This is a count-based experiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
+        android:text="How many did you see?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="125dp"/>
+
+    <Button
         android:id="@+id/decrement"
-        android:text="-">
-        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:text="-"
+        android:layout_marginLeft="50dp">
+
     </Button>
-    
+
     <TextView
         android:id="@+id/value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        android:textSize="50dp" >
+        android:textSize="50dp"
+        android:layout_centerInParent="true">
 
     </TextView>
 
     <Button
+        android:id="@+id/increment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:id="@+id/increment">
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:text="+">
 
     </Button>
 
+    <Button
+        android:id="@+id/endTrial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Trial"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="450dp"/>
 
-</LinearLayout>
+
+</RelativeLayout>
