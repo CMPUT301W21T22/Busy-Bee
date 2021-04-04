@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.SearchView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -45,6 +46,8 @@ import static android.content.ContentValues.TAG;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
+
+    Button count;
 
     // RecycleView(Added)
     RecyclerView aRecyclerView;
@@ -101,8 +104,6 @@ public class SearchFragment extends Fragment {
         ArrayList<ExperimentItem> experimentArrayList = new ArrayList<>();
         experimentArrayList.add(new ExperimentItem("Experiment D"));
 
-
-
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
 
@@ -131,6 +132,7 @@ public class SearchFragment extends Fragment {
 
             }
         });
+
         /** https://stackoverflow.com/users/1703376/marurban, "RecyclerView onClick", 2015-07-28, Creative Commons Attribution-ShareAlike, https://stackoverflow.com/questions/24471109/recyclerview-onclick
          * 3.0license (CC BY-SA 3.0)
          * When clicked, redirects user to "ExperimentDetails.java"
@@ -188,4 +190,6 @@ public class SearchFragment extends Fragment {
         });
 
     }
+
+
 }
