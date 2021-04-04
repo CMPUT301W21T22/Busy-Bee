@@ -51,6 +51,7 @@ public class QuestionsAnswers extends Fragment {
 
         Button goBack;
         Button endExperiment;
+        Button trial;
         TextView displayData;
         FirebaseFirestore db;
 
@@ -138,7 +139,17 @@ public class QuestionsAnswers extends Fragment {
             }
         });
 
+        trial = view.findViewById(R.id.trial);
+        trial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CountFragment countFragment = new CountFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
 
+                transaction.replace(R.id.nav_host_fragment, countFragment);
+                transaction.commit();
+            }
+        });
 
 
         return view;
