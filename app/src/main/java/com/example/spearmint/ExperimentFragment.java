@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -86,8 +87,10 @@ public class ExperimentFragment extends Fragment {
                     String description = doc.getId();
                     String region = (String) doc.get("experimentRegion");
                     String count = (String) doc.get("experimentCount");
+                    String geoLocation = (String) doc.get("geoLocation");
+                    String trialType = (String) doc.get("trialType");
 
-                    experimentList.add(new Experiment(description, region, count));
+                    experimentList.add(new Experiment(description, region, count, geoLocation, trialType));
                 }
                 customAdapter.notifyDataSetChanged();
             }
