@@ -15,14 +15,15 @@ public class Experiment {
     private String experimentDescription;
     private String experimentRegion;
     private String experimentCount;
-
     private String geoLocation;
+    private String trialType;
 
-    Experiment(String experimentDescription, String experimentRegion, String experimentCount, String geoLocation) {
+    Experiment(String experimentDescription, String experimentRegion, String experimentCount, String geoLocation, String trialType) {
         this.experimentDescription = experimentDescription;
         this.experimentRegion = experimentRegion;
         this.experimentCount = experimentCount;
         this.geoLocation = geoLocation;
+        this.trialType = trialType;
     }
 
     public String getExperimentDescription() {
@@ -39,5 +40,9 @@ public class Experiment {
 
     public String getGeoLocation() {
         return this.geoLocation;
+    }
+
+    public String getTrialType() {
+        return this.trialType;
     }
 }
