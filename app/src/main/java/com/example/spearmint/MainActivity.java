@@ -34,8 +34,6 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> userID = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
         // New profile that will be stored onto Firebase
         ProfileFragment userInfo = new ProfileFragment();
-        userID.add(userInfo.storeUniqueID(this));
-        Log.d(TAG, "THIS IS THE " + userID);
+        userInfo.storeUniqueID(this);
 
-    }
 
-    public ArrayList<String> getUserID() {
-        return userID;
     }
 
 }

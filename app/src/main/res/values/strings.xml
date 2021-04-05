@@ -5,8 +5,15 @@
     <string name="add_experiment">Add Experiment</string>
 
     <string-array name="names">
-        <item> Yes   </item>
-        <item> No   </item>
+        <item> Yes </item>
+        <item> No </item>
+    </string-array>
+
+    <string-array name="options">
+        <item> Counts </item>
+        <item> Binomial Trials </item>
+        <item> Non-negative Integer Counts </item>
+        <item> Measurement Trials </item>
     </string-array>
 
 </resources>

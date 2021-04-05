@@ -26,10 +26,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -61,8 +64,14 @@ public class PublishExperimentFragment extends Fragment {
         final EditText experimentRegion;
         final EditText experimentCount;
         final TextView experimentOwner;
-        final Spinner experimentLocation;
         ArrayList<String> userInfo = new ArrayList<>();
+        final String[] geo = new String[1];
+        final String[] type = new String[1];
+        final Spinner trialType;
+        final Spinner geoLocation;
+        ArrayAdapter<CharSequence> adapter;
+        ArrayAdapter<CharSequence> adapter2;
+      
         FirebaseFirestore db;
 
         View view = inflater.inflate(R.layout.fragment_publish, container, false);
@@ -73,7 +82,16 @@ public class PublishExperimentFragment extends Fragment {
         experimentRegion = view.findViewById(R.id.region);
         experimentCount = view.findViewById(R.id.count);
         experimentOwner = view.findViewById(R.id.username);
-        experimentLocation = view.findViewById(R.id.location);
+
+        geoLocation = (Spinner) view.findViewById(R.id.spinner);
+        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.names, R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        geoLocation.setAdapter(adapter);
+
+        trialType = (Spinner) view.findViewById(R.id.spinner2);
+        adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.options, R.layout.support_simple_spinner_dropdown_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        trialType.setAdapter(adapter2);
 
         db = FirebaseFirestore.getInstance();
 
@@ -81,7 +99,6 @@ public class PublishExperimentFragment extends Fragment {
         final CollectionReference collectionReferenceUser = db.collection("User");
 
         // Accesses the specific user document and gets the username saved to the unique ID
-        // TODO: FIX THIS SO IT DOESN'T CRASH ON FRESH ATTEMPT
         String userID = getArguments().getString("dataKey");
         userInfo.add(userID);
         Log.d(TAG, userID);
@@ -101,6 +118,27 @@ public class PublishExperimentFragment extends Fragment {
          * directs user back to the experiment fragment "ExperimentFragment.java"
          * does not upload data if any of the edit text fields are empty
          */
+
+        geoLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                geo[0] = (String) parent.getItemAtPosition(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        trialType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                type[0] = (String) parent.getItemAtPosition(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
         publishExperiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,8 +146,9 @@ public class PublishExperimentFragment extends Fragment {
                 final String exDescription = experimentDescription.getText().toString();
                 final String exRegion = experimentRegion.getText().toString();
                 final String exCount = experimentCount.getText().toString();
+                
+                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo, geo[0], type[0]);
 
-                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo);
 
                 // Only uploads the experiment if all fields are filled
                 if (exDescription.length()>0 && exRegion.length()>0 && exCount.length()>0 && !userInfo.isEmpty()) {
