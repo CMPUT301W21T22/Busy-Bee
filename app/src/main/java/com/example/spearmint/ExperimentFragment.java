@@ -14,6 +14,7 @@ package com.example.spearmint;
  * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
  */
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -34,6 +35,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -44,6 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class ExperimentFragment extends Fragment {
 
@@ -87,6 +91,10 @@ public class ExperimentFragment extends Fragment {
                     String description = doc.getId();
                     String region = (String) doc.get("experimentRegion");
                     String count = (String) doc.get("experimentCount");
+                    ArrayList<String> experimentOwner = (ArrayList<String>) doc.get("experimentOwner");
+
+                    // Change this code to accept the user id from fire base
+                    experimentList.add(new Experiment(description, region, count, experimentOwner));
                     String geoLocation = (String) doc.get("geoLocation");
                     String trialType = (String) doc.get("trialType");
 
@@ -139,7 +147,16 @@ public class ExperimentFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                Bundle experimentInfo = new Bundle();
+
                 PublishExperimentFragment publishFragment = new PublishExperimentFragment();
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SharedPrefs", MODE_PRIVATE);
+                String uniqueID = sharedPreferences.getString("Text", null);
+                experimentInfo.putString("dataKey", uniqueID);
+
+                publishFragment.setArguments(experimentInfo);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, publishFragment);
                 transaction.commit();

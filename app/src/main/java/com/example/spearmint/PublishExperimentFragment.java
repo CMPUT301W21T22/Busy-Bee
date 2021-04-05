@@ -30,14 +30,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -52,13 +62,15 @@ public class PublishExperimentFragment extends Fragment {
         final EditText experimentDescription;
         final EditText experimentRegion;
         final EditText experimentCount;
+        final TextView experimentOwner;
+        ArrayList<String> userInfo = new ArrayList<>();
         final String[] geo = new String[1];
         final String[] type = new String[1];
         final Spinner trialType;
         final Spinner geoLocation;
         ArrayAdapter<CharSequence> adapter;
         ArrayAdapter<CharSequence> adapter2;
-
+      
         FirebaseFirestore db;
 
         View view = inflater.inflate(R.layout.fragment_publish, container, false);
@@ -68,6 +80,7 @@ public class PublishExperimentFragment extends Fragment {
         experimentDescription = view.findViewById(R.id.description);
         experimentRegion = view.findViewById(R.id.region);
         experimentCount = view.findViewById(R.id.count);
+        experimentOwner = view.findViewById(R.id.username);
 
         geoLocation = (Spinner) view.findViewById(R.id.spinner);
         adapter = ArrayAdapter.createFromResource(getActivity(), R.array.names, R.layout.support_simple_spinner_dropdown_item);
@@ -82,6 +95,21 @@ public class PublishExperimentFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Experiments");
+        final CollectionReference collectionReferenceUser = db.collection("User");
+
+        // Accesses the specific user document and gets the username saved to the unique ID
+        // TODO: FIX THIS SO IT IS NOT HARD CODED
+        String userID = getArguments().getString("dataKey");
+        userInfo.add(userID);
+        DocumentReference user = collectionReferenceUser.document(userID);
+        user.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String experimentOwnerName = (String) value.get("Username");
+                userInfo.add(experimentOwnerName);
+            }
+        });
+        experimentOwner.setText(userID);
 
         /**
          * Takes the data entered by a user and makes it into a "Experiment" object
@@ -118,9 +146,12 @@ public class PublishExperimentFragment extends Fragment {
                 final String exRegion = experimentRegion.getText().toString();
                 final String exCount = experimentCount.getText().toString();
 
+                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo);
                 Experiment uploadData = new Experiment(exDescription, exRegion, exCount, geo[0], type[0]);
 
-                if (exDescription.length()>0 && exRegion.length()>0 && exCount.length()>0) {
+
+                // Only uploads the experiment if all fields are filled
+                if (exDescription.length()>0 && exRegion.length()>0 && exCount.length()>0 && !userInfo.isEmpty()) {
 
                     collectionReference
                             .document(exDescription)
@@ -145,6 +176,11 @@ public class PublishExperimentFragment extends Fragment {
                 }
 
                 ExperimentFragment experimentFragment = new ExperimentFragment();
+                /*
+                Bundle info = new Bundle();
+                info.putStringArrayList("dataKey", userInfo);
+                experimentFragment.setArguments(info);
+                */
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, experimentFragment);
                 transaction.commit();
@@ -164,7 +200,6 @@ public class PublishExperimentFragment extends Fragment {
                 transaction.commit();
             }
         }));
-
 
         // Inflate the layout for this fragment
         return view;
