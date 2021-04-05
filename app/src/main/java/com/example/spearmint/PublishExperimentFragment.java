@@ -145,9 +145,8 @@ public class PublishExperimentFragment extends Fragment {
                 final String exDescription = experimentDescription.getText().toString();
                 final String exRegion = experimentRegion.getText().toString();
                 final String exCount = experimentCount.getText().toString();
-
-                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo);
-                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, geo[0], type[0]);
+                
+                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo, geo[0], type[0]);
 
 
                 // Only uploads the experiment if all fields are filled

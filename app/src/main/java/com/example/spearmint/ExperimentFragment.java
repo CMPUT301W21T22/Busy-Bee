@@ -94,11 +94,10 @@ public class ExperimentFragment extends Fragment {
                     ArrayList<String> experimentOwner = (ArrayList<String>) doc.get("experimentOwner");
 
                     // Change this code to accept the user id from fire base
-                    experimentList.add(new Experiment(description, region, count, experimentOwner));
                     String geoLocation = (String) doc.get("geoLocation");
                     String trialType = (String) doc.get("trialType");
 
-                    experimentList.add(new Experiment(description, region, count, geoLocation, trialType));
+                    experimentList.add(new Experiment(description, region, count, experimentOwner, geoLocation, trialType));
                 }
                 customAdapter.notifyDataSetChanged();
             }
