@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -94,6 +95,10 @@ public class ExperimentFragment extends Fragment {
 
                     // Change this code to accept the user id from fire base
                     experimentList.add(new Experiment(description, region, count, experimentOwner));
+                    String geoLocation = (String) doc.get("geoLocation");
+                    String trialType = (String) doc.get("trialType");
+
+                    experimentList.add(new Experiment(description, region, count, geoLocation, trialType));
                 }
                 customAdapter.notifyDataSetChanged();
             }
