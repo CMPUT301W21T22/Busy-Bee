@@ -203,6 +203,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             uniqueIDToFirebase(ID);
             currentUser.setUUID(ID);
         }
+
         return uniqueID;
     }
 

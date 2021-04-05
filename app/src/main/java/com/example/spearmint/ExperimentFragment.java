@@ -54,6 +54,9 @@ public class ExperimentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        MainActivity activity = (MainActivity) getActivity();
+        ArrayList<String> userID = activity.getUserID();
+
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
 
@@ -140,7 +143,14 @@ public class ExperimentFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                String ID = userID.get(0);
+
+                Bundle info = new Bundle();
                 PublishExperimentFragment publishFragment = new PublishExperimentFragment();
+
+                info.putString("dataKey", ID);
+                publishFragment.setArguments(info);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, publishFragment);
                 transaction.commit();

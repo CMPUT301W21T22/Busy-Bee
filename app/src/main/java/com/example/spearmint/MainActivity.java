@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -11,12 +12,16 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import static android.content.ContentValues.TAG;
+
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -29,11 +34,13 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ArrayList<String> userID = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        setContentView(R.layout.activity_main);
         /**
          * Briana Nzivu, "Bottom Navigation Bar in Android Applications", October 28, 2020, Creative Commons CC ,
          * https://www.section.io/engineering-education/bottom-navigation-bar-in-android/
@@ -50,7 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
         // New profile that will be stored onto Firebase
         ProfileFragment userInfo = new ProfileFragment();
-        userInfo.storeUniqueID(this);
+        userID.add(userInfo.storeUniqueID(this));
+        Log.d(TAG, "THIS IS THE " + userID);
+
+    }
+
+    public ArrayList<String> getUserID() {
+        return userID;
     }
 
 }
