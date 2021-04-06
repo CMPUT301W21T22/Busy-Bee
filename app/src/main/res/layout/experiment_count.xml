@@ -29,6 +29,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="125dp"/>
 
+
+    <EditText
+        android:id="@+id/countDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Description"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="175dp"
+        android:inputType="textPersonName" />
+
     <Button
         android:id="@+id/decrement"
         android:layout_width="wrap_content"
@@ -61,13 +72,30 @@
 
     </Button>
 
-    <Button
-        android:id="@+id/endTrial"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End Trial"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="450dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <Button
+            android:id="@+id/count_cancel"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="500dp"
+            android:layout_weight="1"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/count_publish"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="500dp"
+            android:layout_weight="1"
+            android:text="Publish" />
+
+    </LinearLayout>
 
 </RelativeLayout>
