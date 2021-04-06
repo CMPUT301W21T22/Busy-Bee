@@ -85,22 +85,19 @@ public class ExperimentFragment extends Fragment {
          * Updates the list stored locally in the app with Firebase data to display the data
          */
 
-
-
-
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 experimentList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
-
                     String description = doc.getId();
                     String region = (String) doc.get("experimentRegion");
                     String count = (String) doc.get("experimentCount");
+                    String geoLocation = (String) doc.get("geoLocation");
+                    String trialType = (String) doc.get("trialType");
 
-                    experimentList.add(new Experiment(description, region, count));
-
+                    experimentList.add(new Experiment(description, region, count, geoLocation, trialType));
                 }
                 customAdapter.notifyDataSetChanged();
             }
