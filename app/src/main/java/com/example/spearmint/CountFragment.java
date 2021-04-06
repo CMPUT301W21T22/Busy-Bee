@@ -54,7 +54,11 @@ public class CountFragment extends Fragment {
         endTrial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(count[0]);
+                SearchFragment searchFragment = new SearchFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.nav_host_fragment, searchFragment);
+                transaction.commit();
             }
         });
 

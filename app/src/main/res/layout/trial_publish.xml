@@ -5,27 +5,11 @@
     android:background="#fff">
 
     <EditText
-        android:id="@+id/description"
+        android:id="@+id/trialDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Description"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/region"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Location"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/count"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Minimum Trials"
         android:inputType="textPersonName" />
 
     <LinearLayout
@@ -38,10 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:ems="10"
-            android:text="Select if Geo-location is required or not:" />
+            android:text="Select if trial passed or failed" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/trial_spinner"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"/>
@@ -51,28 +35,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:ems="10"
-            android:text="Select trial:" />
-
-        <Spinner
-            android:id="@+id/spinner2"
-            android:layout_width="212dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/trial_cancel"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
@@ -81,7 +45,7 @@
             android:text="Cancel" />
 
         <Button
-            android:id="@+id/publish_button"
+            android:id="@+id/trial_publish"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
@@ -90,5 +54,6 @@
             android:text="Publish" />
 
     </LinearLayout>
+
 
 </LinearLayout>
