@@ -7,8 +7,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -19,6 +27,11 @@ public class BinomialFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+
+        final CollectionReference collectionReference = db.collection("Binomial");
 
         View view = inflater.inflate(R.layout.experiment_binominal, container, false);
 
@@ -35,6 +48,21 @@ public class BinomialFragment extends Fragment {
         TrialAdapter customAdapter = new TrialAdapter(getActivity(), R.layout.trial_content, trialList);
 
         listView.setAdapter(customAdapter);
+
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                trialList.clear();
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+
+                    String trialDescription = doc.getId();
+                    String trialResult = (String) doc.get("trialResult");
+
+                    trialList.add(new Trial(trialDescription, trialResult));
+                }
+                customAdapter.notifyDataSetChanged();
+            }
+        });
 
         addTrial = view.findViewById(R.id.add_trial);
         addTrial.setOnClickListener(new View.OnClickListener() {

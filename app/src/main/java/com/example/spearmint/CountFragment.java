@@ -54,10 +54,13 @@ public class CountFragment extends Fragment {
         endTrial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SearchFragment searchFragment = new SearchFragment();
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                Bundle experimentInfo = new Bundle();
+                QuestionsAnswers detailsFragment = new QuestionsAnswers();
 
-                transaction.replace(R.id.nav_host_fragment, searchFragment);
+                detailsFragment.setArguments(experimentInfo);
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, detailsFragment);
                 transaction.commit();
             }
         });
