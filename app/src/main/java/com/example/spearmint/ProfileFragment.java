@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -58,6 +59,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final String KEY_USERNAME = "Username";
     private static final String KEY_EMAIL = "Email";
     private static final String KEY_PHONE_NUM = "PhoneNum";
+
+    private static final String KEY_EXPERIMENT = null;
+    private static final String KEY_COUNT = null;
+    private static final String KEY_REGION = null;
 
     private static final String SHARED_PREFS = "SharedPrefs";
     private static final String TEXT = "Text";
@@ -276,6 +281,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     });
         }
     }
+
+
+
 
     /**
      * Expected behavior: this method keeps track of what a button's ID will behave when selected.

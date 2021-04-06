@@ -14,6 +14,7 @@ package com.example.spearmint;
  * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
  */
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -43,10 +44,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class ExperimentFragment extends Fragment {
 
     Button addExperiment;
+    private static final String SHARED_PREFS = "SharedPrefs";
+    private static final String TEXT = "Text";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +59,10 @@ public class ExperimentFragment extends Fragment {
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Experiments");
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
+        final CollectionReference collectionReference = db.collection("User").document(uniqueID).collection("myExperiment");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_experiment, container, false);
@@ -77,17 +84,23 @@ public class ExperimentFragment extends Fragment {
         /**
          * Updates the list stored locally in the app with Firebase data to display the data
          */
+
+
+
+
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 experimentList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
+
                     String description = doc.getId();
                     String region = (String) doc.get("experimentRegion");
                     String count = (String) doc.get("experimentCount");
 
                     experimentList.add(new Experiment(description, region, count));
+
                 }
                 customAdapter.notifyDataSetChanged();
             }
