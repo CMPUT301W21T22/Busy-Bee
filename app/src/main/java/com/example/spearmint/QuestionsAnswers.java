@@ -50,11 +50,10 @@ public class QuestionsAnswers extends Fragment {
                              Bundle savedInstanceState) {
 
         Button goBack;
+        Button endExperiment;
+        Button trial;
         TextView displayData;
         FirebaseFirestore db;
-
-        Spinner spinner;
-        ArrayAdapter<CharSequence> adapter;
 
         Spinner spinner2;
         ArrayAdapter<CharSequence> adapter2;
@@ -71,15 +70,9 @@ public class QuestionsAnswers extends Fragment {
         displayData = view.findViewById(R.id.experiment_name);
         displayData.setText(experimentData);
 
-
         ArrayList<Question> questionList = new ArrayList<>();
 
         QuestionAdapter customAdapter = new QuestionAdapter(getActivity(), R.layout.question_content, questionList);
-
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.names, R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
         spinner2 = (Spinner) view.findViewById(R.id.spinner2);
         adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.names, R.layout.support_simple_spinner_dropdown_item);
@@ -123,29 +116,41 @@ public class QuestionsAnswers extends Fragment {
          * With Sam. (2019, Jun 21). Drop down menu / Spinner - Android Studio Latest Version [Video]. YouTube. https://www.youtube.com/watch?v=GmXH8wCPEnQ
          */
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast.makeText(getActivity(), parent.getItemAtPosition(position) + " Selected", Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast.makeText(getActivity(), parent.getItemAtPosition(position) + " Selected", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), parent.getItemAtPosition(position) + " Selected", Toast.LENGTH_LONG).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
+        endExperiment = view.findViewById(R.id.endExperiment);
+        endExperiment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchFragment searchFragment = new SearchFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.nav_host_fragment, searchFragment);
+                transaction.commit();
+            }
+        });
+
+        trial = view.findViewById(R.id.trial);
+        trial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CountFragment countFragment = new CountFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.nav_host_fragment, countFragment);
+                transaction.commit();
+            }
+        });
+
 
         return view;
     }
