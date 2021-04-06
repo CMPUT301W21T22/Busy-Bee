@@ -17,6 +17,19 @@
     <ListView
         android:id="@+id/trial_list"
         android:layout_width="match_parent"
-        android:layout_height="573dp" />
+        android:layout_height="508dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/end_trial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Trial"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 
 </LinearLayout>

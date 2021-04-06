@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class BinomialFragment extends Fragment {
 
     Button addTrial;
+    Button end_trial;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +72,21 @@ public class BinomialFragment extends Fragment {
                 PublishTrialFragment publishTrialFragment = new PublishTrialFragment();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, publishTrialFragment);
+                transaction.commit();
+            }
+        });
+
+        end_trial = view.findViewById(R.id.end_trial);
+        end_trial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle experimentInfo = new Bundle();
+                QuestionsAnswers detailsFragment = new QuestionsAnswers();
+
+                detailsFragment.setArguments(experimentInfo);
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, detailsFragment);
                 transaction.commit();
             }
         });
