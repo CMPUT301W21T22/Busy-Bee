@@ -144,10 +144,10 @@ public class QuestionsAnswers extends Fragment {
         trial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CountFragment countFragment = new CountFragment();
+                ExperimentCount experimentCount = new ExperimentCount();
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
 
-                transaction.replace(R.id.nav_host_fragment, countFragment);
+                transaction.replace(R.id.nav_host_fragment, experimentCount);
                 transaction.commit();
             }
         });
