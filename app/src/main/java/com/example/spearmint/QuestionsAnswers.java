@@ -52,6 +52,7 @@ public class QuestionsAnswers extends Fragment {
         Button goBack;
         Button endExperiment;
         Button trial;
+        Button binomial;
         TextView displayData;
         FirebaseFirestore db;
 
@@ -151,6 +152,17 @@ public class QuestionsAnswers extends Fragment {
             }
         });
 
+        binomial = view.findViewById(R.id.binomial);
+        binomial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BinomialFragment binomialFragment = new BinomialFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.nav_host_fragment, binomialFragment);
+                transaction.commit();
+            }
+        });
 
         return view;
     }
