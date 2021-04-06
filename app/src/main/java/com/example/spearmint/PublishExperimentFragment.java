@@ -54,8 +54,15 @@ public class PublishExperimentFragment extends Fragment {
         final EditText experimentDescription;
         final EditText experimentRegion;
         final EditText experimentCount;
-        FirebaseFirestore db;
-
+        final String[] geo = new String[1];
+        final String[] type = new String[1];
+        final Spinner trialType;
+        final Spinner geoLocation;
+        ArrayAdapter<CharSequence> adapter;
+        ArrayAdapter<CharSequence> adapter2;
+        
+        db = FirebaseFirestore.getInstance();
+        
         View view = inflater.inflate(R.layout.fragment_publish, container, false);
 
         publishExperiment = view.findViewById(R.id.publish_button);
@@ -64,9 +71,20 @@ public class PublishExperimentFragment extends Fragment {
         experimentRegion = view.findViewById(R.id.region);
         experimentCount = view.findViewById(R.id.count);
 
+        geoLocation = (Spinner) view.findViewById(R.id.spinner);
+        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.names, R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        geoLocation.setAdapter(adapter);
+        
+        trialType = (Spinner) view.findViewById(R.id.spinner2);
+        adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.options, R.layout.support_simple_spinner_dropdown_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        trialType.setAdapter(adapter2);
+        
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Experiments");
+
         final CollectionReference userCollectionReference = db.collection("User");
 
         /**
@@ -75,6 +93,27 @@ public class PublishExperimentFragment extends Fragment {
          * directs user back to the experiment fragment "ExperimentFragment.java"
          * does not upload data if any of the edit text fields are empty
          */
+        
+        geoLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                geo[0] = (String) parent.getItemAtPosition(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        trialType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                type[0] = (String) parent.getItemAtPosition(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        
         publishExperiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +123,7 @@ public class PublishExperimentFragment extends Fragment {
                 final String exCount = experimentCount.getText().toString();
 
 
-                Experiment uploadData = new Experiment(exDescription, exRegion, exCount);
+                 Experiment uploadData = new Experiment(exDescription, exRegion, exCount, geo[0], type[0]);
 
                 if (exDescription.length()>0 && exRegion.length()>0 && exCount.length()>0) {
 
