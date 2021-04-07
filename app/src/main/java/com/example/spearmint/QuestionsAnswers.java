@@ -53,6 +53,7 @@ public class QuestionsAnswers extends Fragment {
         Button endExperiment;
         Button trial;
         Button binomial;
+        Button nonCount;
         TextView displayData;
         FirebaseFirestore db;
 
@@ -160,6 +161,18 @@ public class QuestionsAnswers extends Fragment {
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
 
                 transaction.replace(R.id.nav_host_fragment, binomialFragment);
+                transaction.commit();
+            }
+        });
+
+        nonCount = view.findViewById(R.id.nonTrial);
+        nonCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NonCountFragment nonCountFragment = new NonCountFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.nav_host_fragment, nonCountFragment);
                 transaction.commit();
             }
         });
