@@ -1,8 +1,6 @@
 package com.example.spearmint;
 
 import java.util.ArrayList;
-import java.util.List;
-import android.widget.Spinner;
 
 /**
  * Base class defining the Experiment object with fields of type String

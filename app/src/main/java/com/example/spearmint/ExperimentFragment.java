@@ -91,13 +91,15 @@ public class ExperimentFragment extends Fragment {
                 experimentList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
+                    String keyOwner = "experimentOwner";
                     String description = doc.getId();
                     String region = (String) doc.get("experimentRegion");
                     String count = (String) doc.get("experimentCount");
+                    ArrayList<String> experimentOwner = (ArrayList<String>) doc.get("experimentOwner");
                     String geoLocation = (String) doc.get("geoLocation");
                     String trialType = (String) doc.get("trialType");
 
-                    experimentList.add(new Experiment(description, region, count, geoLocation, trialType));
+                    experimentList.add(new Experiment(description, region, count, experimentOwner, geoLocation, trialType));
                 }
                 customAdapter.notifyDataSetChanged();
             }
