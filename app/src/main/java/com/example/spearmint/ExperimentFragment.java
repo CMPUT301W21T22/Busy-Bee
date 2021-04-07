@@ -90,6 +90,8 @@ public class ExperimentFragment extends Fragment {
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 experimentList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+
+                    String keyOwner = "experimentOwner";
                     String description = doc.getId();
                     String region = ("Location: " + (String) doc.get("experimentRegion"));
                     String count = ("# of Minimum Trials: " + (String) doc.get("experimentCount"));

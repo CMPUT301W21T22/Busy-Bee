@@ -66,29 +66,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:gravity="bottom|center">
-
-        <Button
-            android:id="@+id/binomial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Binomial Trial"
-            android:layout_gravity="left|bottom"
-            android:layout_marginBottom="30dp"
-            android:layout_marginRight="50dp"
-            android:layout_alignParentBottom="true">
-        </Button>
-
+        android:gravity="bottom|center"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/trial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Count Trial"
-            android:layout_marginBottom="30dp"
-            android:layout_gravity="center|bottom"
-            android:layout_alignParentBottom="true">
+            android:text="Counts"></Button>
 
+        <Button
+            android:id="@+id/binomial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Binomial Trials">
+
+        </Button>
+
+        <Button
+            android:id="@+id/nonTrial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non-negative Integer Counts">
+        </Button>
+
+        <Button
+            android:id="@+id/measurement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Measurement Trials "
+            android:layout_marginBottom="60dp">
         </Button>
 
     </LinearLayout>
