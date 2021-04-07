@@ -56,7 +56,7 @@ public class ExperimentCount extends Fragment {
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
                     String count_description = doc.getId();
-                    String count_result = (String) doc.get("countResult");
+                    String count_result = ("Count: " + (String) doc.get("countResult"));
 
                     countList.add(new Count(count_description, count_result));
                 }

@@ -85,8 +85,8 @@ public class ExperimentFragment extends Fragment {
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
                     String description = doc.getId();
-                    String region = (String) doc.get("experimentRegion");
-                    String count = (String) doc.get("experimentCount");
+                    String region = ("Location: " + (String) doc.get("experimentRegion"));
+                    String count = ("# of Minimum Trials: " + (String) doc.get("experimentCount"));
                     String geoLocation = (String) doc.get("geoLocation");
                     String trialType = (String) doc.get("trialType");
 
