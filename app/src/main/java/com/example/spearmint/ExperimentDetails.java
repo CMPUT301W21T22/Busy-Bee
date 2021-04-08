@@ -56,15 +56,19 @@ public class ExperimentDetails extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Posts");
+        final CollectionReference collectionReferencePosts = db.collection("Posts");
 
         View view = inflater.inflate(R.layout.experiment_details, container, false);
 
-        String experimentData = getArguments().getString("dataKey");
+        /*
+        Get all variables from the packaged Experiment object
+         */
+        Experiment experimentData = getArguments().getParcelable("dataKey");
+        String experimentDescription = experimentData.getExperimentDescription();
 
         // Setting the EditText to the experiment title from ExperimentFragment.java
         displayData = view.findViewById(R.id.experiment_title);
-        displayData.setText(experimentData);
+        displayData.setText(experimentDescription);
 
         question = view.findViewById(R.id.post_question);
         post = view.findViewById(R.id.post_question_button);
@@ -80,7 +84,7 @@ public class ExperimentDetails extends Fragment {
         /**
          * Updates the list stored locally in the app with Firebase data to display the data
          */
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReferencePosts.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 postList.clear();
@@ -106,7 +110,7 @@ public class ExperimentDetails extends Fragment {
                 Bundle questionInfo = new Bundle();
                 Bundle parentQuestion = new Bundle();
                 ResponseFragment responseFragment = new ResponseFragment();
-                String questionExperiment = experimentData;
+                String questionExperiment = experimentDescription;
                 String questionTitle = postList.get(position).getExperimentTitle();
 
                 questionInfo.putString("dataKey", questionExperiment);
@@ -138,7 +142,7 @@ public class ExperimentDetails extends Fragment {
                 Post content = new Post(title, questionText);
 
                 if (questionText.length()>0) {
-                    collectionReference
+                    collectionReferencePosts
                             .document(questionText)
                             .set(content)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {

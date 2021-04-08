@@ -81,7 +81,7 @@ public class BinomialFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                QuestionsAnswers detailsFragment = new QuestionsAnswers();
+                SearchDetails detailsFragment = new SearchDetails();
 
                 detailsFragment.setArguments(experimentInfo);
 

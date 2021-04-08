@@ -1,5 +1,8 @@
 package com.example.spearmint;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -10,7 +13,7 @@ import java.util.ArrayList;
  * @author Daniel and Andrew
  */
 
-public class Experiment {
+public class Experiment implements Parcelable {
 
     private String experimentDescription;
     private String experimentRegion;
@@ -18,7 +21,6 @@ public class Experiment {
     private ArrayList<String> experimentOwner;
     private String geoLocation;
     private String trialType;
-
 
     Experiment(String experimentDescription, String experimentRegion, String experimentCount, ArrayList<String> experimentOwner, String geoLocation, String trialType) {
         this.experimentDescription = experimentDescription;
@@ -28,6 +30,42 @@ public class Experiment {
         this.geoLocation = geoLocation;
         this.trialType = trialType;
     }
+
+    protected Experiment(Parcel in) {
+        experimentDescription = in.readString();
+        experimentRegion = in.readString();
+        experimentCount = in.readString();
+        experimentOwner = in.createStringArrayList();
+        geoLocation = in.readString();
+        trialType = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(experimentDescription);
+        dest.writeString(experimentRegion);
+        dest.writeString(experimentCount);
+        dest.writeStringList(experimentOwner);
+        dest.writeString(geoLocation);
+        dest.writeString(trialType);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Experiment> CREATOR = new Creator<Experiment>() {
+        @Override
+        public Experiment createFromParcel(Parcel in) {
+            return new Experiment(in);
+        }
+
+        @Override
+        public Experiment[] newArray(int size) {
+            return new Experiment[size];
+        }
+    };
 
     public String getExperimentDescription() {
         return this.experimentDescription;
@@ -51,4 +89,5 @@ public class Experiment {
     public String getTrialType() {
         return this.trialType;
     }
+
 }

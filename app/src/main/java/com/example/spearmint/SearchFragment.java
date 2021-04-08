@@ -26,10 +26,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -103,7 +101,7 @@ public class SearchFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         //ArrayList(Added)
-        ArrayList<ExperimentItem> experimentArrayList = new ArrayList<>();
+        ArrayList<Experiment> experimentArrayList = new ArrayList<>();
 
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
@@ -120,11 +118,14 @@ public class SearchFragment extends Fragment {
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
                     String description = doc.getId();
-                    ArrayList<String> userInfo = (ArrayList<String>) doc.get("experimentOwner");
-                    String username = userInfo.get(1);
+                    String region = (String) doc.get("experimentRegion");
+                    String count = (String) doc.get("experimentCount");
+                    ArrayList<String> experimentOwner = (ArrayList<String>) doc.get("experimentOwner");
+                    String geoLocation = (String) doc.get("geoLocation");
+                    String trialType = (String) doc.get("trialType");
 
-                    experimentArrayList.add(new ExperimentItem(description, username));
-                };
+                    experimentArrayList.add(new Experiment(description, region, count, experimentOwner, geoLocation, trialType));
+                }
 
         aRecyclerView = rootView.findViewById(R.id.recycle_view);
         aLayoutManager = new LinearLayoutManager(getActivity());
@@ -146,10 +147,10 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(int position, View v) {
                 Bundle experimentInfo = new Bundle();
-                QuestionsAnswers detailsFragment = new QuestionsAnswers();
-                //String experimentName = experimentArrayList.get(position).getaTitle();
+                SearchDetails detailsFragment = new SearchDetails();
+                Experiment experiment = experimentArrayList.get(position);
 
-                //experimentInfo.putString("dataKey", experimentName);
+                experimentInfo.putParcelable("dataKey", experiment);
                 detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();

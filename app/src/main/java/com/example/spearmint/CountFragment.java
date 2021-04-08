@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -110,7 +108,7 @@ public class CountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                QuestionsAnswers detailsFragment = new QuestionsAnswers();
+                SearchDetails detailsFragment = new SearchDetails();
                 detailsFragment.setArguments(experimentInfo);
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, detailsFragment);

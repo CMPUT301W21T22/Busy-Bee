@@ -11,26 +11,20 @@ package com.example.spearmint;
  * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
  */
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -41,48 +35,60 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
-public class QuestionsAnswers extends Fragment {
+public class SearchDetails extends Fragment {
+
+    private static final String SHARED_PREFS = "SharedPrefs";
+    private static final String TEXT = "Text";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Button goBack;
-        Button endExperiment;
-        Button trial;
-        Button binomial;
-        TextView displayData;
+        Button subscribe;
+        TextView exDescription;
+        TextView exRegion;
+        TextView exCount;
+        TextView exOwner;
+        TextView exLocation;
+        TextView exType;
         FirebaseFirestore db;
-
-        Spinner spinner2;
-        ArrayAdapter<CharSequence> adapter2;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
 
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Questions and Answers");
+        final CollectionReference collectionReference = db.collection("Experiments");
+        final CollectionReference collectionReferenceUser = db.collection("User");
 
-        View view = inflater.inflate(R.layout.experiment_questions, container, false);
+        View view = inflater.inflate(R.layout.search_details, container, false);
 
-        String experimentData = getArguments().getString("dataKey");
+        Experiment experiment = getArguments().getParcelable("dataKey");
 
         // Setting the EditText to the experiment title from ExperimentFragment.java
-        displayData = view.findViewById(R.id.experiment_name);
-        displayData.setText(experimentData);
+        exDescription = view.findViewById(R.id.experiment_name);
+        exRegion = view.findViewById(R.id.experiment_region);
+        exCount = view.findViewById(R.id.experiment_count);
+        exOwner = view.findViewById(R.id.experiment_username);
+        exLocation = view.findViewById(R.id.experiment_location);
+        exType = view.findViewById(R.id.experiment_type);
+
+        exDescription.setText("Title: " + experiment.getExperimentDescription());
+        exRegion.setText("City: " + experiment.getExperimentRegion());
+        exCount.setText("Minimum Trials: " + experiment.getExperimentCount());
+        exOwner.setText("Owner: " + experiment.getExperimentOwner().get(1));
+        exLocation.setText("Requires Location: " + experiment.getGeoLocation());
+        exType.setText("Trial Type: " + experiment.getTrialType());
 
         ArrayList<Question> questionList = new ArrayList<>();
 
-        QuestionAdapter customAdapter = new QuestionAdapter(getActivity(), R.layout.question_content, questionList);
-
-        spinner2 = (Spinner) view.findViewById(R.id.spinner2);
-        adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.names, R.layout.support_simple_spinner_dropdown_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setAdapter(adapter2);
+       // QuestionAdapter customAdapter = new QuestionAdapter(getActivity(), R.layout.question_content, questionList);
 
         /**
          * Updates the list stored locally in the app with Firebase data to display the data
-         */
+
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
@@ -96,7 +102,7 @@ public class QuestionsAnswers extends Fragment {
                 }
                 customAdapter.notifyDataSetChanged();
             }
-        });
+        });*/
 
         /**
          * Redirects user to the search fragment "SearchFragment" through "back" button
@@ -113,10 +119,23 @@ public class QuestionsAnswers extends Fragment {
             }
         });
 
+        subscribe = view.findViewById(R.id.subscribe);
+        subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                collectionReferenceUser
+                        .document(uniqueID).collection("subscribedExperiments").document(experiment.getExperimentDescription())
+                        .set(experiment);
+
+            }
+        });
+
+
         /**
          * With Sam. (2019, Jun 21). Drop down menu / Spinner - Android Studio Latest Version [Video]. YouTube. https://www.youtube.com/watch?v=GmXH8wCPEnQ
          */
 
+        /*
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -163,6 +182,8 @@ public class QuestionsAnswers extends Fragment {
                 transaction.commit();
             }
         });
+
+         */
 
         return view;
     }

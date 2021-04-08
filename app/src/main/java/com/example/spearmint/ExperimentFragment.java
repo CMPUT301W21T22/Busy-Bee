@@ -106,7 +106,9 @@ public class ExperimentFragment extends Fragment {
 
         /**
          * Deleting an Experiment object from firebase through a long click/press
+         * TODO: Change this function so it unpublishes/hides the experiment instead
          */
+        /*
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -116,6 +118,7 @@ public class ExperimentFragment extends Fragment {
                 return false;
             }
         });
+        */
 
         /**
          * Opening a new activity/fragment to comment/post questions if an experiment is clicked
@@ -127,9 +130,9 @@ public class ExperimentFragment extends Fragment {
 
                 Bundle experimentInfo = new Bundle();
                 ExperimentDetails detailsFragment = new ExperimentDetails();
-                String experimentTitle = experimentList.get(position).getExperimentDescription();
+                Experiment experiment = experimentList.get(position);
 
-                experimentInfo.putString("dataKey", experimentTitle);
+                experimentInfo.putParcelable("dataKey", experiment);
                 detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
