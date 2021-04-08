@@ -82,7 +82,7 @@ public class SearchDetails extends Fragment {
         exLocation.setText("Requires Location: " + experiment.getGeoLocation());
         exType.setText("Trial Type: " + experiment.getTrialType());
 
-        ArrayList<Question> questionList = new ArrayList<>();
+        // ArrayList<Question> questionList = new ArrayList<>();
 
        // QuestionAdapter customAdapter = new QuestionAdapter(getActivity(), R.layout.question_content, questionList);
 
