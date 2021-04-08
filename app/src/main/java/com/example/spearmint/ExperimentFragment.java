@@ -91,7 +91,6 @@ public class ExperimentFragment extends Fragment {
                 experimentList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
-                    String keyOwner = "experimentOwner";
                     String description = doc.getId();
                     String region = (String) doc.get("experimentRegion");
                     String count = (String) doc.get("experimentCount");

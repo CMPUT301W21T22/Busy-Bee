@@ -8,16 +8,12 @@ package com.example.spearmint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +27,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView name;
         public TextView aTitle;
+        public TextView username;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -38,6 +35,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             itemView.setOnLongClickListener(this);
             name = (TextView) itemView.findViewById(R.id.recycle_view);
             aTitle = itemView.findViewById(R.id.experiment_title);
+            username = itemView.findViewById(R.id.owner_username);
         }
 
         @Override
@@ -66,11 +64,10 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         copyArrayList = new ArrayList<>(arrayList);
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiement_cardholder,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiment_cardholder,parent,false);
         ViewHolder aViewHolder = new ViewHolder(view);
         return aViewHolder;
     }
@@ -80,6 +77,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         ExperimentItem currentItem = aArrayList.get(position);
 
         holder.aTitle.setText(currentItem.getaTitle());
+        holder.username.setText("User: " + currentItem.getUserInfo());
     }
 
     @Override

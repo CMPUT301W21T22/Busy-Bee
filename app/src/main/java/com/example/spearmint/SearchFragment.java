@@ -29,6 +29,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.TextView;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -102,7 +104,6 @@ public class SearchFragment extends Fragment {
 
         //ArrayList(Added)
         ArrayList<ExperimentItem> experimentArrayList = new ArrayList<>();
-        experimentArrayList.add(new ExperimentItem("Experiment D"));
 
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
@@ -119,8 +120,10 @@ public class SearchFragment extends Fragment {
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
                     String description = doc.getId();
+                    ArrayList<String> userInfo = (ArrayList<String>) doc.get("experimentOwner");
+                    String username = userInfo.get(1);
 
-                    experimentArrayList.add(new ExperimentItem(description));
+                    experimentArrayList.add(new ExperimentItem(description, username));
                 };
 
         aRecyclerView = rootView.findViewById(R.id.recycle_view);
