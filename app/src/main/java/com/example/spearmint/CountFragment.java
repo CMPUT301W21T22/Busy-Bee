@@ -41,6 +41,9 @@ public class CountFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.experiment_count, container, false);
 
+        Experiment experiment = getArguments().getParcelable("dataKey");
+        String exDescription = experiment.getExperimentDescription();
+
         countDescription = view.findViewById(R.id.countDescription);
         value = view.findViewById(R.id.value);
         decrement = view.findViewById(R.id.decrement);
@@ -48,7 +51,7 @@ public class CountFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Count");
+        final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
 
         decrement.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +99,12 @@ public class CountFragment extends Fragment {
                             });
                     countDescription.setText("");
                 }
-                SearchFragment searchFragment = new SearchFragment();
+                Bundle experimentInfo = new Bundle();
+                experimentInfo.putParcelable("dataKey", experiment);
+                ExperimentCount experimentCount = new ExperimentCount();
+                experimentCount.setArguments(experimentInfo);
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, searchFragment);
+                transaction.replace(R.id.nav_host_fragment, experimentCount);
                 transaction.commit();
             }
         });
@@ -108,10 +114,11 @@ public class CountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                SearchDetails detailsFragment = new SearchDetails();
-                detailsFragment.setArguments(experimentInfo);
+                ExperimentCount experimentCount = new ExperimentCount();
+                experimentInfo.putParcelable("dataKey", experiment);
+                experimentCount.setArguments(experimentInfo);
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, experimentCount);
                 transaction.commit();
             }
         }));

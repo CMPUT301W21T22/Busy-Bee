@@ -163,17 +163,17 @@ public class ExperimentDetails extends Fragment {
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 switch (experiment.getTrialType()) {
                     case "Counts":
+                        ExperimentCount experimentCount = new ExperimentCount();
+                        experimentInfo.putParcelable("dataKey", experiment);
+                        experimentCount.setArguments(experimentInfo);
+                        transaction.replace(R.id.nav_host_fragment, experimentCount);
+                        transaction.commit();
+                        break;
+                    case "Binomial Trials":
                         BinomialFragment binomialFragment = new BinomialFragment();
                         experimentInfo.putParcelable("dataKey", experiment);
                         binomialFragment.setArguments(experimentInfo);
                         transaction.replace(R.id.nav_host_fragment, binomialFragment);
-                        transaction.commit();
-                        break;
-                    case "Binomial Trials":
-                        CountFragment countFragment = new CountFragment();
-                        experimentInfo.putParcelable("dataKey", experiment);
-                        countFragment.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, countFragment);
                         transaction.commit();
                         break;
                     case "Non-negative Integer Counts":

@@ -9,10 +9,10 @@
     android:background="#fff">
 
     <Button
-        android:id="@+id/add_count"
+        android:id="@+id/new_trial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Count" />
+        android:text="New Trial" />
 
     <ListView
         android:id="@+id/count_list"
@@ -24,10 +24,10 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/end_count"
+            android:id="@+id/back_to_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End Count"
+            android:text="Back"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>

@@ -60,7 +60,7 @@ public class SearchDetails extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Experiments");
+        //final CollectionReference collectionReference = db.collection("Experiments");
         final CollectionReference collectionReferenceUser = db.collection("User");
 
         View view = inflater.inflate(R.layout.search_details, container, false);

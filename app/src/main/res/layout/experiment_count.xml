@@ -74,25 +74,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <Button
             android:id="@+id/count_cancel"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="500dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:text="Cancel" />
 
         <Button
             android:id="@+id/count_publish"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="500dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:text="Publish" />
 

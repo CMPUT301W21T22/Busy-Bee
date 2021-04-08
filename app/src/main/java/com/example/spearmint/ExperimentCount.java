@@ -21,8 +21,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class ExperimentCount extends Fragment {
-    Button addCount;
-    Button endCount;
+    Button addTrial;
+    Button goBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,11 +31,14 @@ public class ExperimentCount extends Fragment {
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Count");
 
         View view = inflater.inflate(R.layout.count, container, false);
+        Experiment experiment = getArguments().getParcelable("dataKey");
+        String exDescription = experiment.getExperimentDescription();
 
         ListView listView = (ListView) view.findViewById(R.id.count_list);
+
+        final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
 
         /**
          * Samantha Squires. (2016, March 1). 1.5: Display a ListView in a Fragment [Video]. YouTube. https://www.youtube.com/watch?v=edZwD54xfbk
@@ -64,28 +67,31 @@ public class ExperimentCount extends Fragment {
             }
         });
 
-        addCount = view.findViewById(R.id.add_count);
-        addCount.setOnClickListener(new View.OnClickListener() {
+        addTrial = view.findViewById(R.id.new_trial);
+        addTrial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle experimentInfo = new Bundle();
+                experimentInfo.putParcelable("dataKey", experiment);
                 CountFragment countFragment = new CountFragment();
+                countFragment.setArguments(experimentInfo);
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, countFragment);
                 transaction.commit();
             }
         });
 
-        endCount = view.findViewById(R.id.end_count);
-        endCount.setOnClickListener(new View.OnClickListener() {
+        goBack = view.findViewById(R.id.back_to_details);
+        goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                SearchDetails detailsFragment = new SearchDetails();
-
-                detailsFragment.setArguments(experimentInfo);
+                ExperimentDetails experimentDetails = new ExperimentDetails();
+                experimentInfo.putParcelable("dataKey", experiment);
+                experimentDetails.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, experimentDetails);
                 transaction.commit();
             }
         });
