@@ -36,7 +36,10 @@ public class PublishTrialFragment extends Fragment {
 
         FirebaseFirestore db;
 
-        View view = inflater.inflate(R.layout.trial_publish, container, false);
+        View view = inflater.inflate(R.layout.experiment_binomial, container, false);
+
+        Experiment experiment = getArguments().getParcelable("dataKey");
+        String exDescription = experiment.getExperimentDescription();
 
         trialDescription = view.findViewById(R.id.trialDescription);
 
@@ -47,7 +50,7 @@ public class PublishTrialFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Binomial");
+        final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
 
         trial.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -88,9 +91,13 @@ public class PublishTrialFragment extends Fragment {
                             });
                     trialDescription.setText("");
                 }
-                SearchFragment searchFragment = new SearchFragment();
+                Bundle experimentInfo = new Bundle();
+                BinomialFragment binomialFragment = new BinomialFragment();
+                experimentInfo.putParcelable("dataKey", experiment);
+                binomialFragment.setArguments(experimentInfo);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, searchFragment);
+                transaction.replace(R.id.nav_host_fragment, binomialFragment);
                 transaction.commit();
             }
         });
@@ -100,10 +107,12 @@ public class PublishTrialFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                SearchDetails detailsFragment = new SearchDetails();
-                detailsFragment.setArguments(experimentInfo);
+                BinomialFragment binomialFragment = new BinomialFragment();
+                experimentInfo.putParcelable("dataKey", experiment);
+                binomialFragment.setArguments(experimentInfo);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, binomialFragment);
                 transaction.commit();
             }
         }));

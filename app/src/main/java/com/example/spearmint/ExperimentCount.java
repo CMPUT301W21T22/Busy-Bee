@@ -1,101 +1,127 @@
 package com.example.spearmint;
 
+/**
+ * https://www.youtube.com/watch?v=kgJugGyff5o
+ */
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
+import static android.content.ContentValues.TAG;
 
 public class ExperimentCount extends Fragment {
-    Button addTrial;
-    Button goBack;
 
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Button publishCount;
+        Button cancelCount;
+        final EditText countDescription;
+        TextView value;
+        Button decrement;
+        Button increment;
+        final int[] count = {0};
+
         FirebaseFirestore db;
-        db = FirebaseFirestore.getInstance();
 
+        View view = inflater.inflate(R.layout.experiment_count, container, false);
 
-        View view = inflater.inflate(R.layout.count, container, false);
         Experiment experiment = getArguments().getParcelable("dataKey");
         String exDescription = experiment.getExperimentDescription();
 
-        ListView listView = (ListView) view.findViewById(R.id.count_list);
+        countDescription = view.findViewById(R.id.countDescription);
+        value = view.findViewById(R.id.value);
+        decrement = view.findViewById(R.id.decrement);
+        increment = view.findViewById(R.id.increment);
+
+        db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
 
-        /**
-         * Samantha Squires. (2016, March 1). 1.5: Display a ListView in a Fragment [Video]. YouTube. https://www.youtube.com/watch?v=edZwD54xfbk
-         * Abram Hindle, "Lab 3 instructions - CustomList", Public Domain, 2021-02-12, https://eclass.srv.ualberta.ca/pluginfile.php/6713985/mod_resource/content/1/Lab%203%20instructions%20-%20CustomList.pdf
-         *  https://stackoverflow.com/users/788677/rakhita. (2011, Nov 17). Custom Adapter for List View. https://stackoverflow.com/. https://stackoverflow.com/questions/8166497/custom-adapter-for-list-view/8166802#8166802
-         */
-
-        ArrayList<Count> countList = new ArrayList<>();
-
-        CountAdapter customAdapter = new CountAdapter(getActivity(), R.layout.count_content, countList);
-
-        listView.setAdapter(customAdapter);
-
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        decrement.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                countList.clear();
-                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-
-                    String count_description = doc.getId();
-                    String count_result = (String) doc.get("countResult");
-
-                    countList.add(new Count(count_description, count_result));
-                }
-                customAdapter.notifyDataSetChanged();
+            public void onClick(View v) {
+                count[0]--;
+                value.setText("" + count[0]);
             }
         });
 
-        addTrial = view.findViewById(R.id.new_trial);
-        addTrial.setOnClickListener(new View.OnClickListener() {
+        increment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count[0]++;
+                value.setText("" + count[0]);
+            }
+        });
+
+        publishCount = view.findViewById(R.id.count_publish);
+
+        publishCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String value2 = Integer.toString(count[0]);
+                final String description = countDescription.getText().toString();
+
+                Count uploadData = new Count(description, value2);
+
+                if (description.length() > 0) {
+                    collectionReference
+                            .document(description)
+                            .set(uploadData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // These are a method which gets executed when the task is succeeded
+                                    Log.d(TAG, "Data has been added successfully!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // These are a method which gets executed if there’s any problem
+                                    Log.d(TAG, "Data could not be added!" + e.toString());
+                                }
+                            });
+                    countDescription.setText("");
+                }
                 Bundle experimentInfo = new Bundle();
                 experimentInfo.putParcelable("dataKey", experiment);
-                CountFragment countFragment = new CountFragment();
-                countFragment.setArguments(experimentInfo);
+                CountFragment experimentCount = new CountFragment();
+                experimentCount.setArguments(experimentInfo);
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, countFragment);
+                transaction.replace(R.id.nav_host_fragment, experimentCount);
                 transaction.commit();
             }
         });
 
-        goBack = view.findViewById(R.id.back_to_details);
-        goBack.setOnClickListener(new View.OnClickListener() {
+        cancelCount = view.findViewById(R.id.count_cancel);
+        cancelCount.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                ExperimentDetails experimentDetails = new ExperimentDetails();
+                CountFragment experimentCount = new CountFragment();
                 experimentInfo.putParcelable("dataKey", experiment);
-                experimentDetails.setArguments(experimentInfo);
-
+                experimentCount.setArguments(experimentInfo);
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, experimentDetails);
+                transaction.replace(R.id.nav_host_fragment, experimentCount);
                 transaction.commit();
             }
-        });
-
+        }));
         return view;
     }
 }

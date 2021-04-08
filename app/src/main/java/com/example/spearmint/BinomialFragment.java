@@ -32,11 +32,13 @@ public class BinomialFragment extends Fragment {
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Binomial");
-
-        View view = inflater.inflate(R.layout.experiment_binominal, container, false);
+        View view = inflater.inflate(R.layout.fragment_trials, container, false);
+        Experiment experiment = getArguments().getParcelable("dataKey");
+        String exDescription = experiment.getExperimentDescription();
 
         ListView listView = (ListView) view.findViewById(R.id.trial_list);
+
+        final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
 
         /**
          * Samantha Squires. (2016, March 1). 1.5: Display a ListView in a Fragment [Video]. YouTube. https://www.youtube.com/watch?v=edZwD54xfbk
@@ -69,7 +71,10 @@ public class BinomialFragment extends Fragment {
         addTrial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle experimentInfo = new Bundle();
+                experimentInfo.putParcelable("dataKey", experiment);
                 PublishTrialFragment publishTrialFragment = new PublishTrialFragment();
+                publishTrialFragment.setArguments(experimentInfo);
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, publishTrialFragment);
                 transaction.commit();
@@ -81,12 +86,12 @@ public class BinomialFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                SearchDetails detailsFragment = new SearchDetails();
-
-                detailsFragment.setArguments(experimentInfo);
+                ExperimentDetails experimentDetails = new ExperimentDetails();
+                experimentInfo.putParcelable("dataKey", experiment);
+                experimentDetails.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, experimentDetails);
                 transaction.commit();
             }
         });
