@@ -147,9 +147,9 @@ public class SearchFragment extends Fragment {
             public void onItemClick(int position, View v) {
                 Bundle experimentInfo = new Bundle();
                 QuestionsAnswers detailsFragment = new QuestionsAnswers();
-                String experimentName = experimentArrayList.get(position).getaTitle();
+                //String experimentName = experimentArrayList.get(position).getaTitle();
 
-                experimentInfo.putString("dataKey", experimentName);
+                //experimentInfo.putString("dataKey", experimentName);
                 detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
