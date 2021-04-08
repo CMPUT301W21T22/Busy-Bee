@@ -62,7 +62,7 @@ public class ExperimentFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
-        final CollectionReference collectionReference = db.collection("User").document(uniqueID).collection("myExperiment");
+        final CollectionReference collectionReference = db.collection("User").document(uniqueID).collection("subscribedExperiments");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_experiment, container, false);
