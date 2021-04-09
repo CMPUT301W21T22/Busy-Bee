@@ -300,11 +300,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 alert.setMessage("Profile Saved!");
                 alert.show();
-
-               
-
-
-                break;
+                
         }
     }
 }
