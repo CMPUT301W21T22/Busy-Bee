@@ -1,9 +1,13 @@
 package com.example.spearmint;
 
 /**
- * https://www.youtube.com/watch?v=kgJugGyff5o
+ * Fragment that allows a user to publish an count trial with a description, value that is incremented or decremented
+ * Fragment also gets the user location and displays the latitude and longitude
+ * Fragment uploads user entered information to firebase when "publish" is pressed
+ * has two clickable buttons called "publish" or "cancel", once either is pressed, the user is redirected to experiment_count.java
+ * Hana Fakhouri. (2020, March 21). Increment Decrement App | Android Studio Tutorial. YouTube. https://www.youtube.com/watch?v=kgJugGyff5o
+ * Android Coding. (2020, November 1). How to Get Current Location in Fragment in Android Studio | CurrentLocation | Android Coding. https://www.youtube.com/watch?v=VdCQoJtNXAg
  */
-
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -132,9 +136,10 @@ public class PublishCount extends Fragment {
             }
         });
 
-        /**
-         * https://www.youtube.com/watch?v=VdCQoJtNXAg
+        /** Used the video to implement the get current location
+         * Android Coding. (2020, November 1). How to Get Current Location in Fragment in Android Studio | CurrentLocation | Android Coding. https://www.youtube.com/watch?v=VdCQoJtNXAg
          */
+
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,10 +216,12 @@ public class PublishCount extends Fragment {
             }
         }));
 
-
-
         return view;
     }
+
+    /** Used the video to implement the get current location fragment and current location latitude/longitude
+     * Android Coding. (2020, November 1). How to Get Current Location in Fragment in Android Studio | CurrentLocation | Android Coding. https://www.youtube.com/watch?v=VdCQoJtNXAg
+     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
