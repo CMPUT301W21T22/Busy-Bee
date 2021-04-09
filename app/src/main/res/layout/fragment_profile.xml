@@ -8,6 +8,7 @@
 
     <TextView
         android:id="@+id/profile_fragment"
+        android:fontFamily="@font/futuraltbook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="140dp"
@@ -19,6 +20,7 @@
 
     <EditText
         android:id="@+id/edit_text_username"
+        android:fontFamily="@font/futuraltbook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -33,6 +35,7 @@
 
     <EditText
         android:id="@+id/edit_text_email"
+        android:fontFamily="@font/futuraltbook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -45,6 +48,7 @@
 
     <Button
         android:id="@+id/button_save_profile"
+        android:fontFamily="@font/futuraltbook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"

@@ -9,12 +9,14 @@
 
     <Button
         android:id="@+id/button_id"
+        android:fontFamily="@font/futuraltbook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_experiment" />
 
     <ListView
         android:id="@+id/experiment_list"
+        android:fontFamily="@font/futuraltbook"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
