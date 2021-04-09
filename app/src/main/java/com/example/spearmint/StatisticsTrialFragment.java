@@ -19,7 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.jjoe64.graphview.GraphView;
+//import com.jjoe64.graphview.GraphView;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -59,7 +59,7 @@ public class StatisticsTrialFragment extends Fragment {
         final CollectionReference collectionReferenceTrials = collectionReferenceExperiments.document(exDescription).collection("Trials");
         final CollectionReference collectionReferenceUser = db.collection("User");
 
-       final GraphView graph = view.findViewById(R.id.plot_graph);
+//       final GraphView graph = view.findViewById(R.id.plot_graph);
        Button button = view.findViewById(R.id.plot_button);
 
         goBack = view.findViewById(R.id.stats_go_back);
@@ -93,7 +93,7 @@ public class StatisticsTrialFragment extends Fragment {
 //            }
 //        })
 
-        graph.setVisibility(View.VISIBLE);
+//        graph.setVisibility(View.VISIBLE);
 
         /**
          * Gathers all of the trials from an experiment and plots the points onto a graph
