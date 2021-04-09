@@ -74,16 +74,31 @@
             android:text="End Experiment"
             android:layout_alignParentLeft="true"/>
 
-        <Button
-            android:id="@+id/experiment_trial"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_alignParentRight="true"
-            android:text="View Trials"/>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/experiment_trial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="View Trials"/>
+
+        <Button
+            android:id="@+id/experiment_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="View Map"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

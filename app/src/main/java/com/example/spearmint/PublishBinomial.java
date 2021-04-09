@@ -67,8 +67,8 @@ public class PublishBinomial extends Fragment {
             @Override
             public void onClick(View view) {
                 final String description = binomialDescription.getText().toString();
-
-                Trial uploadData = new Trial(description,result[0]);
+                String location = "NONE";
+                Trial uploadData = new Trial(description, result[0], location);
 
                 if (description.length() > 0) {
                     collectionReference

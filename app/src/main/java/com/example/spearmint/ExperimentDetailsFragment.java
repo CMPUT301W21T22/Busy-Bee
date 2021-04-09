@@ -12,6 +12,7 @@ package com.example.spearmint;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +52,7 @@ public class ExperimentDetailsFragment extends Fragment {
         Button end;
         Button trial;
         Button post;
+        Button map;
         TextView exDescription;
         TextView exRegion;
         TextView exCount;
@@ -103,6 +105,7 @@ public class ExperimentDetailsFragment extends Fragment {
         trial = view.findViewById(R.id.experiment_trial);
         question = view.findViewById(R.id.post_question);
         post = view.findViewById(R.id.post_question_button);
+        map = view.findViewById(R.id.experiment_map);
 
         ListView listView = (ListView) view.findViewById(R.id.post_list);
 
@@ -314,6 +317,17 @@ public class ExperimentDetailsFragment extends Fragment {
                 transaction.commit();
             }
         });
+
+
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         return view;
     }
 

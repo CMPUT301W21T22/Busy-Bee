@@ -76,8 +76,9 @@ public class PublishNonNegative extends Fragment {
             public void onClick(View view) {
                 String value2 = Integer.toString(count[0]);
                 final String description = nonnegativeDescription.getText().toString();
+                String location = "NONE";
 
-                Trial uploadData = new Trial(description, value2);
+                Trial uploadData = new Trial(description, value2, location);
 
                 if (description.length() > 0) {
                     collectionReference
