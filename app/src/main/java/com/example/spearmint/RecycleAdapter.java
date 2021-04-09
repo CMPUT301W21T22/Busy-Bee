@@ -37,7 +37,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             name = (TextView) itemView.findViewById(R.id.recycle_view);
             aTitle = itemView.findViewById(R.id.experiment_title);
             username = itemView.findViewById(R.id.owner_username);
-            status = itemView.findViewById(R.id.experiment_status);
+            status = itemView.findViewById(R.id.status);
         }
 
         @Override

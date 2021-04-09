@@ -54,6 +54,7 @@ public class ExperimentDetailsFragment extends Fragment {
         TextView exOwner;
         TextView exLocation;
         TextView exType;
+        TextView exStatus;
         EditText question;
         FirebaseFirestore db;
 
@@ -74,6 +75,7 @@ public class ExperimentDetailsFragment extends Fragment {
         exOwner = view.findViewById(R.id.experiment_username);
         exLocation = view.findViewById(R.id.experiment_location);
         exType = view.findViewById(R.id.experiment_type);
+        exStatus = view.findViewById(R.id.experiment_status);
 
         String description = "Title: " + experiment.getExperimentDescription();
         String region = "City: " + experiment.getExperimentRegion();
@@ -81,6 +83,7 @@ public class ExperimentDetailsFragment extends Fragment {
         String owner = "Owner: " + experiment.getExperimentOwner().get(1);
         String location = "Requires Location: " + experiment.getGeoLocation();
         String type = "Trial Type: " + experiment.getTrialType();
+        String status = "Status: " + experiment.getStatus();
 
         exDescription.setText(description);
         exRegion.setText(region);
@@ -88,6 +91,7 @@ public class ExperimentDetailsFragment extends Fragment {
         exOwner.setText(owner);
         exLocation.setText(location);
         exType.setText(type);
+        exStatus.setText(status);
 
         trial = view.findViewById(R.id.experiment_trial);
         question = view.findViewById(R.id.post_question);
