@@ -196,6 +196,24 @@ public class TrialFragment extends Fragment {
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle trialInfo = new Bundle();
+                QRCodeFragment qrCodeFragment = new QRCodeFragment();
+                Trial trial = trialList.get(position);
+
+                trialInfo.putParcelable("dataKey", trial);
+                qrCodeFragment.setArguments(trialInfo);
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, qrCodeFragment);
+                transaction.commit();
+
+                }
+
+            });
+
         return view;
     }
 }
