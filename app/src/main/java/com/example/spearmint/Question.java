@@ -3,6 +3,7 @@ package com.example.spearmint;
 /**
  * Base class for the Question object with fields of type String
  * has getter methods so other classes can access the information held by a Question
+ * Has fields "question", "answer"
  * @author Andrew
  */
 
