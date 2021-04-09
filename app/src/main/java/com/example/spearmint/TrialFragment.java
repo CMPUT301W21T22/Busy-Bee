@@ -77,9 +77,9 @@ public class TrialFragment extends Fragment {
                     String trialDescription = doc.getId();
                     String trialResult = (String) doc.get("trialResult");
                     String experimenter = (String) doc.get("experimenter");
-                    String location = "NONE";
+                    ArrayList<String> coordinates = (ArrayList<String>) doc.get("trialLocation");
 
-                    trialList.add(new Trial(trialDescription, trialResult, experimenter,location));
+                    trialList.add(new Trial(trialDescription, trialResult, experimenter, coordinates));
                 }
                 customAdapter.notifyDataSetChanged();
             }

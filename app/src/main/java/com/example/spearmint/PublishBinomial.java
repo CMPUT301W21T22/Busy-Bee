@@ -80,6 +80,7 @@ public class PublishBinomial extends Fragment {
         final String[] result = new String[1];
         final Spinner binomial;
         ArrayAdapter<CharSequence> adapter;
+        ArrayList<String> coordinates = new ArrayList<>();
         ArrayList<String> experimenter = new ArrayList<>();
 
         Experiment experiment = getArguments().getParcelable("dataKey");
@@ -131,13 +132,37 @@ public class PublishBinomial extends Fragment {
             }
         });
 
+        /**
+         * https://www.youtube.com/watch?v=VdCQoJtNXAg
+         */
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getActivity()
+                        , Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(getActivity()
+                                , Manifest.permission.ACCESS_COARSE_LOCATION)
+                                == PackageManager.PERMISSION_GRANTED) {
+                    getCurrentLocation();
+                }
+                else {
+                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION
+                            , Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+                }
+            }
+
+        });
+
         binomialPublish = view.findViewById(R.id.binomial_publish);
         binomialPublish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String description = binomialDescription.getText().toString();
-                String location = "NONE";
-                Trial uploadData = new Trial(description, result[0], experimenter.get(0), location);
+                coordinates.add((String) latitude.getText());
+                coordinates.add((String) longitude.getText());
+
+                Trial uploadData = new Trial(description, result[0], experimenter.get(0), coordinates);
 
                 if (description.length() > 0) {
                     collectionReference
@@ -185,27 +210,6 @@ public class PublishBinomial extends Fragment {
             }
         }));
 
-        /**
-         * https://www.youtube.com/watch?v=VdCQoJtNXAg
-         */
-        location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getActivity()
-                        , Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(getActivity()
-                                , Manifest.permission.ACCESS_COARSE_LOCATION)
-                                == PackageManager.PERMISSION_GRANTED) {
-                                getCurrentLocation();
-                        }
-                else {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION
-                            , Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-                }
-            }
-
-        });
 
         return view;
     }
