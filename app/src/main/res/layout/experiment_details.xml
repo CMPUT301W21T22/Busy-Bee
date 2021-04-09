@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:hint="Experiment Name"
         android:layout_marginLeft="5dp"/>
 
     <TextView
@@ -24,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:hint="Region"
         android:layout_marginLeft="5dp"/>
 
     <TextView
@@ -31,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:hint="Minimum trials"
         android:layout_marginLeft="5dp"/>
 
     <TextView
@@ -38,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:hint="Username"
         android:layout_marginLeft="5dp"
         android:textColor="@color/purple_500" />
 
@@ -46,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:hint="Require Location"
         android:layout_marginLeft="5dp"/>
 
     <TextView
@@ -53,6 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:hint="Experiment Type"
         android:layout_marginLeft="5dp"/>
 
     <TextView
@@ -60,8 +66,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:hint="Experiment Status"
         android:layout_marginLeft="5dp"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -117,8 +117,13 @@ public class PublishNonNegative extends Fragment {
         decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count[0]--;
-                value.setText("" + count[0]);
+                if (count[0] <= 0) {
+                    // DO NOTHING
+                }
+                else {
+                    count[0]--;
+                    value.setText("" + count[0]);
+                }
             }
         });
 
