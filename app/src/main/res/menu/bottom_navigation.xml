@@ -12,7 +12,7 @@
     <item
         android:id="@+id/scanner_fragment"
         android:title="Scanner"
-        android:icon="@drawable/ic_notifications"/>
+        android:icon="@drawable/ic_code_scanner_auto_focus_on"/>
     <item
         android:id="@+id/profile_fragment"
         android:title="Profile"

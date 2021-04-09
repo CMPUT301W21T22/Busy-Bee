@@ -71,12 +71,19 @@
             android:id="@+id/end_experiment"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="138dp"
+            android:layout_marginLeft="138dp"
+            android:layout_marginEnd="123dp"
             android:text="End Experiment"
-            android:layout_alignParentLeft="true"/>
+            android:gravity="center_horizontal"
+            android:textAlignment="center"/>
 
 
     </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -86,20 +93,27 @@
             android:id="@+id/experiment_trial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="View Trials"/>
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:text="View Trials" />
 
         <Button
             android:id="@+id/experiment_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="View Map"/>
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:text="View Map" />
+
+        <Button
+            android:id="@+id/experiment_statistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:text="View Stats" />
 
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"

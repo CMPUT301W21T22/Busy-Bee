@@ -63,6 +63,7 @@ public class ExperimentDetailsFragment extends Fragment {
         Button trial;
         Button post;
         Button map;
+        Button stats;
         TextView exDescription;
         TextView exRegion;
         TextView exCount;
@@ -115,6 +116,7 @@ public class ExperimentDetailsFragment extends Fragment {
         question = view.findViewById(R.id.post_question);
         post = view.findViewById(R.id.post_question_button);
         map = view.findViewById(R.id.experiment_map);
+        stats = view.findViewById(R.id.experiment_statistics);
 
         ListView listView = (ListView) view.findViewById(R.id.post_list);
 
@@ -362,6 +364,20 @@ public class ExperimentDetailsFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle experimentInfo = new Bundle();
+                StatisticsTrialFragment  statisticsTrialFragment = new StatisticsTrialFragment();
+                experimentInfo.putParcelable("dataKey", experiment);
+                statisticsTrialFragment.setArguments(experimentInfo);
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, statisticsTrialFragment);
+                transaction.commit();
             }
         });
 
