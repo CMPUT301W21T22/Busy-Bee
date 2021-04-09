@@ -1,6 +1,9 @@
 package com.example.spearmint;
 
-public class Trial {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Trial implements Parcelable {
 
     private String trialDescription;
     private String trialResult;
@@ -12,6 +15,35 @@ public class Trial {
         this.trialLocation = trialLocation;
     }
 
+    protected Trial(Parcel in) {
+        trialDescription = in.readString();
+        trialResult = in.readString();
+        trialLocation = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(trialDescription);
+        dest.writeString(trialResult);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Trial> CREATOR = new Creator<Trial>() {
+        @Override
+        public Trial createFromParcel(Parcel in) {
+            return new Trial(in);
+        }
+
+        @Override
+        public Trial[] newArray(int size) {
+            return new Trial[size];
+        }
+    };
+
     public String getTrialDescription() {
         return this.trialDescription;
     }
@@ -20,7 +52,4 @@ public class Trial {
         return this.trialResult;
     }
 
-    public String getTrialLocation() {
-        return this.trialLocation;
-    }
 }

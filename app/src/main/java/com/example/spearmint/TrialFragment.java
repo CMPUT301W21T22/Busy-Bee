@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -138,6 +139,24 @@ public class TrialFragment extends Fragment {
                 transaction.commit();
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle trialInfo = new Bundle();
+                QRCodeFragment qrCodeFragment = new QRCodeFragment();
+                Trial trial = trialList.get(position);
+
+                trialInfo.putParcelable("dataKey", trial);
+                qrCodeFragment.setArguments(trialInfo);
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, qrCodeFragment);
+                transaction.commit();
+
+                }
+
+            });
 
         return view;
     }
