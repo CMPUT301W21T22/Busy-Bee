@@ -1,6 +1,9 @@
 package com.example.spearmint;
 
 /**
+ *  MapsActivity initializes the google play service API
+ *  Uses google map to display markers from firebase
+ *  Grabs latitude and longitude from firebase and creates trial location
  * Android Coding. (2018, December 27). How to Implement Google Map in Android Studio | GoogleMap | Android Coding [Video]. YouTube. https://www.youtube.com/watch?v=eiexkzCI8m8&t=301s
  * Google Map Platform, "Quickstart - Adding a Map", Apache 2.0 License, Creative Commons Attribution 4.0 License, https://developers.google.com/maps/documentation/android-sdk/start
  */
