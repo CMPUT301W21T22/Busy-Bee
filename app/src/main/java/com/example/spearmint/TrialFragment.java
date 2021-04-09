@@ -2,10 +2,12 @@ package com.example.spearmint;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -14,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -22,14 +26,21 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class TrialFragment extends Fragment {
 
-    Button addTrial;
-    Button goBack;
+    private static final String SHARED_PREFS = "SharedPrefs";
+    private static final String TEXT = "Text";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Button addTrial;
+        Button goBack;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
 
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
@@ -41,7 +52,9 @@ public class TrialFragment extends Fragment {
 
         ListView listView = (ListView) view.findViewById(R.id.trial_list);
 
-        final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
+        final CollectionReference collectionReferenceExperiments = db.collection("Experiments");
+        final CollectionReference collectionReferenceTrials = collectionReferenceExperiments.document(exDescription).collection("Trials");
+        final CollectionReference collectionReferenceUser = db.collection("User");
 
         /**
          * Samantha Squires. (2016, March 1). 1.5: Display a ListView in a Fragment [Video]. YouTube. https://www.youtube.com/watch?v=edZwD54xfbk
@@ -55,7 +68,7 @@ public class TrialFragment extends Fragment {
 
         listView.setAdapter(customAdapter);
 
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReferenceTrials.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 trialList.clear();
@@ -63,10 +76,10 @@ public class TrialFragment extends Fragment {
 
                     String trialDescription = doc.getId();
                     String trialResult = (String) doc.get("trialResult");
-
+                    String experimenter = (String) doc.get("experimenter");
                     String location = "NONE";
 
-                    trialList.add(new Trial(trialDescription, trialResult, location));
+                    trialList.add(new Trial(trialDescription, trialResult, experimenter,location));
                 }
                 customAdapter.notifyDataSetChanged();
             }
@@ -116,13 +129,57 @@ public class TrialFragment extends Fragment {
                     alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            //
                         }
                     });
                     alert.show();
                 }
             }
         });
+
+        ArrayList<Boolean> ownsExperiment = new ArrayList<>();
+        collectionReferenceUser.document(uniqueID).collection("ownedExperiments").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                ownsExperiment.clear();
+                for (QueryDocumentSnapshot doc : value) {
+                    String experimentName = doc.getId();
+                    if (experimentName.contentEquals(experiment.getExperimentDescription())) {
+                        ownsExperiment.add(true);
+                    }
+                }
+                ownsExperiment.add(false);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Trial trial = trialList.get(position);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle(trial.getTrialDescription());
+                alert.setMessage(trial.getTrialResult() + "\n" + trial.getExperimenter());
+                alert.setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                });
+                if (ownsExperiment.get(0)) {
+                    alert.setPositiveButton("IGNORE", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            collectionReferenceTrials.document(trial.getTrialDescription()).delete();
+                        }
+                    });
+                }
+                alert.show();
+            }
+        });
+
+
 
         goBack = view.findViewById(R.id.go_back_details);
         goBack.setOnClickListener(new View.OnClickListener() {

@@ -1,5 +1,6 @@
 package com.example.spearmint;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,17 +13,29 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class PublishBinomial extends Fragment {
+
+    private static final String SHARED_PREFS = "SharedPrefs";
+    private static final String TEXT = "Text";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,6 +46,7 @@ public class PublishBinomial extends Fragment {
         final String[] result = new String[1];
         final Spinner binomial;
         ArrayAdapter<CharSequence> adapter;
+        ArrayList<String> experimenter = new ArrayList<>();
 
         Experiment experiment = getArguments().getParcelable("dataKey");
         String exDescription = experiment.getExperimentDescription();
@@ -41,9 +55,21 @@ public class PublishBinomial extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
-
         View view = inflater.inflate(R.layout.experiment_binomial, container, false);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
+
+        final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
+        final CollectionReference collectionReferenceUser = db.collection("User");
+        DocumentReference documentReference = collectionReferenceUser.document(uniqueID);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String username = value.getString("Username");
+                experimenter.add(username);
+            }
+        });
 
         binomialDescription = view.findViewById(R.id.binomialDescription);
 
@@ -68,7 +94,7 @@ public class PublishBinomial extends Fragment {
             public void onClick(View view) {
                 final String description = binomialDescription.getText().toString();
                 String location = "NONE";
-                Trial uploadData = new Trial(description, result[0], location);
+                Trial uploadData = new Trial(description, result[0], experimenter.get(0), location);
 
                 if (description.length() > 0) {
                     collectionReference

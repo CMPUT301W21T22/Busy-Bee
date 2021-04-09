@@ -42,7 +42,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ExperimentFragment extends Fragment {
 
-    Button addExperiment;
     private static final String SHARED_PREFS = "SharedPrefs";
     private static final String TEXT = "Text";
 
@@ -50,12 +49,14 @@ public class ExperimentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Button addExperiment;
+
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
 
-
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
+
         final CollectionReference collectionReference = db.collection("User").document(uniqueID).collection("subscribedExperiments");
 
         // Inflate the layout for this fragment

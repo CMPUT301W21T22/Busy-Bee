@@ -169,25 +169,25 @@ public class ExperimentDetailsFragment extends Fragment {
             }
         });
 
-        ArrayList<Boolean> contains = new ArrayList<>();
+        ArrayList<Boolean> ownsExperiment = new ArrayList<>();
         collectionReferenceUser.document(uniqueID).collection("ownedExperiments").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                contains.clear();
+                ownsExperiment.clear();
                 for (QueryDocumentSnapshot doc : value) {
                     String experimentName = doc.getId();
                     if (experimentName.contentEquals(description)) {
-                        contains.add(true);
+                        ownsExperiment.add(true);
                     }
                 }
-                contains.add(false);
+                ownsExperiment.add(false);
             }
         });
 
         end.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (contains.get(0)) {
+                if (ownsExperiment.get(0)) {
                     experiment.setStatus("Closed");
 
                     collectionReferenceExperiments
