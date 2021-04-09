@@ -1,5 +1,9 @@
 package com.example.spearmint;
 
+/**
+ * https://www.youtube.com/watch?v=kgJugGyff5o
+ */
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -147,6 +151,9 @@ public class PublishBinomial extends Fragment {
             }
         }));
 
+        /**
+         * https://www.youtube.com/watch?v=VdCQoJtNXAg
+         */
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
