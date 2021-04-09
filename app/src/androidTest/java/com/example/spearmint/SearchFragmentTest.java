@@ -12,6 +12,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+/*
+* Currently Incomplete SearchFragment Intent Test.
+* Some of the functions are working but not all
+*
+* */
 public class SearchFragmentTest {
     private Solo solo;
 
@@ -30,9 +35,8 @@ public class SearchFragmentTest {
         solo.clickOnView(solo.getView(R.id.search_fragment));
 
         solo.clickOnView(solo.getView(R.id.search_action));
-        solo.clickOnView(solo.getView(R.id.search_action));
 
-        solo.enterText((EditText) solo.getView(R.id.search_action), "Edmonton");
+        solo.searchText("Edmonton");
     }
 
 
