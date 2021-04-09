@@ -13,6 +13,7 @@ package com.example.spearmint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,8 +42,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class ExperimentDetailsFragment extends Fragment {
+
+    private static final String SHARED_PREFS = "SharedPrefs";
+    private static final String TEXT = "Text";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +67,8 @@ public class ExperimentDetailsFragment extends Fragment {
         TextView exStatus;
         EditText question;
         FirebaseFirestore db;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
 
         db = FirebaseFirestore.getInstance();
 
@@ -163,18 +170,20 @@ public class ExperimentDetailsFragment extends Fragment {
         });
 
         ArrayList<Boolean> contains = new ArrayList<>();
-        collectionReferenceUser.document(ownerID).collection("ownedExperiments").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReferenceUser.document(uniqueID).collection("ownedExperiments").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                contains.clear();
                 for (QueryDocumentSnapshot doc : value) {
                     String experimentName = doc.getId();
                     if (experimentName.contentEquals(description)) {
                         contains.add(true);
                     }
-//                    Log.d(TAG, experimentName);
                 }
+                contains.add(false);
             }
         });
+
         end.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
