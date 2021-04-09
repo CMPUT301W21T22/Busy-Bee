@@ -10,6 +10,7 @@ package com.example.spearmint;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -30,12 +31,19 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.api.Context;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.rpc.Code;
 import com.google.zxing.Result;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class ScannerFragment extends Fragment {
 
@@ -80,10 +88,18 @@ public class ScannerFragment extends Fragment {
         }
     }
 
+    private static final String SHARED_PREFS = "SharedPrefs";
+    private static final String TEXT = "Text";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
+        ArrayList<String> userInfo = new ArrayList<>();
+        ArrayList<String> location = new ArrayList<>();
 
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
@@ -92,6 +108,15 @@ public class ScannerFragment extends Fragment {
         String exDescription = experiment.getExperimentDescription();
 
         final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
+        final CollectionReference collectionReferenceUser = db.collection("User");
+        DocumentReference documentReference = collectionReferenceUser.document(uniqueID);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+            String username = value.getString("Username");
+            userInfo.add(username);
+            }
+        });
 
         // Inflate the layout for this fragment
         setupPermissions();
@@ -106,15 +131,20 @@ public class ScannerFragment extends Fragment {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
+                        location.add("0.0");
+                        location.add("0.0");
+                        Trial trial = new Trial("Scanned Trial", result.getText(), userInfo.get(0), location);
                         collectionReference
-                                .document("Scanned Trial")
-                                .set(result.getText());
+                                .document(experiment.getExperimentDescription())
+                                .set(trial);
 
                         textViewScan.setText(result.getText());
                     }
                 });
             }
         });
+
         scannerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
