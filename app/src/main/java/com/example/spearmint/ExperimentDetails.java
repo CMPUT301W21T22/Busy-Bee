@@ -10,6 +10,7 @@ package com.example.spearmint;
  * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +49,7 @@ public class ExperimentDetails extends Fragment {
         Button goBack;
         Button trial;
         Button post;
+        Button map;
         TextView exDescription;
         TextView exRegion;
         TextView exCount;
@@ -92,6 +94,7 @@ public class ExperimentDetails extends Fragment {
         trial = view.findViewById(R.id.experiment_trial);
         question = view.findViewById(R.id.post_question);
         post = view.findViewById(R.id.post_question_button);
+        map = view.findViewById(R.id.experiment_map);
 
         ListView listView = (ListView) view.findViewById(R.id.post_list);
 
@@ -238,6 +241,17 @@ public class ExperimentDetails extends Fragment {
                 transaction.commit();
             }
         });
+
+
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         return view;
     }
 
