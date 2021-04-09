@@ -97,7 +97,7 @@ public class ExperimentDetails extends Fragment {
 
         ArrayList<Post> postList = new ArrayList<>();
 
-        PostAdapter customAdapter = new PostAdapter(getActivity(), R.layout.content, postList);
+        PostAdapter customAdapter = new PostAdapter(getActivity(), R.layout.experiment_content, postList);
 
         listView.setAdapter(customAdapter);
 

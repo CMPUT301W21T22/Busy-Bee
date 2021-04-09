@@ -75,7 +75,6 @@ public class TrialFragment extends Fragment {
 
                 Bundle experimentInfo = new Bundle();
                 experimentInfo.putParcelable("dataKey", experiment);
-                experimentInfo.putParcelable("dataKey", experiment);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
 
@@ -98,7 +97,10 @@ public class TrialFragment extends Fragment {
                         transaction.replace(R.id.nav_host_fragment, publishNonNegative);
                         transaction.commit();
                     case "Measurement Trials":
-                        // add fragment for trials
+                        PublishMeasurement publishMeasurement = new PublishMeasurement();
+                        publishMeasurement.setArguments(experimentInfo);
+                        transaction.replace(R.id.nav_host_fragment, publishMeasurement);
+                        transaction.commit();
                 }
 
             }

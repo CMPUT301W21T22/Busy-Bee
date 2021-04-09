@@ -21,16 +21,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import android.widget.Button;
-import android.widget.ListView;
-
 import android.widget.ListView;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -41,9 +37,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 public class ExperimentFragment extends Fragment {
@@ -77,7 +71,7 @@ public class ExperimentFragment extends Fragment {
 
         ArrayList<Experiment> experimentList = new ArrayList<>();
 
-        ExperimentAdapter customAdapter = new ExperimentAdapter(getActivity(), R.layout.content, experimentList);
+        ExperimentAdapter customAdapter = new ExperimentAdapter(getActivity(), R.layout.experiment_content, experimentList);
 
         listView.setAdapter(customAdapter);
 
