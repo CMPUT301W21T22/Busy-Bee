@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -70,10 +71,14 @@ public class StatisticsTrialFragment extends Fragment {
         mean = view.findViewById(R.id.edit_text_mean);
         stdev = view.findViewById(R.id.edit_text_stdev);
 
+        int[] trialResultValue;
+
 //        collectionReferenceTrials.addSnapshotListener(new EventListener<QuerySnapshot>() {
 //            @Override
 //            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                for (QueryDocumentSnapshot doc: )
+//                for (QueryDocumentSnapshot queryDocumentSnapshot) {
+//                    String trialResult = (String)
+//                }
 //            }
 //        })
         return view;

@@ -35,6 +35,7 @@ import com.google.rpc.Code;
 import com.google.zxing.Result;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScannerFragment extends Fragment {
@@ -87,7 +88,8 @@ public class ScannerFragment extends Fragment {
 
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
-
+        ArrayList<String> dan = new ArrayList<>();
+        Trial trial = new Trial("string one", "string two", "string three",dan);
         Experiment experiment = getArguments().getParcelable("dataKey");
         String exDescription = experiment.getExperimentDescription();
 
@@ -107,8 +109,9 @@ public class ScannerFragment extends Fragment {
                     @Override
                     public void run() {
                         collectionReference
-                                .document("Scanned Trial")
-                                .set(result.getText());
+                                .document(trial.getTrialDescription())
+                                .set(trial);
+//                                .set(result.getText());
 
                         textViewScan.setText(result.getText());
                     }
