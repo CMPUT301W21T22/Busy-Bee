@@ -98,9 +98,11 @@ public class CountFragment extends Fragment {
                             });
                     countDescription.setText("");
                 }
-                SearchFragment searchFragment = new SearchFragment();
+                Bundle experimentInfo = new Bundle();
+                QuestionsAnswers detailsFragment = new QuestionsAnswers();
+                detailsFragment.setArguments(experimentInfo);
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, searchFragment);
+                transaction.replace(R.id.nav_host_fragment, detailsFragment);
                 transaction.commit();
             }
         });

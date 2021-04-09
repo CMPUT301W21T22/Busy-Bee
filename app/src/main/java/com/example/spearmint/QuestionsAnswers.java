@@ -54,6 +54,7 @@ public class QuestionsAnswers extends Fragment {
         Button trial;
         Button binomial;
         Button nonCount;
+        Button measurements;
         TextView displayData;
         FirebaseFirestore db;
 
@@ -176,6 +177,19 @@ public class QuestionsAnswers extends Fragment {
                 transaction.commit();
             }
         });
+
+        measurements = view.findViewById(R.id.measurement);
+        measurements.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExperimentMeasurements experimentMeasurements = new ExperimentMeasurements();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.nav_host_fragment, experimentMeasurements);
+                transaction.commit();
+            }
+        });
+
 
         return view;
     }
