@@ -24,3 +24,5 @@
         android:textSize="20sp" />
 
 </LinearLayout>
+
+<!-- Likely do not need this class anymore -->

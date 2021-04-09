@@ -43,12 +43,12 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
         TextView experimentDescription = view.findViewById(R.id.experiment_description);
         TextView experimentRegion = view.findViewById(R.id.experiment_region);
         TextView experimentCount = view.findViewById(R.id.experiment_count);
-        //TextView experimentOwner = view.findViewById(R.id.experiment_owner);
+        TextView experimentOwner = view.findViewById(R.id.experiment_owner);
 
         experimentDescription.setText(experiment.getExperimentDescription());
         experimentRegion.setText(experiment.getExperimentRegion());
         experimentCount.setText(experiment.getExperimentCount());
-        //experimentOwner.setText(experiment.getExperimentOwner().get(0));
+        experimentOwner.setText("Owner: " + experiment.getExperimentOwner().get(1));
 
         return view;
     }

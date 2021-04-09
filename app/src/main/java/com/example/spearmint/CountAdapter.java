@@ -1,4 +1,7 @@
 package com.example.spearmint;
+/**
+ * Likely do not need this class anymore
+ */
 
 import android.content.Context;
 import android.view.LayoutInflater;

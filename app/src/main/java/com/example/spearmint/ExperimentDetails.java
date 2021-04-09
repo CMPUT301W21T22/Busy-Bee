@@ -16,13 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,23 +46,50 @@ public class ExperimentDetails extends Fragment {
                              Bundle savedInstanceState) {
 
         Button goBack;
+        Button trial;
         Button post;
-        TextView displayData;
+        TextView exDescription;
+        TextView exRegion;
+        TextView exCount;
+        TextView exOwner;
+        TextView exLocation;
+        TextView exType;
         EditText question;
         FirebaseFirestore db;
 
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Posts");
+        final CollectionReference collectionReferencePosts = db.collection("Posts");
 
         View view = inflater.inflate(R.layout.experiment_details, container, false);
 
-        String experimentData = getArguments().getString("dataKey");
+        /*
+        Get all variables from the packaged Experiment object
+         */
+        Experiment experiment = getArguments().getParcelable("dataKey");
 
-        // Setting the EditText to the experiment title from ExperimentFragment.java
-        displayData = view.findViewById(R.id.experiment_title);
-        displayData.setText(experimentData);
+        exDescription = view.findViewById(R.id.experiment_name);
+        exRegion = view.findViewById(R.id.experiment_region);
+        exCount = view.findViewById(R.id.experiment_count);
+        exOwner = view.findViewById(R.id.experiment_username);
+        exLocation = view.findViewById(R.id.experiment_location);
+        exType = view.findViewById(R.id.experiment_type);
 
+        String description = "Title: " + experiment.getExperimentDescription();
+        String region = "City: " + experiment.getExperimentRegion();
+        String count = "Minimum Trials: " + experiment.getExperimentCount();
+        String owner = "Owner: " + experiment.getExperimentOwner().get(1);
+        String location = "Requires Location: " + experiment.getGeoLocation();
+        String type = "Trial Type: " + experiment.getTrialType();
+
+        exDescription.setText(description);
+        exRegion.setText(region);
+        exCount.setText(count);
+        exOwner.setText(owner);
+        exLocation.setText(location);
+        exType.setText(type);
+
+        trial = view.findViewById(R.id.experiment_trial);
         question = view.findViewById(R.id.post_question);
         post = view.findViewById(R.id.post_question_button);
 
@@ -80,7 +104,7 @@ public class ExperimentDetails extends Fragment {
         /**
          * Updates the list stored locally in the app with Firebase data to display the data
          */
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReferencePosts.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 postList.clear();
@@ -106,7 +130,7 @@ public class ExperimentDetails extends Fragment {
                 Bundle questionInfo = new Bundle();
                 Bundle parentQuestion = new Bundle();
                 ResponseFragment responseFragment = new ResponseFragment();
-                String questionExperiment = experimentData;
+                String questionExperiment = experiment.getExperimentDescription();
                 String questionTitle = postList.get(position).getExperimentTitle();
 
                 questionInfo.putString("dataKey", questionExperiment);
@@ -125,6 +149,50 @@ public class ExperimentDetails extends Fragment {
         });
 
         /**
+         * Directs the user to a new fragment where they enter information/data for a trial
+         * Goes to a trial fragment based on the type of experiment selected
+         */
+        trial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle experimentInfo = new Bundle();
+                TrialFragment trialFragment = new TrialFragment();
+                experimentInfo.putParcelable("dataKey", experiment);
+                trialFragment.setArguments(experimentInfo);
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, trialFragment);
+                transaction.commit();
+
+                /*
+                switch (experiment.getTrialType()) {
+
+                    case "Counts":
+                        CountFragment experimentCount = new CountFragment();
+                        experimentInfo.putParcelable("dataKey", experiment);
+                        experimentCount.setArguments(experimentInfo);
+                        transaction.replace(R.id.nav_host_fragment, experimentCount);
+                        transaction.commit();
+                        break;
+                    case "Binomial Trials":
+                        TrialFragment trialFragment = new TrialFragment();
+                        experimentInfo.putParcelable("dataKey", experiment);
+                        trialFragment.setArguments(experimentInfo);
+                        transaction.replace(R.id.nav_host_fragment, trialFragment);
+                        transaction.commit();
+                        break;
+                    case "Non-negative Integer Counts":
+                        // add fragment for trials
+                    case "Measurement Trials":
+                        // add fragment for trials
+                }
+
+                 */
+            }
+        });
+
+        /**
          * Takes the data entered by a user and makes it into a "Post" object
          * the post object is uploaded to firebase and displays post details to users
          */
@@ -132,13 +200,13 @@ public class ExperimentDetails extends Fragment {
             @Override
             public void onClick(View v) {
 
-                final String title = displayData.getText().toString();
+                final String title = experiment.getExperimentDescription();
                 final String questionText = question.getText().toString();
 
                 Post content = new Post(title, questionText);
 
                 if (questionText.length()>0) {
-                    collectionReference
+                    collectionReferencePosts
                             .document(questionText)
                             .set(content)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {

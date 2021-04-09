@@ -1,5 +1,7 @@
 package com.example.spearmint;
-
+/**
+ * Likely do not need this class anymore
+ */
 public class Count {
     private String countDescription;
     private String countResult;

@@ -9,13 +9,13 @@
     android:background="#fff">
 
     <Button
-        android:id="@+id/add_trial"
+        android:id="@+id/new_trial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Trial" />
+        android:text="New Trial" />
 
     <ListView
-        android:id="@+id/trial_list"
+        android:id="@+id/count_list"
         android:layout_width="match_parent"
         android:layout_height="508dp" />
 
@@ -24,10 +24,10 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/end_trial"
+            android:id="@+id/back_to_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End Trial"
+            android:text="Back"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>

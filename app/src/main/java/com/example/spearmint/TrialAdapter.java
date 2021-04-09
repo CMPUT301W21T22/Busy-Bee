@@ -10,9 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.w3c.dom.Text;
-
-import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 
 public class TrialAdapter extends ArrayAdapter<Trial> {
@@ -37,8 +34,8 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
         }
         Trial trial = trialList.get(position);
 
-        TextView trial_description = view.findViewById(R.id.trial_description);
-        TextView trial_result = view.findViewById(R.id.trial_result);
+        TextView trial_description = view.findViewById(R.id.binomial_description);
+        TextView trial_result = view.findViewById(R.id.binomial_result);
 
         trial_description.setText(trial.getTrialDescription());
         trial_result.setText(trial.getTrialResult());
