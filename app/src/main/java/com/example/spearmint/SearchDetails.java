@@ -11,6 +11,8 @@ package com.example.spearmint;
  * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
  */
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -119,6 +122,12 @@ public class SearchDetails extends Fragment {
             }
         });
 
+        /**
+         * https://www.youtube.com/watch?v=EFwHUBbbI-U
+         * https://www.youtube.com/watch?v=men8GB-7yM0
+         */
+
+
         subscribe = view.findViewById(R.id.subscribe);
         subscribe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +135,22 @@ public class SearchDetails extends Fragment {
                 collectionReferenceUser
                         .document(uniqueID).collection("subscribedExperiments").document(experiment.getExperimentDescription())
                         .set(experiment);
-
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle("This experiment requires you to share your location");
+                alert.setMessage("Would you like to continue?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        System.out.println("0000000");
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        System.out.println("11111111111111");
+                    }
+                });
+                alert.show();
             }
         });
 
@@ -184,6 +208,7 @@ public class SearchDetails extends Fragment {
         });
 
          */
+
 
         return view;
     }
