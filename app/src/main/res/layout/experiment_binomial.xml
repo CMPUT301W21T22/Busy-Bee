@@ -29,7 +29,7 @@
         android:layout_marginTop="125dp"/>
 
     <EditText
-        android:id="@+id/trialDescription"
+        android:id="@+id/binomialDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -52,7 +52,7 @@
             android:text="Select if trial passed or failed" />
 
         <Spinner
-            android:id="@+id/trial_spinner"
+            android:id="@+id/binomial_spinner"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="225dp"
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/trial_cancel"
+            android:id="@+id/binomial_cancel"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
             android:text="Cancel" />
 
         <Button
-            android:id="@+id/trial_publish"
+            android:id="@+id/binomial_publish"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"

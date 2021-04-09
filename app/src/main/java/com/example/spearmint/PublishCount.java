@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import static android.content.ContentValues.TAG;
 
-public class CountFragment extends Fragment {
+public class PublishCount extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +41,9 @@ public class CountFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.experiment_count, container, false);
 
+        Experiment experiment = getArguments().getParcelable("dataKey");
+        String exDescription = experiment.getExperimentDescription();
+
         countDescription = view.findViewById(R.id.countDescription);
         value = view.findViewById(R.id.value);
         decrement = view.findViewById(R.id.decrement);
@@ -50,7 +51,7 @@ public class CountFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        final CollectionReference collectionReference = db.collection("Count");
+        final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
 
         decrement.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,14 +70,13 @@ public class CountFragment extends Fragment {
         });
 
         publishCount = view.findViewById(R.id.count_publish);
-
         publishCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String value2 = Integer.toString(count[0]);
                 final String description = countDescription.getText().toString();
 
-                Count uploadData = new Count(description, value2);
+                Trial uploadData = new Trial(description, value2);
 
                 if (description.length() > 0) {
                     collectionReference
@@ -98,9 +98,13 @@ public class CountFragment extends Fragment {
                             });
                     countDescription.setText("");
                 }
-                SearchFragment searchFragment = new SearchFragment();
+                Bundle experimentInfo = new Bundle();
+                TrialFragment trialFragment = new TrialFragment();
+                experimentInfo.putParcelable("dataKey", experiment);
+                trialFragment.setArguments(experimentInfo);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, searchFragment);
+                transaction.replace(R.id.nav_host_fragment, trialFragment);
                 transaction.commit();
             }
         });
@@ -110,10 +114,12 @@ public class CountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                QuestionsAnswers detailsFragment = new QuestionsAnswers();
-                detailsFragment.setArguments(experimentInfo);
+                TrialFragment trialFragment = new TrialFragment();
+                experimentInfo.putParcelable("dataKey", experiment);
+                trialFragment.setArguments(experimentInfo);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, detailsFragment);
+                transaction.replace(R.id.nav_host_fragment, trialFragment);
                 transaction.commit();
             }
         }));

@@ -21,16 +21,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import android.widget.Button;
-import android.widget.ListView;
-
 import android.widget.ListView;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -41,9 +37,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 public class ExperimentFragment extends Fragment {
@@ -62,7 +56,7 @@ public class ExperimentFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
-        final CollectionReference collectionReference = db.collection("User").document(uniqueID).collection("myExperiment");
+        final CollectionReference collectionReference = db.collection("User").document(uniqueID).collection("subscribedExperiments");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_experiment, container, false);
@@ -77,7 +71,7 @@ public class ExperimentFragment extends Fragment {
 
         ArrayList<Experiment> experimentList = new ArrayList<>();
 
-        ExperimentAdapter customAdapter = new ExperimentAdapter(getActivity(), R.layout.content, experimentList);
+        ExperimentAdapter customAdapter = new ExperimentAdapter(getActivity(), R.layout.experiment_content, experimentList);
 
         listView.setAdapter(customAdapter);
 
@@ -91,15 +85,15 @@ public class ExperimentFragment extends Fragment {
                 experimentList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
-                    String keyOwner = "experimentOwner";
                     String description = doc.getId();
                     String region = (String) doc.get("experimentRegion");
                     String count = (String) doc.get("experimentCount");
                     ArrayList<String> experimentOwner = (ArrayList<String>) doc.get("experimentOwner");
                     String geoLocation = (String) doc.get("geoLocation");
                     String trialType = (String) doc.get("trialType");
+                    String status = (String) doc.get("status");
 
-                    experimentList.add(new Experiment(description, region, count, experimentOwner, geoLocation, trialType));
+                    experimentList.add(new Experiment(description, region, count, experimentOwner, geoLocation, trialType, status));
                 }
                 customAdapter.notifyDataSetChanged();
             }
@@ -107,7 +101,9 @@ public class ExperimentFragment extends Fragment {
 
         /**
          * Deleting an Experiment object from firebase through a long click/press
+         * TODO: Change this function so it unpublishes/hides the experiment instead
          */
+        /*
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -117,6 +113,7 @@ public class ExperimentFragment extends Fragment {
                 return false;
             }
         });
+        */
 
         /**
          * Opening a new activity/fragment to comment/post questions if an experiment is clicked
@@ -127,10 +124,10 @@ public class ExperimentFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Bundle experimentInfo = new Bundle();
-                ExperimentDetails detailsFragment = new ExperimentDetails();
-                String experimentTitle = experimentList.get(position).getExperimentDescription();
+                ExperimentDetailsFragment detailsFragment = new ExperimentDetailsFragment();
+                Experiment experiment = experimentList.get(position);
 
-                experimentInfo.putString("dataKey", experimentTitle);
+                experimentInfo.putParcelable("dataKey", experiment);
                 detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();

@@ -8,29 +8,27 @@ package com.example.spearmint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> implements Filterable {
-    private ArrayList<ExperimentItem> aArrayList;
-    private ArrayList<ExperimentItem> copyArrayList;
+    private ArrayList<Experiment> aArrayList;
+    private ArrayList<Experiment> copyArrayList;
 
     private static ClickListener clickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView name;
         public TextView aTitle;
+        public TextView username;
+        public TextView status;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -38,6 +36,8 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             itemView.setOnLongClickListener(this);
             name = (TextView) itemView.findViewById(R.id.recycle_view);
             aTitle = itemView.findViewById(R.id.experiment_title);
+            username = itemView.findViewById(R.id.owner_username);
+            status = itemView.findViewById(R.id.status);
         }
 
         @Override
@@ -61,25 +61,26 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         void onItemLongClick(int position, View v);
     }
 
-    public RecycleAdapter(ArrayList<ExperimentItem> arrayList){
+    public RecycleAdapter(ArrayList<Experiment> arrayList){
         aArrayList = arrayList;
         copyArrayList = new ArrayList<>(arrayList);
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiement_cardholder,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiment_cardholder,parent,false);
         ViewHolder aViewHolder = new ViewHolder(view);
         return aViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ExperimentItem currentItem = aArrayList.get(position);
+        Experiment currentItem = aArrayList.get(position);
 
-        holder.aTitle.setText(currentItem.getaTitle());
+        holder.aTitle.setText(currentItem.getExperimentDescription());
+        holder.username.setText("Owner: " + currentItem.getExperimentOwner().get(1));
+        holder.status.setText("Status: " + currentItem.getStatus());
     }
 
     @Override
@@ -94,14 +95,14 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     private Filter aFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<ExperimentItem>  filteredList = new ArrayList<>();
+            List<Experiment>  filteredList = new ArrayList<>();
             if(constraint == null || constraint.length()== 0){
                 filteredList.addAll(copyArrayList);
             }else{
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (ExperimentItem item: copyArrayList){
-                    if(item.getaTitle().toLowerCase().contains(filterPattern)){
+                for (Experiment item: copyArrayList){
+                    if(item.getExperimentDescription().toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
                     }
                 }

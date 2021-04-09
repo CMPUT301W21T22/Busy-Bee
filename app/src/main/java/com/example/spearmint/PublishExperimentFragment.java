@@ -68,11 +68,15 @@ public class PublishExperimentFragment extends Fragment {
         ArrayList<String> userInfo = new ArrayList<>();
         final String[] geo = new String[1];
         final String[] type = new String[1];
-        final Spinner trialType;
         final Spinner geoLocation;
+        final Spinner trialType;
+        final String status = "Open";
         ArrayAdapter<CharSequence> adapter;
         ArrayAdapter<CharSequence> adapter2;
         FirebaseFirestore db;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
+        userInfo.add(uniqueID);
 
         View view = inflater.inflate(R.layout.fragment_publish, container, false);
 
@@ -97,6 +101,16 @@ public class PublishExperimentFragment extends Fragment {
 
         final CollectionReference collectionReference = db.collection("Experiments");
         final CollectionReference collectionReferenceUser = db.collection("User");
+        DocumentReference documentReference = collectionReferenceUser.document(uniqueID);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String username = value.getString("Username");
+                userInfo.add(username);
+                experimentOwner.setText("User: " + username);
+            }
+        });
+
 
         /**
          * I don't think we need this block of code anymore? - Gave
@@ -113,13 +127,7 @@ public class PublishExperimentFragment extends Fragment {
 //            }
 //        });
 //        experimentOwner.setText(userID);
-        /**
-         * Takes the data entered by a user and makes it into a "Experiment" object
-         * the experiment object is uploaded to firebase and displays experiment details to users
-         * directs user back to the experiment fragment "ExperimentFragment.java"
-         * does not upload data if any of the edit text fields are empty
-         */
-        
+
         geoLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -139,7 +147,13 @@ public class PublishExperimentFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        
+
+        /**
+         * Takes the data entered by a user and makes it into a "Experiment" object
+         * the experiment object is uploaded to firebase and displays experiment details to users
+         * directs user back to the experiment fragment "ExperimentFragment.java"
+         * does not upload data if any of the edit text fields are empty
+         */
         publishExperiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,10 +161,15 @@ public class PublishExperimentFragment extends Fragment {
                 final String exDescription = experimentDescription.getText().toString();
                 final String exRegion = experimentRegion.getText().toString();
                 final String exCount = experimentCount.getText().toString();
-                final String exOwner = experimentOwner.getText().toString();
 
-                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo, geo[0], type[0]);
+                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo, geo[0], type[0], status);
 
+                /*
+                If the fields are all filled, uploads the experiment object in 3 locations:
+                    1. Experiments (accessible by ALL users)
+                    2. User >> uniqueID >> ownedExperiments
+                    3. User >> uniqueID >> subscribedExperiments
+                 */
                 if (exDescription.length()>0 && exRegion.length()>0 && exCount.length()>0) {
 
                     collectionReference
@@ -171,12 +190,26 @@ public class PublishExperimentFragment extends Fragment {
                                 }
                             });
 
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                    String uniqueID = sharedPreferences.getString(TEXT, null);
-
+                    collectionReferenceUser
+                            .document(uniqueID).collection("ownedExperiments").document(exDescription)
+                            .set(uploadData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // These are a method which gets executed when the task is succeeded
+                                    Log.d(TAG, "Data has been added successfully!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // These are a method which gets executed if there’s any problem
+                                    Log.d(TAG, "Data could not be added!" + e.toString());
+                                }
+                            });
 
                     collectionReferenceUser
-                            .document(uniqueID).collection("myExperiment").document(exDescription)
+                            .document(uniqueID).collection("subscribedExperiments").document(exDescription)
                             .set(uploadData)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
