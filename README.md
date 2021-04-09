@@ -23,32 +23,35 @@ References: https://github.com/CMPUT301W21T22/Spearmint/wiki/References
 ## Spearmint Interface Mockups </br>
 
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/78892182/111845472-84570980-88ca-11eb-8b29-68684352ccf2.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/111845917-66d66f80-88cb-11eb-924d-577122234514.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/111845991-94231d80-88cb-11eb-9911-87edf43f2815.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114244012-ea273600-994a-11eb-92a8-b612550dd941.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114245733-4049a880-994e-11eb-8ed2-6f38fff65c33.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114245185-32dfee80-994d-11eb-898c-2b86ccb199a9.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114245030-d7adfc00-994c-11eb-9663-c91b582491e3.png" width="200" />
  
  </p>
 
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/78892182/111845499-96d14300-88ca-11eb-8511-fdf63bfd0d2a.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/111845598-cbdd9580-88ca-11eb-97ee-d6b0c0e4ca43.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/111845656-eadc2780-88ca-11eb-84ee-1e102990f7a0.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114245117-0b892180-994d-11eb-919d-693847c7941a.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114244508-d7f9c780-994b-11eb-8e78-0f3f3cae7b06.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114244611-0f687400-994c-11eb-9b62-58db941e34ff.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114245264-5c991580-994d-11eb-99be-6edf6fbe7ec9.png" width="200" />
 
 </p>
 
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/78892182/110071839-01ff0f00-7d3a-11eb-9db6-e48c4fd86e96.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/110071907-222ece00-7d3a-11eb-9ae0-e1137fec25b8.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/110071969-3ecb0600-7d3a-11eb-8cf9-275835b703ea.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114245628-10020a00-994e-11eb-9810-8c4d178572aa.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114245390-a08c1a80-994d-11eb-9f0d-21cee7e6429e.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114245873-8868cb00-994e-11eb-84af-471d6f9c2b6d.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114246065-e8f80800-994e-11eb-8197-520309ae9714.png" width="200" />
 
 
 </p>
 
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/78892182/110072539-2e675b00-7d3b-11eb-9a49-099f9cd906d1.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/110072545-2efff180-7d3b-11eb-834f-41e13ceb4767.png" width="200" />
-  <img src="https://user-images.githubusercontent.com/78892182/110072551-30c9b500-7d3b-11eb-9a11-bd5b571801ea.png" width="200" />
-
+  <img src="https://user-images.githubusercontent.com/78892182/114246817-d67ece00-9950-11eb-81a8-0e4cda9d0d82.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114247228-d7642f80-9951-11eb-832d-07069c5c0400.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114244812-6706df80-994c-11eb-8148-5e9ef3cbbb09.png" width="200" />
+  <img src="https://user-images.githubusercontent.com/78892182/114246527-11343680-9950-11eb-99b5-2cd558d3f50d.png" width="200" />
 
 
 </p>
