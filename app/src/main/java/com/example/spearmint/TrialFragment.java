@@ -167,6 +167,21 @@ public class TrialFragment extends Fragment {
                         // Do nothing
                     }
                 });
+                alert.setPositiveButton("CODES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bundle trialInfo = new Bundle();
+                        QRCodeFragment qrCodeFragment = new QRCodeFragment();
+                        Trial trial = trialList.get(position);
+
+                        trialInfo.putParcelable("dataKey", trial);
+                        qrCodeFragment.setArguments(trialInfo);
+                        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                        transaction.replace(R.id.nav_host_fragment, qrCodeFragment);
+                        transaction.commit();
+                    }
+                });
+
                 if (ownsExperiment.get(0)) {
                     alert.setPositiveButton("IGNORE", new DialogInterface.OnClickListener() {
                         @Override
@@ -178,8 +193,6 @@ public class TrialFragment extends Fragment {
                 alert.show();
             }
         });
-
-
 
         goBack = view.findViewById(R.id.go_back_details);
         goBack.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +209,8 @@ public class TrialFragment extends Fragment {
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -213,6 +227,8 @@ public class TrialFragment extends Fragment {
                 }
 
             });
+
+         */
 
         return view;
     }

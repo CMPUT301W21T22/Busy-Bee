@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Description"
+        android:hint="Trial Details"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="175dp"
         android:inputType="textPersonName" />

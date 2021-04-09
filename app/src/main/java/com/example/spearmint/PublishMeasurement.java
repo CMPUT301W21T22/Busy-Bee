@@ -118,7 +118,7 @@ public class PublishMeasurement extends Fragment {
             @Override
             public void onClick(View v) {
                 count[0]--;
-                value.setText("" + count[0]);
+                value.setText(count[0] + "°C");
             }
         });
 
@@ -126,7 +126,7 @@ public class PublishMeasurement extends Fragment {
             @Override
             public void onClick(View v) {
                 count[0]++;
-                value.setText("" + count[0]);
+                value.setText(count[0] + "°C");
             }
         });
 
