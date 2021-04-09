@@ -67,8 +67,6 @@ public class SearchDetails extends Fragment {
     private static final String SHARED_PREFS = "SharedPrefs";
     private static final String TEXT = "Text";
 
-    FusedLocationProviderClient client;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -184,7 +182,6 @@ public class SearchDetails extends Fragment {
          * https://www.youtube.com/watch?v=men8GB-7yM0
          */
 
-        client = LocationServices.getFusedLocationProviderClient(getActivity());
 
         subscribe = view.findViewById(R.id.subscribe);
         subscribe.setOnClickListener(new View.OnClickListener() {
