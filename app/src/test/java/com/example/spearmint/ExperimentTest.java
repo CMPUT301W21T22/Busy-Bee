@@ -20,7 +20,8 @@ public class ExperimentTest {
                 "5",
                 owner,
                 "Allard",
-                "Count");
+                "Count",
+                "open");
 
         return experiment;
     }
@@ -60,6 +61,13 @@ public class ExperimentTest {
     public void getTrialTypeTest(){
         Experiment experiment = mockExperiment();
         Assert.assertTrue(experiment.getTrialType().contains("Count"));
+    }
+
+    @Test
+    public void setStatusTest(){
+        Experiment experiment = mockExperiment();
+
+        Assert.assertTrue(experiment.getStatus().contains("open"));
     }
 
 
