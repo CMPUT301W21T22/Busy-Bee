@@ -318,6 +318,9 @@ public class ExperimentDetailsFragment extends Fragment {
             }
         });
 
+        /**
+         * https://www.techbeamers.com/how-to-switch-between-activities-in-android/
+         */
 
         map.setOnClickListener(new View.OnClickListener() {
             @Override
