@@ -29,7 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import static android.content.ContentValues.TAG;
 
-public class ResponseFragment extends Fragment {
+public class PostFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,8 +46,7 @@ public class ResponseFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.responses, container, false);
 
-        String questionData = getArguments().getString("dataKey");
-        String questionTitle = getArguments().getString("questionKey");
+        Post post = getArguments().getParcelable("dataKey");
 
         confirmResponse = view.findViewById(R.id.confirm_response);
         cancelResponse = view.findViewById(R.id.cancel_response);

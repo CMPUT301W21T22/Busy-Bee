@@ -15,9 +15,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +58,7 @@ public class ExperimentDetailsFragment extends Fragment {
         Button goBack;
         Button end;
         Button trial;
-        Button post;
+        Button postButton;
         Button map;
         TextView exDescription;
         TextView exRegion;
@@ -70,8 +67,9 @@ public class ExperimentDetailsFragment extends Fragment {
         TextView exLocation;
         TextView exType;
         TextView exStatus;
-        EditText question;
+        EditText postStuff;
         FirebaseFirestore db;
+        ArrayList<String> posterInfo = new ArrayList<>();
         ArrayList<String> userInfo = new ArrayList<>();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
@@ -112,8 +110,8 @@ public class ExperimentDetailsFragment extends Fragment {
 
         end = view.findViewById(R.id.end_experiment);
         trial = view.findViewById(R.id.experiment_trial);
-        question = view.findViewById(R.id.post_question);
-        post = view.findViewById(R.id.post_question_button);
+        postStuff = view.findViewById(R.id.post_question);
+        postButton = view.findViewById(R.id.post_question_button);
         map = view.findViewById(R.id.experiment_map);
 
         ListView listView = (ListView) view.findViewById(R.id.post_list);
@@ -124,9 +122,19 @@ public class ExperimentDetailsFragment extends Fragment {
 
         listView.setAdapter(customAdapter);
 
-        final CollectionReference collectionReferencePosts = db.collection("Posts");
         final CollectionReference collectionReferenceExperiments = db.collection("Experiments");
+        final CollectionReference collectionReferencePosts = db.collection("Experiments").document(description).collection("Posts");
         final CollectionReference collectionReferenceUser = db.collection("User");
+
+        DocumentReference documentReferenceUser = collectionReferenceUser.document(uniqueID);
+        documentReferenceUser.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String user = value.getString("Username");
+                posterInfo.add(user);
+            }
+        });
+
         DocumentReference documentReference = collectionReferenceUser.document(ownerID);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -157,10 +165,10 @@ public class ExperimentDetailsFragment extends Fragment {
                 postList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
-                    String questionText = doc.getId();
-                    String title = (String) doc.get("experimentTitle");
+                    String postText = doc.getId();
+                    String experimentOwner = (String) doc.get("experimentOwner");
 
-                    postList.add(new Post(questionText, title));
+                    postList.add(new Post(postText, experimentOwner));
                 }
                 customAdapter.notifyDataSetChanged();
             }
@@ -174,22 +182,19 @@ public class ExperimentDetailsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Bundle questionInfo = new Bundle();
-                Bundle parentQuestion = new Bundle();
-                ResponseFragment responseFragment = new ResponseFragment();
-                String questionExperiment = experiment.getExperimentDescription();
-                String questionTitle = postList.get(position).getExperimentTitle();
+                Bundle postInfo = new Bundle();
+                Bundle experimentInfo = new Bundle();
+                PostFragment postFragment = new PostFragment();
+                Post post = postList.get(position);
 
-                questionInfo.putString("dataKey", questionExperiment);
-                parentQuestion.putString("questionKey", questionTitle);
+                postInfo.putParcelable("dataKey", post);
+                postFragment.setArguments(postInfo);
 
-                Log.d(TAG, questionTitle);
-
-                responseFragment.setArguments(questionInfo);
-                responseFragment.setArguments(parentQuestion);
+                experimentInfo.putParcelable("dataKey", experiment);
+                postFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, responseFragment);
+                transaction.replace(R.id.nav_host_fragment, postFragment);
                 transaction.commit();
 
             }
@@ -310,18 +315,18 @@ public class ExperimentDetailsFragment extends Fragment {
          * Takes the data entered by a user and makes it into a "Post" object
          * the post object is uploaded to firebase and displays post details to users
          */
-        post.setOnClickListener(new View.OnClickListener() {
+        postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final String title = experiment.getExperimentDescription();
-                final String questionText = question.getText().toString();
+                String poster = posterInfo.get(0);
+                final String postContent = postStuff.getText().toString();
 
-                Post content = new Post(title, questionText);
+                Post content = new Post(poster, postContent);
 
-                if (questionText.length()>0) {
+                if (postContent.length()>0) {
                     collectionReferencePosts
-                            .document(questionText)
+                            .document(postContent)
                             .set(content)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -337,7 +342,7 @@ public class ExperimentDetailsFragment extends Fragment {
                                     Log.d(TAG, "Data could not be added!" + e.toString());
                                 }
                             });}
-                question.setText("");
+                postStuff.setText("");
             }
         });
 

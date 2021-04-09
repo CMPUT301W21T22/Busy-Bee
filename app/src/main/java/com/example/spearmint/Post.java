@@ -1,27 +1,57 @@
 package com.example.spearmint;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Base class for the Post object with fields of type String
  * has getter methods so other classes can access the information held by a Post
  * @author Daniel
  */
 
-public class Post {
+public class Post implements Parcelable {
 
-    private String experimentTitle;
-    private String text;
+    private String postOwner;
+    private String postText;
 
-    Post(String experimentTitle, String text){
-        this.experimentTitle = experimentTitle;
-        this.text = text;
+    Post(String postOwner, String postText){
+        this.postOwner = postOwner;
+        this.postText = postText;
     }
 
-    public String getExperimentTitle() {
-        return this.experimentTitle;
+    protected Post(Parcel in) {
+        postOwner = in.readString();
+        postText = in.readString();
     }
 
-    public String getText() {
-        return this.text;
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
+
+    public String getPostOwner() {
+        return this.postOwner;
     }
 
+    public String getPostText() {
+        return this.postText;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(postOwner);
+        dest.writeString(postText);
+    }
 }
