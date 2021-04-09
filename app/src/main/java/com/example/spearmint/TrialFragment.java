@@ -20,10 +20,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class BinomialFragment extends Fragment {
+public class TrialFragment extends Fragment {
 
     Button addTrial;
-    Button end_trial;
+    Button goBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +35,7 @@ public class BinomialFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_trials, container, false);
         Experiment experiment = getArguments().getParcelable("dataKey");
         String exDescription = experiment.getExperimentDescription();
+        String exType = experiment.getTrialType();
 
         ListView listView = (ListView) view.findViewById(R.id.trial_list);
 
@@ -71,18 +72,40 @@ public class BinomialFragment extends Fragment {
         addTrial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Bundle experimentInfo = new Bundle();
                 experimentInfo.putParcelable("dataKey", experiment);
-                PublishTrialFragment publishTrialFragment = new PublishTrialFragment();
-                publishTrialFragment.setArguments(experimentInfo);
+                experimentInfo.putParcelable("dataKey", experiment);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, publishTrialFragment);
-                transaction.commit();
+
+                switch (exType) {
+                    case "Counts":
+                        PublishCount publishCount = new PublishCount();
+                        publishCount.setArguments(experimentInfo);
+                        transaction.replace(R.id.nav_host_fragment, publishCount);
+                        transaction.commit();
+                        break;
+                    case "Binomial Trials":
+                        PublishBinomial publishBinomial = new PublishBinomial();
+                        publishBinomial.setArguments(experimentInfo);
+                        transaction.replace(R.id.nav_host_fragment, publishBinomial);
+                        transaction.commit();
+                        break;
+                    case "Non-negative Integer Counts":
+                        PublishNonNegative publishNonNegative = new PublishNonNegative();
+                        publishNonNegative.setArguments(experimentInfo);
+                        transaction.replace(R.id.nav_host_fragment, publishNonNegative);
+                        transaction.commit();
+                    case "Measurement Trials":
+                        // add fragment for trials
+                }
+
             }
         });
 
-        end_trial = view.findViewById(R.id.end_trial);
-        end_trial.setOnClickListener(new View.OnClickListener() {
+        goBack = view.findViewById(R.id.end_trial);
+        goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();

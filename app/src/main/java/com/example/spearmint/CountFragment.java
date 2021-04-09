@@ -1,4 +1,7 @@
 package com.example.spearmint;
+/**
+ * Likely do not need this class anymore
+ */
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -73,10 +76,11 @@ public class CountFragment extends Fragment {
             public void onClick(View view) {
                 Bundle experimentInfo = new Bundle();
                 experimentInfo.putParcelable("dataKey", experiment);
-                ExperimentCount experimentCount = new ExperimentCount();
-                experimentCount.setArguments(experimentInfo);
+                PublishCount publishCount = new PublishCount();
+                publishCount.setArguments(experimentInfo);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, experimentCount);
+                transaction.replace(R.id.nav_host_fragment, publishCount);
                 transaction.commit();
             }
         });

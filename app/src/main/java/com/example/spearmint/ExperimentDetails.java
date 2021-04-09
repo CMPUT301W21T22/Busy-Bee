@@ -157,8 +157,17 @@ public class ExperimentDetails extends Fragment {
             public void onClick(View v) {
 
                 Bundle experimentInfo = new Bundle();
+                TrialFragment trialFragment = new TrialFragment();
+                experimentInfo.putParcelable("dataKey", experiment);
+                trialFragment.setArguments(experimentInfo);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, trialFragment);
+                transaction.commit();
+
+                /*
                 switch (experiment.getTrialType()) {
+
                     case "Counts":
                         CountFragment experimentCount = new CountFragment();
                         experimentInfo.putParcelable("dataKey", experiment);
@@ -167,10 +176,10 @@ public class ExperimentDetails extends Fragment {
                         transaction.commit();
                         break;
                     case "Binomial Trials":
-                        BinomialFragment binomialFragment = new BinomialFragment();
+                        TrialFragment trialFragment = new TrialFragment();
                         experimentInfo.putParcelable("dataKey", experiment);
-                        binomialFragment.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, binomialFragment);
+                        trialFragment.setArguments(experimentInfo);
+                        transaction.replace(R.id.nav_host_fragment, trialFragment);
                         transaction.commit();
                         break;
                     case "Non-negative Integer Counts":
@@ -178,6 +187,8 @@ public class ExperimentDetails extends Fragment {
                     case "Measurement Trials":
                         // add fragment for trials
                 }
+
+                 */
             }
         });
 

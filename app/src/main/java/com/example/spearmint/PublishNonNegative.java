@@ -24,14 +24,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import static android.content.ContentValues.TAG;
 
-public class ExperimentCount extends Fragment {
+public class PublishNonNegative extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Button publishCount;
-        Button cancelCount;
-        final EditText countDescription;
+        Button publishNonnegative;
+        Button cancelNonnegative;
+        final EditText nonnegativeDescription;
         TextView value;
         Button decrement;
         Button increment;
@@ -39,12 +39,12 @@ public class ExperimentCount extends Fragment {
 
         FirebaseFirestore db;
 
-        View view = inflater.inflate(R.layout.experiment_count, container, false);
+        View view = inflater.inflate(R.layout.experiment_nonnegative, container, false);
 
         Experiment experiment = getArguments().getParcelable("dataKey");
         String exDescription = experiment.getExperimentDescription();
 
-        countDescription = view.findViewById(R.id.countDescription);
+        nonnegativeDescription = view.findViewById(R.id.nonnegativeDescription);
         value = view.findViewById(R.id.value);
         decrement = view.findViewById(R.id.decrement);
         increment = view.findViewById(R.id.increment);
@@ -69,15 +69,15 @@ public class ExperimentCount extends Fragment {
             }
         });
 
-        publishCount = view.findViewById(R.id.count_publish);
+        publishNonnegative = view.findViewById(R.id.nonnegative_publish);
 
-        publishCount.setOnClickListener(new View.OnClickListener() {
+        publishNonnegative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String value2 = Integer.toString(count[0]);
-                final String description = countDescription.getText().toString();
+                final String description = nonnegativeDescription.getText().toString();
 
-                Count uploadData = new Count(description, value2);
+                Trial uploadData = new Trial(description, value2);
 
                 if (description.length() > 0) {
                     collectionReference
@@ -97,28 +97,30 @@ public class ExperimentCount extends Fragment {
                                     Log.d(TAG, "Data could not be added!" + e.toString());
                                 }
                             });
-                    countDescription.setText("");
+                    nonnegativeDescription.setText("");
                 }
                 Bundle experimentInfo = new Bundle();
+                TrialFragment trialFragment = new TrialFragment();
                 experimentInfo.putParcelable("dataKey", experiment);
-                CountFragment experimentCount = new CountFragment();
-                experimentCount.setArguments(experimentInfo);
+                trialFragment.setArguments(experimentInfo);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, experimentCount);
+                transaction.replace(R.id.nav_host_fragment, trialFragment);
                 transaction.commit();
             }
         });
 
-        cancelCount = view.findViewById(R.id.count_cancel);
-        cancelCount.setOnClickListener((new View.OnClickListener() {
+        cancelNonnegative = view.findViewById(R.id.nonnegative_cancel);
+        cancelNonnegative.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                CountFragment experimentCount = new CountFragment();
+                TrialFragment trialFragment = new TrialFragment();
                 experimentInfo.putParcelable("dataKey", experiment);
-                experimentCount.setArguments(experimentInfo);
+                trialFragment.setArguments(experimentInfo);
+
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, experimentCount);
+                transaction.replace(R.id.nav_host_fragment, trialFragment);
                 transaction.commit();
             }
         }));
