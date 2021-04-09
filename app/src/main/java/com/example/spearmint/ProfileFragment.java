@@ -1,5 +1,6 @@
 package com.example.spearmint;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -281,7 +283,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
     /**
      * Expected behavior: this method keeps track of what a button's ID will behave when selected.
      * @param v
@@ -296,6 +297,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.button_save_profile:
                 storeProfileToFirebase();
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setMessage("Profile Saved!");
+                alert.show();
+
+               
+
+
                 break;
         }
     }
