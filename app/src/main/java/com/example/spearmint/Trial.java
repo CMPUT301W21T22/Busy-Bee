@@ -7,11 +7,13 @@ public class Trial implements Parcelable {
 
     private String trialDescription;
     private String trialResult;
+    private String experimenter;
     private String trialLocation;
 
-    Trial(String trialDescription, String trialResult, String trialLocation) {
+    Trial(String trialDescription, String trialResult, String experimenter, String trialLocation) {
         this.trialDescription = trialDescription;
         this.trialResult = trialResult;
+        this.experimenter = experimenter;
         this.trialLocation = trialLocation;
     }
 
@@ -52,4 +54,11 @@ public class Trial implements Parcelable {
         return this.trialResult;
     }
 
+    public String getExperimenter() {
+        return this.experimenter;
+    }
+
+    public String getTrialLocation() {
+        return this.trialLocation;
+    }
 }

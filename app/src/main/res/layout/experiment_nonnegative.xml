@@ -44,8 +44,7 @@
         android:id="@+id/decrement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
+        android:layout_marginTop="225dp"
         android:text="-"
         android:layout_marginLeft="50dp">
 
@@ -55,9 +54,10 @@
         android:id="@+id/value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="215dp"
         android:text="0"
         android:textSize="50dp"
-        android:layout_centerInParent="true">
+        android:layout_centerHorizontal="true">
 
     </TextView>
 
@@ -65,10 +65,10 @@
         android:id="@+id/increment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:text="+">
+        android:layout_marginTop="225dp"
+        android:text="+"
+        android:layout_marginLeft="275dp"
+        android:layout_marginRight="50dp">
 
     </Button>
 
@@ -83,20 +83,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="500dp"
+            android:layout_marginTop="300dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="Cancel" />
+            android:text="Cancel"  />
 
         <Button
             android:id="@+id/nonnegative_publish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="500dp"
+            android:layout_marginTop="300dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:text="Publish" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp"
+        android:layout_marginTop="300dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/location"
+            android:text="Get Location" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Latitude"
+            android:textSize="32sp"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/latitude"
+            android:text="0.0"
+            android:textSize="24sp">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Longitude"
+            android:textSize="32sp"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/longitude"
+            android:text="0.0"
+            android:textSize="24sp">
+
+        </TextView>
 
     </LinearLayout>
 

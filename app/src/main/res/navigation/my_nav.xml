@@ -16,10 +16,10 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/notifications_fragment"
-        android:name="com.example.spearmint.NotificationsFragment"
-        android:label="fragment_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/scanner_fragment"
+        android:name="com.example.spearmint.ScannerFragment"
+        android:label="fragment_scanner"
+        tools:layout="@layout/fragment_scanner" />
     <fragment
         android:id="@+id/profile_fragment"
         android:name="com.example.spearmint.ProfileFragment"

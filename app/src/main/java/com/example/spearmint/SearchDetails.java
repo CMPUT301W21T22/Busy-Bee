@@ -48,6 +48,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -65,8 +67,6 @@ public class SearchDetails extends Fragment {
     private static final String SHARED_PREFS = "SharedPrefs";
     private static final String TEXT = "Text";
 
-    FusedLocationProviderClient client;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,15 +79,13 @@ public class SearchDetails extends Fragment {
         TextView exOwner;
         TextView exLocation;
         TextView exType;
+        TextView exStatus;
         FirebaseFirestore db;
+        ArrayList<String> userInfo = new ArrayList<>();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
 
-
         db = FirebaseFirestore.getInstance();
-
-        //final CollectionReference collectionReference = db.collection("Experiments");
-        final CollectionReference collectionReferenceUser = db.collection("User");
 
         View view = inflater.inflate(R.layout.search_details, container, false);
 
@@ -100,13 +98,47 @@ public class SearchDetails extends Fragment {
         exOwner = view.findViewById(R.id.experiment_username);
         exLocation = view.findViewById(R.id.experiment_location);
         exType = view.findViewById(R.id.experiment_type);
+        exStatus = view.findViewById(R.id.experiment_status);
 
-        exDescription.setText("Title: " + experiment.getExperimentDescription());
-        exRegion.setText("City: " + experiment.getExperimentRegion());
-        exCount.setText("Minimum Trials: " + experiment.getExperimentCount());
-        exOwner.setText("Owner: " + experiment.getExperimentOwner().get(1));
-        exLocation.setText("Requires Location: " + experiment.getGeoLocation());
-        exType.setText("Trial Type: " + experiment.getTrialType());
+        String description = experiment.getExperimentDescription();
+        String region = experiment.getExperimentRegion();
+        String count = experiment.getExperimentCount();
+        String ownerID = experiment.getExperimentOwner().get(0);
+        String owner = experiment.getExperimentOwner().get(1);
+        String location = experiment.getGeoLocation();
+        String type = experiment.getTrialType();
+        String status = experiment.getStatus();
+
+        exDescription.setText("Title: " + description);
+        exRegion.setText("City: " + region);
+        exCount.setText("Minimum Trials: " + count);
+        exOwner.setText("Owner: " + owner);
+        exLocation.setText("Requires Location: " + location);
+        exType.setText("Trial Type: " + type);
+        exStatus.setText("Status: " + status);
+
+        //final CollectionReference collectionReference = db.collection("Experiments");
+        final CollectionReference collectionReferenceUser = db.collection("User");
+        DocumentReference documentReference = collectionReferenceUser.document(ownerID);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String phoneNumber = value.getString("PhoneNum");
+                String email = value.getString("Email");
+                userInfo.add(phoneNumber);
+                userInfo.add(email);
+            }
+        });
+
+        exOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle(owner);
+                alert.setMessage(userInfo.get(0) + "\n" + userInfo.get(1));
+                alert.show();
+            }
+        });
 
         // ArrayList<Question> questionList = new ArrayList<>();
 
@@ -150,7 +182,6 @@ public class SearchDetails extends Fragment {
          * https://www.youtube.com/watch?v=men8GB-7yM0
          */
 
-        client = LocationServices.getFusedLocationProviderClient(getActivity());
 
         subscribe = view.findViewById(R.id.subscribe);
         subscribe.setOnClickListener(new View.OnClickListener() {
