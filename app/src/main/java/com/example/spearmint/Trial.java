@@ -3,14 +3,16 @@ package com.example.spearmint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Trial implements Parcelable {
 
     private String trialDescription;
     private String trialResult;
     private String experimenter;
-    private String trialLocation;
+    private ArrayList<String> trialLocation;
 
-    Trial(String trialDescription, String trialResult, String experimenter, String trialLocation) {
+    Trial(String trialDescription, String trialResult, String experimenter, ArrayList<String> trialLocation) {
         this.trialDescription = trialDescription;
         this.trialResult = trialResult;
         this.experimenter = experimenter;
@@ -20,13 +22,14 @@ public class Trial implements Parcelable {
     protected Trial(Parcel in) {
         trialDescription = in.readString();
         trialResult = in.readString();
-        trialLocation = in.readString();
+        trialLocation = in.createStringArrayList();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(trialDescription);
         dest.writeString(trialResult);
+        dest.writeStringList(trialLocation);
     }
 
     @Override
@@ -58,7 +61,7 @@ public class Trial implements Parcelable {
         return this.experimenter;
     }
 
-    public String getTrialLocation() {
+    public ArrayList<String> getTrialLocation() {
         return this.trialLocation;
     }
 }

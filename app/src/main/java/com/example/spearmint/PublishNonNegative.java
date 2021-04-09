@@ -78,6 +78,7 @@ public class PublishNonNegative extends Fragment {
         Button decrement;
         Button increment;
         final int[] count = {0};
+        ArrayList<String> coordinates = new ArrayList<>();
         ArrayList<String> experimenter = new ArrayList<>();
 
         FirebaseFirestore db;
@@ -135,16 +136,40 @@ public class PublishNonNegative extends Fragment {
             }
         });
 
-        publishNonnegative = view.findViewById(R.id.nonnegative_publish);
 
+        /**
+         * https://www.youtube.com/watch?v=VdCQoJtNXAg
+         */
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getActivity()
+                        , Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(getActivity()
+                                , Manifest.permission.ACCESS_COARSE_LOCATION)
+                                == PackageManager.PERMISSION_GRANTED) {
+                    getCurrentLocation();
+                }
+                else {
+                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION
+                            , Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+                }
+            }
+
+        });
+
+
+        publishNonnegative = view.findViewById(R.id.nonnegative_publish);
         publishNonnegative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String value2 = Integer.toString(count[0]);
                 final String description = nonnegativeDescription.getText().toString();
-                String location = "NONE";
+                coordinates.add((String) latitude.getText());
+                coordinates.add((String) longitude.getText());
 
-                Trial uploadData = new Trial(description, value2, experimenter.get(0), location);
+                Trial uploadData = new Trial(description, value2, experimenter.get(0), coordinates);
 
                 if (description.length() > 0) {
                     collectionReference
@@ -191,28 +216,6 @@ public class PublishNonNegative extends Fragment {
                 transaction.commit();
             }
         }));
-
-        /**
-         * https://www.youtube.com/watch?v=VdCQoJtNXAg
-         */
-        location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getActivity()
-                        , Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(getActivity()
-                                , Manifest.permission.ACCESS_COARSE_LOCATION)
-                                == PackageManager.PERMISSION_GRANTED) {
-                    getCurrentLocation();
-                }
-                else {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION
-                            , Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-                }
-            }
-
-        });
 
         return view;
     }

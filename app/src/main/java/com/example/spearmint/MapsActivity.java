@@ -18,8 +18,10 @@ package com.example.spearmint;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,6 +30,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -57,12 +67,42 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        Intent intent = getIntent();
+        Experiment experiment = intent.getParcelableExtra("dataKey");
+        String exDescription = experiment.getExperimentDescription();
+
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+
+        final CollectionReference collectionReferenceUser = db.collection("Experiments").document(exDescription).collection("Trials");
+        collectionReferenceUser.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot doc : value) {
+                    String description = doc.getString("trialDescription");
+                    ArrayList<String> coordinates = (ArrayList<String>) doc.get("trialLocation");
+                    String trialLatitude = coordinates.get(0);
+                    String trialLongitude = coordinates.get(1);
+                    Double latitude = new Double(trialLatitude);
+                    Double longitude = new Double(trialLongitude);
+                    LatLng trialLocation = new LatLng(latitude, longitude);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(trialLocation)
+                            .title(description));
+                }
+            }
+        });
+
+/**
+ *
+
         // Add a marker in Sydney and move the camera
         LatLng Edmonton = new LatLng(53.5461, -113.4938);
         mMap.addMarker(new MarkerOptions()
                 .position(Edmonton)
                 .title("Marker in Edmonton"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Edmonton));
+ */
     }
 }
 
