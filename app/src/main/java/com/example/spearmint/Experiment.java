@@ -21,14 +21,16 @@ public class Experiment implements Parcelable {
     private ArrayList<String> experimentOwner;
     private String geoLocation;
     private String trialType;
+    private String status;
 
-    Experiment(String experimentDescription, String experimentRegion, String experimentCount, ArrayList<String> experimentOwner, String geoLocation, String trialType) {
+    Experiment(String experimentDescription, String experimentRegion, String experimentCount, ArrayList<String> experimentOwner, String geoLocation, String trialType, String status) {
         this.experimentDescription = experimentDescription;
         this.experimentRegion = experimentRegion;
         this.experimentCount = experimentCount;
         this.experimentOwner = experimentOwner;
         this.geoLocation = geoLocation;
         this.trialType = trialType;
+        this.status = status;
     }
 
     protected Experiment(Parcel in) {
@@ -38,6 +40,7 @@ public class Experiment implements Parcelable {
         experimentOwner = in.createStringArrayList();
         geoLocation = in.readString();
         trialType = in.readString();
+        status = in.readString();
     }
 
     @Override
@@ -48,6 +51,7 @@ public class Experiment implements Parcelable {
         dest.writeStringList(experimentOwner);
         dest.writeString(geoLocation);
         dest.writeString(trialType);
+        dest.writeString(status);
     }
 
     @Override
@@ -80,7 +84,8 @@ public class Experiment implements Parcelable {
     }
   
     public ArrayList<String> getExperimentOwner() {
-        return this.experimentOwner; }
+        return this.experimentOwner;
+    }
   
     public String getGeoLocation() {
         return this.geoLocation;
@@ -90,4 +95,11 @@ public class Experiment implements Parcelable {
         return this.trialType;
     }
 
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

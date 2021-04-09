@@ -123,8 +123,9 @@ public class SearchFragment extends Fragment {
                     ArrayList<String> experimentOwner = (ArrayList<String>) doc.get("experimentOwner");
                     String geoLocation = (String) doc.get("geoLocation");
                     String trialType = (String) doc.get("trialType");
+                    String status = (String) doc.get("status");
 
-                    experimentArrayList.add(new Experiment(description, region, count, experimentOwner, geoLocation, trialType));
+                    experimentArrayList.add(new Experiment(description, region, count, experimentOwner, geoLocation, trialType, status));
                 }
 
         aRecyclerView = rootView.findViewById(R.id.recycle_view);

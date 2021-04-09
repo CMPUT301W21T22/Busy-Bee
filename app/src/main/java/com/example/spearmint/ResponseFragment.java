@@ -62,7 +62,7 @@ public class ResponseFragment extends Fragment {
             public void onClick(View v) {
 
                 Bundle questionInfo = new Bundle();
-                ExperimentDetails detailsFragment = new ExperimentDetails();
+                ExperimentDetailsFragment detailsFragment = new ExperimentDetailsFragment();
                 String questionExperiment = questionData;
 
                 questionInfo.putString("dataKey", questionExperiment);
@@ -110,7 +110,7 @@ public class ResponseFragment extends Fragment {
                 responseText.setText("");
 
                 Bundle questionInfo = new Bundle();
-                ExperimentDetails detailsFragment = new ExperimentDetails();
+                ExperimentDetailsFragment detailsFragment = new ExperimentDetailsFragment();
                 String questionExperiment = questionData;
 
                 questionInfo.putString("dataKey", questionExperiment);

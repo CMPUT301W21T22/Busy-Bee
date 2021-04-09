@@ -36,7 +36,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
         View view = convertView;
 
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.content, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.experiment_content, parent, false);
         }
         Experiment experiment = trials.get(position);
 

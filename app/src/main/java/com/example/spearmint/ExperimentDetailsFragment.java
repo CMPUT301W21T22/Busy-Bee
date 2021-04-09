@@ -10,6 +10,8 @@ package com.example.spearmint;
  * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
  */
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,13 +42,14 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class ExperimentDetails extends Fragment {
+public class ExperimentDetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Button goBack;
+        Button end;
         Button trial;
         Button post;
         Button map;
@@ -56,12 +59,15 @@ public class ExperimentDetails extends Fragment {
         TextView exOwner;
         TextView exLocation;
         TextView exType;
+        TextView exStatus;
         EditText question;
         FirebaseFirestore db;
 
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReferencePosts = db.collection("Posts");
+        final CollectionReference collectionReferenceExperiments = db.collection("Experiments");
+        final CollectionReference collectionReferenceUser = db.collection("User");
 
         View view = inflater.inflate(R.layout.experiment_details, container, false);
 
@@ -76,21 +82,26 @@ public class ExperimentDetails extends Fragment {
         exOwner = view.findViewById(R.id.experiment_username);
         exLocation = view.findViewById(R.id.experiment_location);
         exType = view.findViewById(R.id.experiment_type);
+        exStatus = view.findViewById(R.id.experiment_status);
 
-        String description = "Title: " + experiment.getExperimentDescription();
-        String region = "City: " + experiment.getExperimentRegion();
-        String count = "Minimum Trials: " + experiment.getExperimentCount();
-        String owner = "Owner: " + experiment.getExperimentOwner().get(1);
-        String location = "Requires Location: " + experiment.getGeoLocation();
-        String type = "Trial Type: " + experiment.getTrialType();
+        String description = experiment.getExperimentDescription();
+        String region = experiment.getExperimentRegion();
+        String count = experiment.getExperimentCount();
+        String ownerID = experiment.getExperimentOwner().get(0);
+        String owner = experiment.getExperimentOwner().get(1);
+        String location = experiment.getGeoLocation();
+        String type = experiment.getTrialType();
+        String status = experiment.getStatus();
 
-        exDescription.setText(description);
-        exRegion.setText(region);
-        exCount.setText(count);
-        exOwner.setText(owner);
-        exLocation.setText(location);
-        exType.setText(type);
+        exDescription.setText("Title: " + description);
+        exRegion.setText("City: " + region);
+        exCount.setText("Minimum Trials: " + count);
+        exOwner.setText("Owner: " + owner);
+        exLocation.setText("Requires Location: " + location);
+        exType.setText("Trial Type: " + type);
+        exStatus.setText("Status: " + status);
 
+        end = view.findViewById(R.id.end_experiment);
         trial = view.findViewById(R.id.experiment_trial);
         question = view.findViewById(R.id.post_question);
         post = view.findViewById(R.id.post_question_button);
@@ -100,7 +111,7 @@ public class ExperimentDetails extends Fragment {
 
         ArrayList<Post> postList = new ArrayList<>();
 
-        PostAdapter customAdapter = new PostAdapter(getActivity(), R.layout.content, postList);
+        PostAdapter customAdapter = new PostAdapter(getActivity(), R.layout.experiment_content, postList);
 
         listView.setAdapter(customAdapter);
 
@@ -151,6 +162,95 @@ public class ExperimentDetails extends Fragment {
             }
         });
 
+        ArrayList<Boolean> contains = new ArrayList<>();
+        collectionReferenceUser.document(ownerID).collection("ownedExperiments").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot doc : value) {
+                    String experimentName = doc.getId();
+                    if (experimentName.contentEquals(description)) {
+                        contains.add(true);
+                    }
+//                    Log.d(TAG, experimentName);
+                }
+            }
+        });
+        end.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contains.get(0)) {
+                    experiment.setStatus("Closed");
+
+                    collectionReferenceExperiments
+                            .document(description)
+                            .set(experiment)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // These are a method which gets executed when the task is succeeded
+                                    Log.d(TAG, "Data has been added successfully!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // These are a method which gets executed if there’s any problem
+                                    Log.d(TAG, "Data could not be added!" + e.toString());
+                                }
+                            });
+
+                    collectionReferenceUser
+                            .document(ownerID).collection("ownedExperiments").document(description)
+                            .set(experiment)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // These are a method which gets executed when the task is succeeded
+                                    Log.d(TAG, "Data has been added successfully!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // These are a method which gets executed if there’s any problem
+                                    Log.d(TAG, "Data could not be added!" + e.toString());
+                                }
+                            });
+
+                    collectionReferenceUser
+                            .document(ownerID).collection("subscribedExperiments").document(description)
+                            .set(experiment)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // These are a method which gets executed when the task is succeeded
+                                    Log.d(TAG, "Data has been added successfully!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // These are a method which gets executed if there’s any problem
+                                    Log.d(TAG, "Data could not be added!" + e.toString());
+                                }
+                            });
+                }
+
+                else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                    alert.setTitle("CANNOT COMPLETE REQUEST");
+                    alert.setMessage("You cannot end an experiment you do not own. Please tap anywhere to continue.");
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    alert.show();
+                }
+            }
+        }));
+
         /**
          * Directs the user to a new fragment where they enter information/data for a trial
          * Goes to a trial fragment based on the type of experiment selected
@@ -168,30 +268,6 @@ public class ExperimentDetails extends Fragment {
                 transaction.replace(R.id.nav_host_fragment, trialFragment);
                 transaction.commit();
 
-                /*
-                switch (experiment.getTrialType()) {
-
-                    case "Counts":
-                        CountFragment experimentCount = new CountFragment();
-                        experimentInfo.putParcelable("dataKey", experiment);
-                        experimentCount.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, experimentCount);
-                        transaction.commit();
-                        break;
-                    case "Binomial Trials":
-                        TrialFragment trialFragment = new TrialFragment();
-                        experimentInfo.putParcelable("dataKey", experiment);
-                        trialFragment.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, trialFragment);
-                        transaction.commit();
-                        break;
-                    case "Non-negative Integer Counts":
-                        // add fragment for trials
-                    case "Measurement Trials":
-                        // add fragment for trials
-                }
-
-                 */
             }
         });
 

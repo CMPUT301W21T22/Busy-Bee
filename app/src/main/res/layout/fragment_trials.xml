@@ -24,7 +24,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/end_trial"
+            android:id="@+id/go_back_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Back"

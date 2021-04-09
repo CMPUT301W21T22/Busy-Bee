@@ -54,6 +54,29 @@
         android:textSize="30dp"
         android:layout_marginLeft="5dp"/>
 
+    <TextView
+        android:id="@+id/experiment_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:layout_marginLeft="5dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/end_experiment"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="End Experiment"
+            android:layout_alignParentLeft="true"/>
+
+
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -75,7 +98,6 @@
             android:text="View Map"/>
 
     </LinearLayout>
-
 
 
     <LinearLayout
