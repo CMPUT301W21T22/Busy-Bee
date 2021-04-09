@@ -18,14 +18,16 @@ public class UserTest {
             "5",
             owner,
             "Allard",
-            "Count");
+            "Count",
+            "open");
 
     Experiment subscribedExperiment = new Experiment("Count Cars",
             "Edmonton",
             "5",
             owner,
             "Allard",
-            "Count");
+            "Count",
+            "open");
 
     private User user;
     private ArrayList<Experiment> myExperiment = new ArrayList<Experiment>(){

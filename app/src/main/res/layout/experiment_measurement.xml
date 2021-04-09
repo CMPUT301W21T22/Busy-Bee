@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Trials: Measurement test"
+        android:text="Trials: Measurement Trial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30dp"
@@ -22,7 +22,7 @@
         android:layout_marginTop="100dp"/>
 
     <TextView
-        android:text="How many did you see?"
+        android:text="What is the current temperature in Celcius?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Description"
+        android:hint="Trial Details"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="175dp"
         android:inputType="textPersonName" />
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="215dp"
-        android:text="0"
+        android:text="0°C"
         android:textSize="50dp"
         android:layout_centerHorizontal="true">
 
