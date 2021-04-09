@@ -360,7 +360,9 @@ public class ExperimentDetailsFragment extends Fragment {
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getActivity(), MapsActivity.class);
+                intent.putExtra("dataKey", experiment);
                 startActivity(intent);
             }
         });
