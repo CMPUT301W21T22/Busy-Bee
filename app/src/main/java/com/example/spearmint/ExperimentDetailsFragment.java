@@ -187,7 +187,7 @@ public class ExperimentDetailsFragment extends Fragment {
                 PostFragment postFragment = new PostFragment();
                 Post post = postList.get(position);
 
-                postInfo.putParcelable("dataKey", post);
+                postInfo.putParcelable("postKey", post);
                 postFragment.setArguments(postInfo);
 
                 experimentInfo.putParcelable("dataKey", experiment);

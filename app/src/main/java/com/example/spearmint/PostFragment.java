@@ -46,7 +46,8 @@ public class PostFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.responses, container, false);
 
-        Post post = getArguments().getParcelable("dataKey");
+        Experiment experiment = getArguments().getParcelable("dataKey");
+        Post post = getArguments().getParcelable("postKey");
 
         confirmResponse = view.findViewById(R.id.confirm_response);
         cancelResponse = view.findViewById(R.id.cancel_response);
@@ -60,12 +61,10 @@ public class PostFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Bundle questionInfo = new Bundle();
+                Bundle experimentInfo = new Bundle();
                 ExperimentDetailsFragment detailsFragment = new ExperimentDetailsFragment();
-                String questionExperiment = questionData;
-
-                questionInfo.putString("dataKey", questionExperiment);
-                detailsFragment.setArguments(questionInfo);
+                experimentInfo.putParcelable("dataKey", experiment);
+                detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, detailsFragment);
@@ -84,9 +83,9 @@ public class PostFragment extends Fragment {
             public void onClick(View v) {
 
                 final String responseContent = responseText.getText().toString();
-                final String responseQuestion = questionTitle;
+                final String responseOwner = post.getPostOwner();
 
-                Post content = new Post(responseQuestion, responseContent);
+                Post content = new Post(responseOwner, responseContent);
 
                 if (responseContent.length()>0) {
                     collectionReference
@@ -108,12 +107,11 @@ public class PostFragment extends Fragment {
                             });}
                 responseText.setText("");
 
-                Bundle questionInfo = new Bundle();
+                Bundle experimentInfo = new Bundle();
                 ExperimentDetailsFragment detailsFragment = new ExperimentDetailsFragment();
-                String questionExperiment = questionData;
 
-                questionInfo.putString("dataKey", questionExperiment);
-                detailsFragment.setArguments(questionInfo);
+                experimentInfo.putParcelable("dataKey", experiment);
+                detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, detailsFragment);
