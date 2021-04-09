@@ -39,6 +39,7 @@ public class TrialFragment extends Fragment {
 
         Button addTrial;
         Button goBack;
+        Button scanner;
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
 
@@ -182,6 +183,7 @@ public class TrialFragment extends Fragment {
                     }
                 });
 
+                /*
                 if (ownsExperiment.get(0)) {
                     alert.setPositiveButton("IGNORE", new DialogInterface.OnClickListener() {
                         @Override
@@ -189,8 +191,23 @@ public class TrialFragment extends Fragment {
                             collectionReferenceTrials.document(trial.getTrialDescription()).delete();
                         }
                     });
-                }
+                }*/
                 alert.show();
+            }
+        });
+
+        scanner = view.findViewById(R.id.scanner);
+        scanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle experimentInfo = new Bundle();
+                ScannerFragment scannerFragment = new ScannerFragment();
+                experimentInfo.putParcelable("dataKey", experiment);
+                scannerFragment.setArguments(experimentInfo);
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, scannerFragment);
+                transaction.commit();
             }
         });
 

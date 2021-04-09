@@ -29,6 +29,8 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.api.Context;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.rpc.Code;
 import com.google.zxing.Result;
 
@@ -82,6 +84,15 @@ public class ScannerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+
+        Experiment experiment = getArguments().getParcelable("dataKey");
+        String exDescription = experiment.getExperimentDescription();
+
+        final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
+
         // Inflate the layout for this fragment
         setupPermissions();
         final Activity activity = getActivity();
@@ -95,6 +106,10 @@ public class ScannerFragment extends Fragment {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        collectionReference
+                                .document("Scanned Trial")
+                                .set(result.getText());
+
                         textViewScan.setText(result.getText());
                     }
                 });

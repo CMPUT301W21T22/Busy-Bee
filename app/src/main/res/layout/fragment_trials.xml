@@ -24,10 +24,19 @@
         android:layout_height="match_parent">
 
         <Button
+            android:id="@+id/scanner"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Scan Code"
+            android:layout_alignParentLeft="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
             android:id="@+id/go_back_details"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Back"
+            android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
