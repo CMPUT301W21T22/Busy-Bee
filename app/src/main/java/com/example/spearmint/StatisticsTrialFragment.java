@@ -7,20 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.jjoe64.graphview.GraphView;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -50,6 +43,9 @@ public class StatisticsTrialFragment extends Fragment {
         final CollectionReference collectionReferenceExperiments = db.collection("Experiments");
         final CollectionReference collectionReferenceTrials = collectionReferenceExperiments.document(exDescription).collection("Trials");
         final CollectionReference collectionReferenceUser = db.collection("User");
+
+       final GraphView graph = view.findViewById(R.id.plot_graph);
+       Button button = view.findViewById(R.id.plot_button);
 
         goBack = view.findViewById(R.id.stats_go_back);
         goBack.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +77,23 @@ public class StatisticsTrialFragment extends Fragment {
 //                }
 //            }
 //        })
+
+        graph.setVisibility(View.VISIBLE);
+
+        /**
+         * Gathers all of the trials from an experiment and plots the points onto a graph
+         * !! Does not work yet !!
+         * https://tjah.medium.com/how-to-create-a-simple-graph-in-android-6c484324a4c1
+         */
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+
         return view;
     }
 }
