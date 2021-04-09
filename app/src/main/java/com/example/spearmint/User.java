@@ -23,16 +23,16 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(String UUID, String username, String email, String number,
-                ArrayList<Experiment> ownedExperiments,
-                ArrayList<Experiment> subscribedExperiments) {
-        this.UUID = UUID;
-        this.username = username;
-        this.email = email;
-        this.number = number;
-        this.ownedExperiments = ownedExperiments;
-        this.subscribedExperiments = subscribedExperiments;
-    }
+//    public User(String UUID, String username, String email, String number,
+//                ArrayList<Experiment> ownedExperiments,
+//                ArrayList<Experiment> subscribedExperiments) {
+//        this.UUID = UUID;
+//        this.username = username;
+//        this.email = email;
+//        this.number = number;
+//        this.ownedExperiments = ownedExperiments;
+//        this.subscribedExperiments = subscribedExperiments;
+//    }
 
     public String getUUID() {
         return UUID;

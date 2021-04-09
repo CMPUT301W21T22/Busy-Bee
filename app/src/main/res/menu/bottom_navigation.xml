@@ -10,8 +10,8 @@
         android:title="Search"
         android:icon="@drawable/ic_search"/>
     <item
-        android:id="@+id/notifications_fragment"
-        android:title="Notifications"
+        android:id="@+id/scanner_fragment"
+        android:title="Scanner"
         android:icon="@drawable/ic_notifications"/>
     <item
         android:id="@+id/profile_fragment"
