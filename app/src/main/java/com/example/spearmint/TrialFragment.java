@@ -1,5 +1,7 @@
 package com.example.spearmint;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,38 +79,50 @@ public class TrialFragment extends Fragment {
                 experimentInfo.putParcelable("dataKey", experiment);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-
-                switch (exType) {
-                    case "Counts":
-                        PublishCount publishCount = new PublishCount();
-                        publishCount.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, publishCount);
-                        transaction.commit();
-                        break;
-                    case "Binomial Trials":
-                        PublishBinomial publishBinomial = new PublishBinomial();
-                        publishBinomial.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, publishBinomial);
-                        transaction.commit();
-                        break;
-                    case "Non-negative Integer Counts":
-                        PublishNonNegative publishNonNegative = new PublishNonNegative();
-                        publishNonNegative.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, publishNonNegative);
-                        transaction.commit();
-                        break;
-                    case "Measurement Trials":
-                        PublishMeasurement publishMeasurement = new PublishMeasurement();
-                        publishMeasurement.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, publishMeasurement);
-                        transaction.commit();
-                        break;
+                if (experiment.getStatus().contentEquals("Open")) {
+                    switch (exType) {
+                        case "Counts":
+                            PublishCount publishCount = new PublishCount();
+                            publishCount.setArguments(experimentInfo);
+                            transaction.replace(R.id.nav_host_fragment, publishCount);
+                            transaction.commit();
+                            break;
+                        case "Binomial Trials":
+                            PublishBinomial publishBinomial = new PublishBinomial();
+                            publishBinomial.setArguments(experimentInfo);
+                            transaction.replace(R.id.nav_host_fragment, publishBinomial);
+                            transaction.commit();
+                            break;
+                        case "Non-negative Integer Counts":
+                            PublishNonNegative publishNonNegative = new PublishNonNegative();
+                            publishNonNegative.setArguments(experimentInfo);
+                            transaction.replace(R.id.nav_host_fragment, publishNonNegative);
+                            transaction.commit();
+                            break;
+                        case "Measurement Trials":
+                            PublishMeasurement publishMeasurement = new PublishMeasurement();
+                            publishMeasurement.setArguments(experimentInfo);
+                            transaction.replace(R.id.nav_host_fragment, publishMeasurement);
+                            transaction.commit();
+                            break;
+                    }
                 }
+                else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                    alert.setTitle("CANNOT COMPLETE REQUEST");
+                    alert.setMessage("This experiment has been closed. Please tap anywhere to continue.");
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
+                        }
+                    });
+                    alert.show();
+                }
             }
         });
 
-        goBack = view.findViewById(R.id.end_trial);
+        goBack = view.findViewById(R.id.go_back_details);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
