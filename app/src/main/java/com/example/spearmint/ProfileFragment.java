@@ -282,8 +282,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
-
     /**
      * Expected behavior: this method keeps track of what a button's ID will behave when selected.
      * @param v

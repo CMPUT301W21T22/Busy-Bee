@@ -28,6 +28,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         TextView name;
         public TextView aTitle;
         public TextView username;
+        public TextView status;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -36,6 +37,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             name = (TextView) itemView.findViewById(R.id.recycle_view);
             aTitle = itemView.findViewById(R.id.experiment_title);
             username = itemView.findViewById(R.id.owner_username);
+            status = itemView.findViewById(R.id.experiment_status);
         }
 
         @Override
@@ -78,6 +80,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
         holder.aTitle.setText(currentItem.getExperimentDescription());
         holder.username.setText("Owner: " + currentItem.getExperimentOwner().get(1));
+        holder.status.setText("Status: " + currentItem.getStatus());
     }
 
     @Override

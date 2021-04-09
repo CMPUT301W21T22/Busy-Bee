@@ -91,8 +91,9 @@ public class ExperimentFragment extends Fragment {
                     ArrayList<String> experimentOwner = (ArrayList<String>) doc.get("experimentOwner");
                     String geoLocation = (String) doc.get("geoLocation");
                     String trialType = (String) doc.get("trialType");
+                    String status = (String) doc.get("status");
 
-                    experimentList.add(new Experiment(description, region, count, experimentOwner, geoLocation, trialType));
+                    experimentList.add(new Experiment(description, region, count, experimentOwner, geoLocation, trialType, status));
                 }
                 customAdapter.notifyDataSetChanged();
             }
@@ -123,7 +124,7 @@ public class ExperimentFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Bundle experimentInfo = new Bundle();
-                ExperimentDetails detailsFragment = new ExperimentDetails();
+                ExperimentDetailsFragment detailsFragment = new ExperimentDetailsFragment();
                 Experiment experiment = experimentList.get(position);
 
                 experimentInfo.putParcelable("dataKey", experiment);

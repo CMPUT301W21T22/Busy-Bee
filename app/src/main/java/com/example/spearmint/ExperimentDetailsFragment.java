@@ -39,7 +39,7 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class ExperimentDetails extends Fragment {
+public class ExperimentDetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -165,30 +165,6 @@ public class ExperimentDetails extends Fragment {
                 transaction.replace(R.id.nav_host_fragment, trialFragment);
                 transaction.commit();
 
-                /*
-                switch (experiment.getTrialType()) {
-
-                    case "Counts":
-                        CountFragment experimentCount = new CountFragment();
-                        experimentInfo.putParcelable("dataKey", experiment);
-                        experimentCount.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, experimentCount);
-                        transaction.commit();
-                        break;
-                    case "Binomial Trials":
-                        TrialFragment trialFragment = new TrialFragment();
-                        experimentInfo.putParcelable("dataKey", experiment);
-                        trialFragment.setArguments(experimentInfo);
-                        transaction.replace(R.id.nav_host_fragment, trialFragment);
-                        transaction.commit();
-                        break;
-                    case "Non-negative Integer Counts":
-                        // add fragment for trials
-                    case "Measurement Trials":
-                        // add fragment for trials
-                }
-
-                 */
             }
         });
 

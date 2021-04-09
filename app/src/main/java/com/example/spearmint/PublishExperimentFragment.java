@@ -68,8 +68,9 @@ public class PublishExperimentFragment extends Fragment {
         ArrayList<String> userInfo = new ArrayList<>();
         final String[] geo = new String[1];
         final String[] type = new String[1];
-        final Spinner trialType;
         final Spinner geoLocation;
+        final Spinner trialType;
+        final String status = "Open";
         ArrayAdapter<CharSequence> adapter;
         ArrayAdapter<CharSequence> adapter2;
         FirebaseFirestore db;
@@ -161,7 +162,7 @@ public class PublishExperimentFragment extends Fragment {
                 final String exRegion = experimentRegion.getText().toString();
                 final String exCount = experimentCount.getText().toString();
 
-                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo, geo[0], type[0]);
+                Experiment uploadData = new Experiment(exDescription, exRegion, exCount, userInfo, geo[0], type[0], status);
 
                 /*
                 If the fields are all filled, uploads the experiment object in 3 locations:

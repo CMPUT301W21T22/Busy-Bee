@@ -96,11 +96,13 @@ public class TrialFragment extends Fragment {
                         publishNonNegative.setArguments(experimentInfo);
                         transaction.replace(R.id.nav_host_fragment, publishNonNegative);
                         transaction.commit();
+                        break;
                     case "Measurement Trials":
                         PublishMeasurement publishMeasurement = new PublishMeasurement();
                         publishMeasurement.setArguments(experimentInfo);
                         transaction.replace(R.id.nav_host_fragment, publishMeasurement);
                         transaction.commit();
+                        break;
                 }
 
             }
@@ -111,12 +113,12 @@ public class TrialFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle experimentInfo = new Bundle();
-                ExperimentDetails experimentDetails = new ExperimentDetails();
+                ExperimentDetailsFragment experimentDetailsFragment = new ExperimentDetailsFragment();
                 experimentInfo.putParcelable("dataKey", experiment);
-                experimentDetails.setArguments(experimentInfo);
+                experimentDetailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, experimentDetails);
+                transaction.replace(R.id.nav_host_fragment, experimentDetailsFragment);
                 transaction.commit();
             }
         });
