@@ -13,7 +13,11 @@ package com.example.spearmint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +36,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -41,8 +47,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class ExperimentDetailsFragment extends Fragment {
+
+    private static final String SHARED_PREFS = "SharedPrefs";
+    private static final String TEXT = "Text";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,12 +72,11 @@ public class ExperimentDetailsFragment extends Fragment {
         TextView exStatus;
         EditText question;
         FirebaseFirestore db;
+        ArrayList<String> userInfo = new ArrayList<>();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
 
         db = FirebaseFirestore.getInstance();
-
-        final CollectionReference collectionReferencePosts = db.collection("Posts");
-        final CollectionReference collectionReferenceExperiments = db.collection("Experiments");
-        final CollectionReference collectionReferenceUser = db.collection("User");
 
         View view = inflater.inflate(R.layout.experiment_details, container, false);
 
@@ -114,6 +123,30 @@ public class ExperimentDetailsFragment extends Fragment {
         PostAdapter customAdapter = new PostAdapter(getActivity(), R.layout.experiment_content, postList);
 
         listView.setAdapter(customAdapter);
+
+        final CollectionReference collectionReferencePosts = db.collection("Posts");
+        final CollectionReference collectionReferenceExperiments = db.collection("Experiments");
+        final CollectionReference collectionReferenceUser = db.collection("User");
+        DocumentReference documentReference = collectionReferenceUser.document(ownerID);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String phoneNumber = value.getString("PhoneNum");
+                String email = value.getString("Email");
+                userInfo.add(phoneNumber);
+                userInfo.add(email);
+            }
+        });
+
+        exOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle(owner);
+                alert.setMessage(userInfo.get(0) + "\n" + userInfo.get(1));
+                alert.show();
+            }
+        });
 
         /**
          * Updates the list stored locally in the app with Firebase data to display the data
@@ -162,23 +195,25 @@ public class ExperimentDetailsFragment extends Fragment {
             }
         });
 
-        ArrayList<Boolean> contains = new ArrayList<>();
-        collectionReferenceUser.document(ownerID).collection("ownedExperiments").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        ArrayList<Boolean> ownsExperiment = new ArrayList<>();
+        collectionReferenceUser.document(uniqueID).collection("ownedExperiments").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                ownsExperiment.clear();
                 for (QueryDocumentSnapshot doc : value) {
                     String experimentName = doc.getId();
                     if (experimentName.contentEquals(description)) {
-                        contains.add(true);
+                        ownsExperiment.add(true);
                     }
-//                    Log.d(TAG, experimentName);
                 }
+                ownsExperiment.add(false);
             }
         });
+
         end.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (contains.get(0)) {
+                if (ownsExperiment.get(0)) {
                     experiment.setStatus("Closed");
 
                     collectionReferenceExperiments

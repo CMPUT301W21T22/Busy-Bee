@@ -158,10 +158,10 @@ public class SearchFragment extends Fragment {
                 transaction.replace(R.id.nav_host_fragment, detailsFragment);
                 transaction.commit();
             }
-            // Will implement at a later date
+
             @Override
             public void onItemLongClick(int position, View v) {
-                Log.d(TAG, "onItemLongClick pos = " + position);
+                // DO NOTHING
             }
         });
 

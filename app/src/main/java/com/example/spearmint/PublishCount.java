@@ -4,6 +4,7 @@ package com.example.spearmint;
  * https://www.youtube.com/watch?v=kgJugGyff5o
  */
 
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +12,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
@@ -24,7 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
 import androidx.core.content.ContextCompat;
+
+import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -38,15 +46,27 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class PublishCount extends Fragment {
+
 
     Button location;
     TextView latitude, longitude;
     FusedLocationProviderClient client;
+
+    private static final String SHARED_PREFS = "SharedPrefs";
+    private static final String TEXT = "Text";
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,16 +78,22 @@ public class PublishCount extends Fragment {
         Button decrement;
         Button increment;
         final int[] count = {0};
+        ArrayList<String> experimenter = new ArrayList<>();
 
         FirebaseFirestore db;
 
         View view = inflater.inflate(R.layout.experiment_count, container, false);
+
 
         location = view.findViewById(R.id.location);
         latitude = view.findViewById(R.id.latitude);
         longitude = view.findViewById(R.id.longitude);
 
         client = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String uniqueID = sharedPreferences.getString(TEXT, null);
+
 
         Experiment experiment = getArguments().getParcelable("dataKey");
         String exDescription = experiment.getExperimentDescription();
@@ -80,6 +106,15 @@ public class PublishCount extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
+        final CollectionReference collectionReferenceUser = db.collection("User");
+        DocumentReference documentReference = collectionReferenceUser.document(uniqueID);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String username = value.getString("Username");
+                experimenter.add(username);
+            }
+        });
 
         decrement.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +140,7 @@ public class PublishCount extends Fragment {
                 final String description = countDescription.getText().toString();
                 String location = "NONE";
 
-                Trial uploadData = new Trial(description, value2, location);
+                Trial uploadData = new Trial(description, value2, experimenter.get(0), location);
 
                 if (description.length() > 0) {
                     collectionReference
