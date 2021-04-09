@@ -4,10 +4,12 @@ public class Trial {
 
     private String trialDescription;
     private String trialResult;
+    private String trialLocation;
 
-    Trial(String trialDescription, String trialResult) {
+    Trial(String trialDescription, String trialResult, String trialLocation) {
         this.trialDescription = trialDescription;
         this.trialResult = trialResult;
+        this.trialLocation = trialLocation;
     }
 
     public String getTrialDescription() {
@@ -16,5 +18,9 @@ public class Trial {
 
     public String getTrialResult() {
         return this.trialResult;
+    }
+
+    public String getTrialLocation() {
+        return this.trialLocation;
     }
 }

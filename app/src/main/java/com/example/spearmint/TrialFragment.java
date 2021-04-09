@@ -62,7 +62,9 @@ public class TrialFragment extends Fragment {
                     String trialDescription = doc.getId();
                     String trialResult = (String) doc.get("trialResult");
 
-                    trialList.add(new Trial(trialDescription, trialResult));
+                    String location = "NONE";
+
+                    trialList.add(new Trial(trialDescription, trialResult, location));
                 }
                 customAdapter.notifyDataSetChanged();
             }

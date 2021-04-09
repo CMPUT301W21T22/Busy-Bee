@@ -11,10 +11,19 @@ package com.example.spearmint;
  * Tanzil Shahriar, "Lab 5 Firestore Integration Instructions", https://eclass.srv.ualberta.ca/pluginfile.php/6714046/mod_resource/content/0/Lab%205%20Firestore%20Integration%20Instructions.pdf
  */
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +33,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,12 +56,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+import static android.content.Context.LOCATION_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Context.POWER_SERVICE;
 
 public class SearchDetails extends Fragment {
 
     private static final String SHARED_PREFS = "SharedPrefs";
     private static final String TEXT = "Text";
+
+    FusedLocationProviderClient client;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +82,7 @@ public class SearchDetails extends Fragment {
         FirebaseFirestore db;
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
+
 
         db = FirebaseFirestore.getInstance();
 
@@ -127,6 +150,7 @@ public class SearchDetails extends Fragment {
          * https://www.youtube.com/watch?v=men8GB-7yM0
          */
 
+        client = LocationServices.getFusedLocationProviderClient(getActivity());
 
         subscribe = view.findViewById(R.id.subscribe);
         subscribe.setOnClickListener(new View.OnClickListener() {
@@ -135,22 +159,6 @@ public class SearchDetails extends Fragment {
                 collectionReferenceUser
                         .document(uniqueID).collection("subscribedExperiments").document(experiment.getExperimentDescription())
                         .set(experiment);
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                alert.setTitle("This experiment requires you to share your location");
-                alert.setMessage("Would you like to continue?");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        System.out.println("0000000");
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        System.out.println("11111111111111");
-                    }
-                });
-                alert.show();
             }
         });
 
@@ -212,4 +220,6 @@ public class SearchDetails extends Fragment {
 
         return view;
     }
+
+
 }
