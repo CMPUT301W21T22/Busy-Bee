@@ -1,7 +1,8 @@
 package com.example.spearmint;
 
 /**
- * https://developers.google.com/maps/documentation/android-sdk/start
+ * Android Coding. (2018, December 27). How to Implement Google Map in Android Studio | GoogleMap | Android Coding [Video]. YouTube. https://www.youtube.com/watch?v=eiexkzCI8m8&t=301s
+ * Google Map Platform, "Quickstart - Adding a Map", Apache 2.0 License, Creative Commons Attribution 4.0 License, https://developers.google.com/maps/documentation/android-sdk/start
  */
 
 // Copyright 2020 Google LLC
@@ -38,6 +39,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+
+/** Used the class and xml from the website
+ * Google Map Platform, "Quickstart - Adding a Map", Apache 2.0 License, Creative Commons Attribution 4.0 License, https://developers.google.com/maps/documentation/android-sdk/start
+ * Used the video for AndroidManifest, map_api and implementation
+ * Android Coding. (2018, December 27). How to Implement Google Map in Android Studio | GoogleMap | Android Coding [Video]. YouTube. https://www.youtube.com/watch?v=eiexkzCI8m8&t=301s
+ */
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
