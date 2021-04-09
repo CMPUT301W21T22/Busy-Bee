@@ -1,5 +1,11 @@
 package com.example.spearmint;
 
+/**
+ * Expected behavior: calculate the quartiles, mean, median, and standard deviations of the results of a specific experiment.
+ * Histogram and plots of results is also available.
+ * @author Gavriel and Sowon
+ */
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,6 +42,15 @@ public class StatisticsTrialFragment extends Fragment {
 
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /**
+     * Expected behavior: goBack button will go back to the previous fragment which is ExperimentDetailsFragment.
+     * Each EditText should display the necessary statistics.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     * @see ExperimentDetailsFragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

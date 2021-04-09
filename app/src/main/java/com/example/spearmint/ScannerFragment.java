@@ -1,10 +1,13 @@
 package com.example.spearmint;
 
 /**
- * Host fragment for fragments dealing scanning QR codes and barcodes
- *
- * TODO: Explain the extra step to actually open the camera (tapping the screen)
+ * Host fragment for fragments dealing scanning QR codes and barcodes.
+ * When click on ScannerFragment, app will ask for camera permission on initial startup.
+ * Camera will be turned on once user clicks into the camera space
  * @author Gavriel, Daniel
+ *
+ * Code Palace, "QR & Barcode Scanner App Tutorial in Android Studio", 2020-8-15
+ * Creative Commons CC, https://www.youtube.com/watch?v=drH63NpSWyk&t=320s
  */
 
 import android.Manifest;
@@ -55,14 +58,12 @@ public class ScannerFragment extends Fragment {
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Expected behavior: ScannerFragment creates a fragment to scan for QR codes and bar codes
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationsFragment.
+     * @return A new instance of fragment ScannerFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ScannerFragment newInstance(String param1, String param2) {
         ScannerFragment fragment = new ScannerFragment();
         Bundle args = new Bundle();
@@ -72,6 +73,10 @@ public class ScannerFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Expected behavior: gets the arguments of the bundle that was passed.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +86,14 @@ public class ScannerFragment extends Fragment {
         }
     }
 
+    /**
+     * Expected behavior: ScannerFragment is given access to Firebase to access experiments and trials that are needed
+     * to generate QR codes/bar codes. Once a code is scan, the information will be shown below the camera interface.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view of ScannerFragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -95,7 +108,6 @@ public class ScannerFragment extends Fragment {
 
         final CollectionReference collectionReference = db.collection("Experiments").document(exDescription).collection("Trials");
 
-        // Inflate the layout for this fragment
         setupPermissions();
         final Activity activity = getActivity();
         View view = inflater.inflate(R.layout.fragment_scanner, container, false);
@@ -127,6 +139,9 @@ public class ScannerFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Expected behavior: if permissionGranted is true, start preview of camera
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -135,12 +150,18 @@ public class ScannerFragment extends Fragment {
         }
     }
 
+    /**
+     * Expected behavior: camera stops behaving when this fragment is not active
+     */
     @Override
     public void onPause() {
         codeScanner.releaseResources();
         super.onPause();
     }
 
+    /**
+     * Expected behavior: asks permission from the user to allow camera permissions from this app
+     */
     public void setupPermissions() {
         final Activity activity = getActivity();
         int permission = ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
@@ -148,11 +169,21 @@ public class ScannerFragment extends Fragment {
             makeRequest();
         }
     }
+
+    /**
+     * Expected behavior: request pop up shows the user of camera permission
+     */
     public void makeRequest() {
         final Activity activity = getActivity();
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, 1);
     }
 
+    /**
+     * Expected behavior: if no permission granted, a message will show; if not, fragment behavior will continue
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         final Activity activity = getActivity();
