@@ -35,9 +35,7 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Button cancelResponse;
-        Button confirmResponse;
-        EditText responseText;
+        Button goBack;
         FirebaseFirestore db;
 
         db = FirebaseFirestore.getInstance();
@@ -46,26 +44,23 @@ public class PostFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.responses, container, false);
 
-        Post post = getArguments().getParcelable("dataKey");
+        Experiment experiment = getArguments().getParcelable("dataKey");
 
-        confirmResponse = view.findViewById(R.id.confirm_response);
-        cancelResponse = view.findViewById(R.id.cancel_response);
-        responseText = view.findViewById(R.id.response_text);
+        goBack = view.findViewById(R.id.back_to_details);
 
         /**
          * Redirects the user to experiment details fragment "ExperimentDetails.java" through "cancel" button
          * sends the title of the question to track what the response is linked to
          */
-        cancelResponse.setOnClickListener(new View.OnClickListener() {
+        goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Bundle questionInfo = new Bundle();
+                Bundle experimentInfo = new Bundle();
                 ExperimentDetailsFragment detailsFragment = new ExperimentDetailsFragment();
-                String questionExperiment = questionData;
 
-                questionInfo.putString("dataKey", questionExperiment);
-                detailsFragment.setArguments(questionInfo);
+                experimentInfo.putParcelable("dataKey", experiment);
+                detailsFragment.setArguments(experimentInfo);
 
                 FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.nav_host_fragment, detailsFragment);
@@ -78,7 +73,7 @@ public class PostFragment extends Fragment {
          * the post object is uploaded to firebase and displays post details to users
          * directs user back to the experiment details fragment "ExperimentDetails.java"
          * does not upload data if any of the edit text fields are empty
-         */
+
         confirmResponse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,9 +115,10 @@ public class PostFragment extends Fragment {
                 transaction.commit();
             }
         });
+         */
 
         return view;
-    };
+    }
 
 
 }

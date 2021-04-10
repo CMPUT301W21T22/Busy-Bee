@@ -9,27 +9,18 @@
     android:background="#fff">
 
     <Button
-        android:id="@+id/new_trial"
-        android:layout_width="match_parent"
+        android:id="@+id/back_to_details"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Trial" />
+        android:text="Back"
+        android:layout_marginLeft="5dp"
+        android:layout_centerHorizontal="true" />
+
 
     <ListView
         android:id="@+id/count_list"
         android:layout_width="match_parent"
         android:layout_height="508dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/back_to_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:layout_centerHorizontal="true" />
-
-    </RelativeLayout>
 
 </LinearLayout>
