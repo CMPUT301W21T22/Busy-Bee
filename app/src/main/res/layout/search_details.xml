@@ -20,7 +20,7 @@
         android:layout_marginLeft="5dp"/>
 
     <TextView
-        android:id="@+id/experiment_region"
+        android:id="@+id/experiment__trial_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"

@@ -40,11 +40,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
         }
         Post post = trials.get(position);
 
-        TextView postContent = view.findViewById(R.id.post_owner);
-        TextView experimentOwner = view.findViewById(R.id.post_experiment);
+        TextView postOwner = view.findViewById(R.id.post_owner);
+        TextView postText = view.findViewById(R.id.post_text);
 
-        postContent.setText(post.getPostText());
-        experimentOwner.setText(post.getPostOwner());
+        postOwner.setText(post.getPostOwner());
+        postText.setText(post.getPostText());
 
         return view;
     }

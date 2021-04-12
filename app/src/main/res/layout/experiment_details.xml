@@ -8,9 +8,20 @@
 
     <Button
         android:id="@+id/go_back"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textSize="10sp"
+        android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:id="@+id/experiment_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:textSize="15dp"
+        android:hint="Username"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/purple_500" />
 
     <TextView
         android:id="@+id/experiment_name"
@@ -21,7 +32,7 @@
         android:layout_marginLeft="5dp"/>
 
     <TextView
-        android:id="@+id/experiment_region"
+        android:id="@+id/experiment__trial_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
@@ -35,15 +46,6 @@
         android:textSize="20dp"
         android:hint="Minimum trials"
         android:layout_marginLeft="5dp"/>
-
-    <TextView
-        android:id="@+id/experiment_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:hint="Username"
-        android:layout_marginLeft="5dp"
-        android:textColor="@color/purple_500" />
 
     <TextView
         android:id="@+id/experiment_location"
@@ -106,28 +108,12 @@
 
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom">
-
-        <EditText
-            android:id="@+id/post_question"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Ask a question"
-            android:inputType="textPersonName" />
-
         <Button
             android:id="@+id/post_question_button"
-            android:layout_width="204dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Post" />
+            android:text="Add a Comment" />
 
-    </LinearLayout>
 
     <ListView
         android:id="@+id/post_list"

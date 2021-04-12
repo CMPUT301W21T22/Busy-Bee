@@ -54,4 +54,6 @@ public class Post implements Parcelable {
         dest.writeString(postOwner);
         dest.writeString(postText);
     }
+
+
 }

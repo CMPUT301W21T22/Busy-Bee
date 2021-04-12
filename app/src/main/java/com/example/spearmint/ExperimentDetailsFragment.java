@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -58,7 +57,7 @@ public class ExperimentDetailsFragment extends Fragment {
         Button goBack;
         Button end;
         Button trial;
-        Button postButton;
+        Button comment;
         Button map;
         TextView exDescription;
         TextView exRegion;
@@ -67,7 +66,6 @@ public class ExperimentDetailsFragment extends Fragment {
         TextView exLocation;
         TextView exType;
         TextView exStatus;
-        EditText postStuff;
         FirebaseFirestore db;
         ArrayList<String> posterInfo = new ArrayList<>();
         ArrayList<String> userInfo = new ArrayList<>();
@@ -84,7 +82,7 @@ public class ExperimentDetailsFragment extends Fragment {
         Experiment experiment = getArguments().getParcelable("dataKey");
 
         exDescription = view.findViewById(R.id.experiment_name);
-        exRegion = view.findViewById(R.id.experiment_region);
+        exRegion = view.findViewById(R.id.experiment__trial_type);
         exCount = view.findViewById(R.id.experiment_count);
         exOwner = view.findViewById(R.id.experiment_username);
         exLocation = view.findViewById(R.id.experiment_location);
@@ -103,23 +101,19 @@ public class ExperimentDetailsFragment extends Fragment {
         exDescription.setText("Title: " + description);
         exRegion.setText("City: " + region);
         exCount.setText("Minimum Trials: " + count);
-        exOwner.setText("Owner: " + owner);
+        exOwner.setText(owner);
         exLocation.setText("Requires Location: " + location);
         exType.setText("Trial Type: " + type);
         exStatus.setText("Status: " + status);
 
         end = view.findViewById(R.id.end_experiment);
         trial = view.findViewById(R.id.experiment_trial);
-        postStuff = view.findViewById(R.id.post_question);
-        postButton = view.findViewById(R.id.post_question_button);
+        comment = view.findViewById(R.id.post_question_button);
         map = view.findViewById(R.id.experiment_map);
 
         ListView listView = (ListView) view.findViewById(R.id.post_list);
-
         ArrayList<Post> postList = new ArrayList<>();
-
         PostAdapter customAdapter = new PostAdapter(getActivity(), R.layout.experiment_content, postList);
-
         listView.setAdapter(customAdapter);
 
         final CollectionReference collectionReferenceExperiments = db.collection("Experiments");
@@ -165,10 +159,10 @@ public class ExperimentDetailsFragment extends Fragment {
                 postList.clear();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
-                    String postText = doc.getId();
-                    String experimentOwner = (String) doc.get("experimentOwner");
+                    String postOwner = doc.getString("postOwner");
+                    String postText = doc.getString("postText");
 
-                    postList.add(new Post(postText, experimentOwner));
+                    postList.add(new Post(postOwner, postText));
                 }
                 customAdapter.notifyDataSetChanged();
             }
@@ -181,21 +175,13 @@ public class ExperimentDetailsFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String poster = postList.get(position).getPostOwner();
+                String postContent = postList.get(position).getPostText();
 
-                Bundle postInfo = new Bundle();
-                Bundle experimentInfo = new Bundle();
-                PostFragment postFragment = new PostFragment();
-                Post post = postList.get(position);
-
-                postInfo.putParcelable("dataKey", post);
-                postFragment.setArguments(postInfo);
-
-                experimentInfo.putParcelable("dataKey", experiment);
-                postFragment.setArguments(experimentInfo);
-
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, postFragment);
-                transaction.commit();
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle(poster);
+                alert.setMessage(postContent);
+                alert.show();
 
             }
         });
@@ -315,34 +301,18 @@ public class ExperimentDetailsFragment extends Fragment {
          * Takes the data entered by a user and makes it into a "Post" object
          * the post object is uploaded to firebase and displays post details to users
          */
-        postButton.setOnClickListener(new View.OnClickListener() {
+        comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle experimentInfo = new Bundle();
+                PostFragment postFragment = new PostFragment();
 
-                String poster = posterInfo.get(0);
-                final String postContent = postStuff.getText().toString();
+                experimentInfo.putParcelable("dataKey", experiment);
+                postFragment.setArguments(experimentInfo);
 
-                Post content = new Post(poster, postContent);
-
-                if (postContent.length()>0) {
-                    collectionReferencePosts
-                            .document(postContent)
-                            .set(content)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // These are a method which gets executed when the task is succeeded
-                                    Log.d(TAG, "Data has been added successfully!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // These are a method which gets executed if there’s any problem
-                                    Log.d(TAG, "Data could not be added!" + e.toString());
-                                }
-                            });}
-                postStuff.setText("");
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, postFragment);
+                transaction.commit();
             }
         });
 
