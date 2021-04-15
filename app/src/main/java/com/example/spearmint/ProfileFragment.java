@@ -198,8 +198,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         SharedPreferences sharedPreferences = activity.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         String uniqueID = sharedPreferences.getString(TEXT, null);
         if (uniqueID != null) {
-
-
             // If unique ID does not exist in sharedPreferences, create one, store it in sharedPreferences,
             // and attach the ID to currentUser
         } else {

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 /**
  * Base class for the Post object with fields of type String
  * has getter methods so other classes can access the information held by a Post
+ * Has fields "experiment title", "text"
  * @author Daniel
  */
 

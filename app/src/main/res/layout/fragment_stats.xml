@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/stats_go_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/text_stats_quartile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stats_go_back"
+        android:padding="10dp"
+        android:text="Quartiles"/>
+
+    <EditText
+        android:id="@+id/edit_text_quartiles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="4"
+        android:padding="10dp"
+        android:layout_below="@+id/text_stats_quartile"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/text_stats_median"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stats_go_back"
+        android:layout_toRightOf="@+id/edit_text_quartiles"
+        android:padding="10dp"
+        android:text="Median"/>
+
+    <EditText
+        android:id="@+id/edit_text_median"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="4"
+        android:layout_below="@+id/text_stats_quartile"
+        android:layout_toRightOf="@+id/edit_text_quartiles"
+        android:padding="10dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/text_stats_mean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stats_go_back"
+        android:layout_toRightOf="@+id/edit_text_median"
+        android:padding="10dp"
+        android:text="Mean"/>
+
+    <EditText
+        android:id="@+id/edit_text_mean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="4"
+        android:layout_below="@+id/text_stats_median"
+        android:layout_toRightOf="@+id/edit_text_median"
+        android:padding="10dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/text_stats_stdev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stats_go_back"
+        android:layout_toRightOf="@+id/edit_text_mean"
+        android:padding="10dp"
+        android:text="Std. Dev."/>
+
+    <EditText
+        android:id="@+id/edit_text_stdev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="4"
+        android:layout_below="@+id/text_stats_median"
+        android:layout_toRightOf="@+id/edit_text_mean"
+        android:padding="10dp"
+        android:text="" />
+
+    <Button
+        android:id="@+id/plot_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLOT"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/plot_graph"/>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/plot_graph"
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:layout_marginTop="150dp"
+        android:padding="10dp"/>
+
+</RelativeLayout>

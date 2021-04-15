@@ -7,7 +7,10 @@ public class TrialTest {
 
     private Trial trial;
     private Trial mockTrial(){
-        trial = new Trial("Calculating coin flip probability", "50%");
+        trial = new Trial("Calculating coin flip probability",
+                "50%",
+                "gave",
+                "Edmonton");
         return trial;
     }
 
@@ -24,5 +27,10 @@ public class TrialTest {
         Assert.assertTrue(mockTrial().getTrialResult().contains("50%"));
     }
 
+    @Test
+    public void getExperimenterTest(){
+        Assert.assertTrue(mockTrial().getExperimenter().contains("gave"));
+
+    }
 
 }

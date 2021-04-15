@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/qrcode_image"
         android:layout_marginEnd="6dp"
-        android:layout_toStartOf="@+id/qrcode_save"
+        android:layout_centerHorizontal="true"
         android:text="Generate QR Code" />
 
     <Button
@@ -47,13 +47,5 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/barcode_number"/>
 
-    <Button
-        android:id="@+id/qrcode_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/qrcode_image"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="33dp"
-        android:text="Save QR Code" />
 
 </RelativeLayout>

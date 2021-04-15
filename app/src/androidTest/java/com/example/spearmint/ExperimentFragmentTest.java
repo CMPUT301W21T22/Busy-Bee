@@ -33,12 +33,13 @@ public class ExperimentFragmentTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.add_button));
 
-        solo.enterText((EditText) solo.getView(R.id.description), "Coin Flip Test IntentTesting321321312");
+        solo.enterText((EditText) solo.getView(R.id.description), "A IntentTesting");
         solo.enterText((EditText) solo.getView(R.id.region), "Vancouver");
-        solo.enterText((EditText) solo.getView(R.id.count), " 2132131");
+        solo.enterText((EditText) solo.getView(R.id.count), " 2");
 
+        assertTrue(solo.waitForText("IntentTesting", 1, 2000));
         assertTrue(solo.waitForText("Vancouver", 1, 2000));
-
+        assertTrue(solo.waitForText("2", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.publish_button));
     }
@@ -66,11 +67,13 @@ public class ExperimentFragmentTest {
     public void checkAskQuestion(){
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.add_button));
-        solo.enterText((EditText) solo.getView(R.id.description), "Coin Flip Test IntentTesting1");
+        solo.enterText((EditText) solo.getView(R.id.description), "A IntentTesting");
         solo.enterText((EditText) solo.getView(R.id.region), "Vancouver");
         solo.enterText((EditText) solo.getView(R.id.count), "1");
 
+        assertTrue(solo.waitForText("IntentTesting", 1, 2000));
         assertTrue(solo.waitForText("Vancouver", 1, 2000));
+        assertTrue(solo.waitForText("2", 1, 2000));
 
         solo.clickOnView(solo.getView(R.id.publish_button));
 
@@ -80,6 +83,34 @@ public class ExperimentFragmentTest {
         solo.clickOnView(solo.getView(R.id.post_question_button));
 
         assertTrue(solo.waitForText("How long was the experiment taken?", 1, 2000));
+
+    }
+
+    @Test
+    public void checkAddingCountTrial(){
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.clickOnView(solo.getView(R.id.add_button));
+
+        solo.enterText((EditText) solo.getView(R.id.description), "A IntentTesting");
+        solo.enterText((EditText) solo.getView(R.id.region), "Vancouver");
+        solo.enterText((EditText) solo.getView(R.id.count), " 2");
+
+        assertTrue(solo.waitForText("IntentTesting", 1, 2000));
+        assertTrue(solo.waitForText("Vancouver", 1, 2000));
+        assertTrue(solo.waitForText("2", 1, 2000));
+
+        solo.clickOnView(solo.getView(R.id.publish_button));
+
+        solo.clickInList(0);
+
+        solo.clickOnView(solo.getView(R.id.experiment_trial));
+        solo.clickOnView(solo.getView(R.id.add_trial));
+
+        solo.enterText((EditText) solo.getView(R.id.countDescription), "Intent Testing");
+        solo.clickOnView(solo.getView(R.id.increment));
+        solo.clickOnView(solo.getView(R.id.increment));
+        solo.clickOnView(solo.getView(R.id.increment));
+        solo.clickOnView(solo.getView(R.id.count_publish));
 
     }
 
