@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -104,6 +105,62 @@ public class PostFragment extends Fragment {
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EditText content;
+                View postView = LayoutInflater.from(getActivity()).inflate(R.layout.post_comment, null);
+                content = postView.findViewById(R.id.comment_text);
+                String owner = postList.get(position).getPostOwner();
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setView(postView);
+                alert.setMessage("Replying to " + owner);
+                alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // DO nothing
+                    }
+                });
+                alert.setPositiveButton("POST", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final String postOwner = posterInfo.get(0);
+                        final String postText = "@" + owner + " " + content.getText().toString();
+                        Post content = new Post(postOwner, postText);
+
+                        if (postText.length() > 0) {
+                            collectionReferencePosts
+                                    .document(postOwner + ": " + postText)
+                                    .set(content)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // These are a method which gets executed when the task is succeeded
+                                            Log.d(TAG, "Data has been added successfully!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // These are a method which gets executed if there’s any problem
+                                            Log.d(TAG, "Data could not be added!" + e.toString());
+                                        }
+                                    });
+                        }
+                        else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                            alert.setMessage("You have not entered anything!");
+                            alert.show();
+                        }
+                    }
+                });
+                alert.show();
+
+            }
+        });
+
+
         /**
          * Redirects the user to experiment details fragment "ExperimentDetails.java" through "cancel" button
          * sends the title of the question to track what the response is linked to
@@ -127,14 +184,12 @@ public class PostFragment extends Fragment {
         comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 EditText content;
-
-                View view = LayoutInflater.from(getActivity()).inflate(R.layout.post_comment, null);
-                content = view.findViewById(R.id.comment_text);
+                View postView = LayoutInflater.from(getActivity()).inflate(R.layout.post_comment, null);
+                content = postView.findViewById(R.id.comment_text);
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                alert.setView(view);
+                alert.setView(postView);
                 alert.setPositiveButton("POST", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -172,55 +227,6 @@ public class PostFragment extends Fragment {
                 alert.show();
             }
         });
-
-        /**
-         * Takes the data entered by a user and makes it into a "Post" object
-         * the post object is uploaded to firebase and displays post details to users
-         * directs user back to the experiment details fragment "ExperimentDetails.java"
-         * does not upload data if any of the edit text fields are empty
-
-        confirmResponse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final String responseContent = responseText.getText().toString();
-                final String responseQuestion = questionTitle;
-
-                Post content = new Post(responseQuestion, responseContent);
-
-                if (responseContent.length()>0) {
-                    collectionReference
-                            .document(responseContent)
-                            .set(content)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // These are a method which gets executed when the task is succeeded
-                                    Log.d(TAG, "Data has been added successfully!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // These are a method which gets executed if there’s any problem
-                                    Log.d(TAG, "Data could not be added!" + e.toString());
-                                }
-                            });}
-                responseText.setText("");
-
-                Bundle questionInfo = new Bundle();
-                ExperimentDetailsFragment detailsFragment = new ExperimentDetailsFragment();
-                String questionExperiment = questionData;
-
-                questionInfo.putString("dataKey", questionExperiment);
-                detailsFragment.setArguments(questionInfo);
-
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment, detailsFragment);
-                transaction.commit();
-            }
-        });
-         */
 
         return view;
     }
