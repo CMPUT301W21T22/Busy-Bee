@@ -7,9 +7,10 @@
 
     <Button
         android:id="@+id/back_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="Back"
+        android:layout_marginLeft="5dp"/>
 
     <TextView
         android:id="@+id/experiment_name"
@@ -20,7 +21,7 @@
         android:layout_marginLeft="5dp"/>
 
     <TextView
-        android:id="@+id/experiment_region"
+        android:id="@+id/experiment__trial_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"

@@ -8,17 +8,18 @@
     android:background="#fff">
 
     <TextView
+        android:id="@+id/post_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Owner"
+        android:textColor="@color/purple_500"
+        android:textSize="13dp" />
+
+    <TextView
         android:id="@+id/post_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text"
-        android:textSize="15dp" />
-
-    <TextView
-        android:id="@+id/post_experiment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Text"
+        android:text="Content"
         android:textSize="15dp" />
 
 

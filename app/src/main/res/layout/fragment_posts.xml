@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,39 +7,36 @@
     android:orientation="vertical"
     android:background="#fff">
 
-    <Button
-        android:id="@+id/go_back_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_marginLeft="5dp"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="46dp">
+        android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/scanner"
+            android:id="@+id/back_to_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="5dp"
-            android:text="Scan Code" />
+            android:text="Back" />
 
         <Button
-            android:id="@+id/add_trial"
+            android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:text="Add Trial" />
+            android:text="Comment"/>
 
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/trial_list"
+        android:id="@+id/post_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp" />
 
 
-</LinearLayout>
+  </LinearLayout>
+
+
